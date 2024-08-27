@@ -1,0 +1,215 @@
+env:
+  APP_NAME: ${BUILDKITE_PIPELINE_SLUG}
+  IMAGE_REPO: ghcr.io/theopenlane/${APP_NAME}
+  IMAGE_TAG: ${BUILDKITE_BUILD_NUMBER}-${BUILDKITE_COMMIT:0:8}
+  SONAR_HOST: "https://sonarcloud.io"
+
+steps:
+  - group: ":knife: Pre-check"
+    key: "precheck"
+    steps:
+      - label: ":golang: go generate"
+        key: "generate"
+        plugins:
+          - docker#v5.11.0:
+              image: "ghcr.io/theopenlane/build-image:v0.1.2"
+              command: ["task", "ci"]
+              environment:
+                - "GOTOOLCHAIN=auto"
+      - label: ":yaml: generate config"
+        key: "generate_config"
+        plugins:
+          - docker#v5.11.0:
+              image: "ghcr.io/theopenlane/build-image:v0.1.2"
+              command: ["task", "config:ci"]
+              environment:
+                - "GOTOOLCHAIN=auto"
+  - group: ":test_tube: Tests"
+    key: "tests"
+    depends_on: "precheck"
+    steps:
+      - label: ":golangci-lint: lint :lint-roller:"
+        key: "lint"
+        plugins:
+          - docker#v5.11.0:
+              image: "registry.hub.docker.com/golangci/golangci-lint:latest-alpine"
+              command: ["golangci-lint", "run", "-v"]
+              always-pull: true
+              environment:
+                - "GOTOOLCHAIN=auto"
+      - label: ":golang: go test - libsql"
+        key: "go_test_libsql"
+        env:
+          TEST_DB_URL: "libsql://file::memory:?cache=shared"
+        plugins:
+          - docker#v5.11.0:
+              image: golang:1.23.0
+              command: ["go", "test", "-coverprofile=coverage.out", "./..."]
+              environment:
+                - "TEST_DB_URL"
+        artifact_paths: ["coverage.out"]
+      - label: ":golang: go test - {{matrix}}"
+        key: "go_test"
+        env:
+          TEST_DB_URL: "{{matrix}}"
+        matrix:
+          - "docker://postgres:16-alpine"
+          - "docker://postgres:15-alpine"
+          - "sqlite://file:ent?mode=memory&cache=shared"
+        plugins:
+          - docker#v5.11.0:
+              image: golang:1.23.0
+              command: ["go", "test", "-coverprofile=coverage.out", "./..."]
+              environment:
+                - "TEST_DB_URL"
+                - "TEST_DB_CONTAINER_EXPIRY=8" # container expiry in minutes
+                - "TEST_DB_HOST=172.17.0.1" # docker host ip on linux
+              volumes:
+                - "/var/run/docker.sock:/var/run/docker.sock"
+        artifact_paths: ["coverage.out"]
+  - group: ":closed_lock_with_key: Security Checks"
+    depends_on: "tests"
+    key: "security"
+    steps:
+      - label: ":closed_lock_with_key: gosec"
+        key: "gosec"
+        plugins:
+          - docker#v5.11.0:
+              image: "registry.hub.docker.com/securego/gosec:2.20.0"
+              command: ["-no-fail", "-exclude-generated", "-fmt sonarqube", "-out", "results.txt", "./..."]
+              environment:
+                - "GOTOOLCHAIN=auto"
+        artifact_paths: ["results.txt"]
+      - label: ":github: upload PR reports"
+        key: "scan-upload-pr"
+        if: build.pull_request.id != null
+        depends_on: ["gosec", "go_test_libsql"]
+        plugins:
+          - artifacts#v1.9.4:
+              download: "results.txt"
+          - artifacts#v1.9.4:
+              download: "coverage.out"
+              step: "go_test_libsql"
+          - docker#v5.11.0:
+              image: "sonarsource/sonar-scanner-cli:5"
+              environment:
+                - "SONAR_TOKEN"
+                - "SONAR_HOST_URL=$SONAR_HOST"
+                - "SONAR_SCANNER_OPTS=-Dsonar.pullrequest.branch=$BUILDKITE_BRANCH -Dsonar.pullrequest.base=$BUILDKITE_PULL_REQUEST_BASE_BRANCH -Dsonar.pullrequest.key=$BUILDKITE_PULL_REQUEST"
+      - label: ":github: upload reports"
+        key: "scan-upload"
+        if: build.branch == "main"
+        depends_on: ["gosec", "go_test_libsql"]
+        plugins:
+          - artifacts#v1.9.4:
+              download: results.txt
+          - artifacts#v1.9.4:
+              download: coverage.out
+              step: "go_test_libsql"
+          - docker#v5.11.0:
+              image: "sonarsource/sonar-scanner-cli:5"
+              environment:
+                - "SONAR_TOKEN"
+                - "SONAR_HOST_URL=$SONAR_HOST"
+  - group: ":golang: Builds"
+    depends_on: "tests"
+    key: "go-builds"
+    steps:
+      - label: ":golang: build"
+        key: "gobuild-server"
+        artifact_paths: "bin/${APP_NAME}"
+        plugins:
+          - docker#v5.11.0:
+              image: "golang:1.23.0"
+              environment:
+                - CGO_ENABLED=0
+                - GOOS=linux
+              command: ["go", "build", "-buildvcs=false", "-mod=mod", "-a", "-o", "bin/$APP_NAME"]
+      - label: ":terminal: build cli"
+        key: "gobuild-cli"
+        artifact_paths: "bin/${APP_NAME}-cli"
+        plugins:
+          - docker#v5.11.0:
+              image: "golang:1.23.0"
+              environment:
+                - GOOS=darwin
+                - GOARCH=arm64
+              command: ["go", "build", "-buildvcs=false", "-mod=mod", "-a", "-o", "bin/${APP_NAME}-cli", "./cmd/cli"]
+  - group: ":docker: Image Build"
+    depends_on: "go-builds"
+    key: "image-build"
+    steps:
+      - label: ":docker: docker pr build"
+        key: "docker-pr-build"
+        if: build.branch != "main" && build.tag == null
+        commands: |
+          #!/bin/bash
+          ls
+        plugins:
+          - theopenlane/docker-metadata#v1.0.0:
+              images:
+                - "${IMAGE_REPO}"
+              extra_tags:
+                - "${IMAGE_TAG}"
+          - theopenlane/container-build#v1.0.0:
+              dockerfile: docker/Dockerfile
+              push: false
+              build-args:
+                - NAME=${APP_NAME}
+          - equinixmetal-buildkite/trivy#v1.18.5:
+              severity: CRITICAL,HIGH
+              ignore-unfixed: true
+              security-checks: config,secret,vuln
+              skip-files: 'cosign.key,Dockerfile.dev'
+      - label: ":docker: docker build and publish"
+        key: "docker-build"
+        if: build.branch == "main"
+        commands: |
+          #!/bin/bash
+          ls
+        plugins:
+          - docker-login#v3.0.0:
+              username: theopenlane-bender
+              password-env: SECRET_GHCR_PUBLISH_TOKEN
+              server: ghcr.io
+          - theopenlane/docker-metadata#v1.0.0:
+              images:
+                - "${IMAGE_REPO}"
+              extra_tags:
+                - "${IMAGE_TAG}"
+          - theopenlane/container-build#v1.0.0:
+              dockerfile: docker/Dockerfile
+              push: true
+              build-args:
+                - NAME=${APP_NAME}
+          - equinixmetal-buildkite/trivy#v1.18.5:
+              severity: CRITICAL,HIGH
+              ignore-unfixed: true
+              security-checks: config,secret,vuln
+              skip-files: 'cosign.key,Dockerfile.dev'
+      - label: ":docker: docker build and publish"
+        key: "docker-build-and-tag"
+        if: build.tag != null
+        commands: |
+          #!/bin/bash
+          ls
+        plugins:
+          - docker-login#v3.0.0:
+              username: theopenlane-bender
+              password-env: SECRET_GHCR_PUBLISH_TOKEN
+              server: ghcr.io
+          - theopenlane/docker-metadata#v1.0.0:
+              images:
+                - "${IMAGE_REPO}"
+              extra_tags:
+                - "${BUILDKITE_TAG}"
+          - theopenlane/container-build#v1.0.0:
+              dockerfile: docker/Dockerfile
+              push: true
+              build-args:
+                - NAME=${APP_NAME}
+          - equinixmetal-buildkite/trivy#v1.18.5:
+              severity: CRITICAL,HIGH
+              ignore-unfixed: true
+              security-checks: config,secret,vuln
+              skip-files: 'cosign.key,Dockerfile.dev'

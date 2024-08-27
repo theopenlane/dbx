@@ -1,0 +1,36 @@
+ci:
+  - changed-files:
+      - any-glob-to-any-file: .github/**
+      - any-glob-to-any-file: .buildkite/**
+
+local-development:
+  - changed-files:
+      - any-glob-to-any-file: scripts/**
+      - any-glob-to-any-file: Taskfile.yaml
+      - any-glob-to-any-file: docker/**
+
+cli:
+  - changed-files:
+      - any-glob-to-any-file: cmd/cli/**
+
+httpserve:
+  - changed-files:
+      - any-glob-to-any-file: internal/httpserve/**
+
+graphapi:
+  - changed-files:
+      - any-glob-to-any-file: internal/graphapi/**
+
+codegenerators:
+  - changed-files:
+      - any-glob-to-any-file: gen_schema.go
+      - any-glob-to-any-file: generate.go
+      - any-glob-to-any-file: gqlgen.yml
+      - any-glob-to-any-file: gqlgenc.yml
+      - any-glob-to-any-file: internal/ent/entc.go
+      - any-glob-to-any-file: internal/ent/templates/**
+
+config:
+  - changed-files:
+      - any-glob-to-any-file: config/**
+      - any-glob-to-any-file: jsonschema/**

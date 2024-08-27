@@ -1,0 +1,450 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/theopenlane/dbx/config/config.-config",
+  "$defs": {
+    "[]string": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "cache.Config": {
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "address": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "db": {
+          "type": "integer"
+        },
+        "dialTimeout": {
+          "type": "integer"
+        },
+        "readTimeout": {
+          "type": "integer"
+        },
+        "writeTimeout": {
+          "type": "integer"
+        },
+        "maxRetries": {
+          "type": "integer"
+        },
+        "minIdleConns": {
+          "type": "integer"
+        },
+        "maxIdleConns": {
+          "type": "integer"
+        },
+        "maxActiveConns": {
+          "type": "integer"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "cachecontrol.Config": {
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "noCacheHeaders": {
+          "$ref": "#/$defs/map[string]string"
+        },
+        "etagHeaders": {
+          "$ref": "#/$defs/[]string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "config.Server": {
+      "properties": {
+        "debug": {
+          "type": "boolean",
+          "description": "Debug enables debug mode for the server"
+        },
+        "dev": {
+          "type": "boolean",
+          "description": "Dev enables echo's dev mode options"
+        },
+        "listen": {
+          "type": "string",
+          "description": "Listen sets the listen address to serve the echo server on"
+        },
+        "shutdown_grace_period": {
+          "type": "integer",
+          "description": "ShutdownGracePeriod sets the grace period for in flight requests before shutting down"
+        },
+        "read_timeout": {
+          "type": "integer",
+          "description": "ReadTimeout sets the maximum duration for reading the entire request including the body"
+        },
+        "write_timeout": {
+          "type": "integer",
+          "description": "WriteTimeout sets the maximum duration before timing out writes of the response"
+        },
+        "idle_timeout": {
+          "type": "integer",
+          "description": "IdleTimeout sets the maximum amount of time to wait for the next request when keep-alives are enabled"
+        },
+        "read_header_timeout": {
+          "type": "integer",
+          "description": "ReadHeaderTimeout sets the amount of time allowed to read request headers"
+        },
+        "tls": {
+          "$ref": "#/$defs/config.TLS",
+          "description": "TLS contains the tls configuration settings"
+        },
+        "cors": {
+          "$ref": "#/$defs/cors.Config",
+          "description": "CORS contains settings to allow cross origin settings and insecure cookies"
+        },
+        "secure": {
+          "$ref": "#/$defs/secure.Config",
+          "description": "Secure contains settings for the secure middleware"
+        },
+        "redirects": {
+          "$ref": "#/$defs/redirect.Config",
+          "description": "Redirect contains settings for the redirect middleware"
+        },
+        "cacheControl": {
+          "$ref": "#/$defs/cachecontrol.Config",
+          "description": "CacheControl contains settings for the cache control middleware"
+        },
+        "mime": {
+          "$ref": "#/$defs/mime.Config",
+          "description": "Mime contains settings for the mime middleware"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "listen"
+      ],
+      "description": "Server settings for the echo server"
+    },
+    "config.TLS": {
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enabled turns on TLS settings for the server"
+        },
+        "cert_file": {
+          "type": "string",
+          "description": "CertFile location for the TLS server"
+        },
+        "cert_key": {
+          "type": "string",
+          "description": "CertKey file location for the TLS server"
+        },
+        "auto_cert": {
+          "type": "boolean",
+          "description": "AutoCert generates the cert with letsencrypt, this does not work on localhost"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "description": "TLS settings for the server for secure connections"
+    },
+    "cors.Config": {
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "prefixes": {
+          "$ref": "#/$defs/map[string][]string"
+        },
+        "allowOrigins": {
+          "$ref": "#/$defs/[]string"
+        },
+        "cookieInsecure": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "entx.Config": {
+      "properties": {
+        "debug": {
+          "type": "boolean",
+          "description": "debug enables printing the debug database logs"
+        },
+        "databaseName": {
+          "type": "string",
+          "description": "the name of the database to use with otel tracing"
+        },
+        "driverName": {
+          "type": "string",
+          "description": "sql driver name"
+        },
+        "multiWrite": {
+          "type": "boolean",
+          "description": "enables writing to two databases simultaneously"
+        },
+        "primaryDbSource": {
+          "type": "string",
+          "description": "dsn of the primary database"
+        },
+        "secondaryDbSource": {
+          "type": "string",
+          "description": "dsn of the secondary database if multi-write is enabled"
+        },
+        "cacheTTL": {
+          "type": "integer",
+          "description": "cache results for subsequent requests"
+        },
+        "runMigrations": {
+          "type": "boolean",
+          "description": "run migrations on startup"
+        },
+        "migrationProvider": {
+          "type": "string",
+          "description": "migration provider to use for running migrations"
+        },
+        "enableHistory": {
+          "type": "boolean",
+          "description": "enable history data to be logged to the database"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "primaryDbSource"
+      ]
+    },
+    "map[string][]string": {
+      "additionalProperties": {
+        "$ref": "#/$defs/[]string"
+      },
+      "type": "object"
+    },
+    "map[string]string": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "type": "object"
+    },
+    "mime.Config": {
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "mimeTypesFile": {
+          "type": "string"
+        },
+        "defaultContentType": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "otelx.Config": {
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "provider": {
+          "type": "string"
+        },
+        "environment": {
+          "type": "string"
+        },
+        "stdout": {
+          "$ref": "#/$defs/otelx.StdOut"
+        },
+        "otlp": {
+          "$ref": "#/$defs/otelx.OTLP"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "otelx.OTLP": {
+      "properties": {
+        "endpoint": {
+          "type": "string"
+        },
+        "insecure": {
+          "type": "boolean"
+        },
+        "certificate": {
+          "type": "string"
+        },
+        "headers": {
+          "$ref": "#/$defs/[]string"
+        },
+        "compression": {
+          "type": "string"
+        },
+        "timeout": {
+          "type": "integer"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "otelx.StdOut": {
+      "properties": {
+        "pretty": {
+          "type": "boolean"
+        },
+        "disableTimestamp": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "ratelimit.Config": {
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "limit": {
+          "type": "number"
+        },
+        "burst": {
+          "type": "integer"
+        },
+        "expires": {
+          "type": "integer"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "redirect.Config": {
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "redirects": {
+          "$ref": "#/$defs/map[string]string"
+        },
+        "code": {
+          "type": "integer"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "secure.Config": {
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "xssprotection": {
+          "type": "string"
+        },
+        "contenttypenosniff": {
+          "type": "string"
+        },
+        "xframeoptions": {
+          "type": "string"
+        },
+        "hstspreloadenabled": {
+          "type": "boolean"
+        },
+        "hstsmaxage": {
+          "type": "integer"
+        },
+        "contentsecuritypolicy": {
+          "type": "string"
+        },
+        "referrerpolicy": {
+          "type": "string"
+        },
+        "cspreportonly": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "sessions.Config": {
+      "properties": {
+        "signingKey": {
+          "type": "string"
+        },
+        "encryptionKey": {
+          "type": "string"
+        },
+        "domain": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "turso.Config": {
+      "properties": {
+        "token": {
+          "type": "string"
+        },
+        "baseUrl": {
+          "type": "string"
+        },
+        "orgName": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "token",
+        "baseUrl",
+        "orgName"
+      ]
+    }
+  },
+  "properties": {
+    "refresh_interval": {
+      "type": "integer",
+      "description": "RefreshInterval determines how often to reload the config"
+    },
+    "server": {
+      "$ref": "#/$defs/config.Server",
+      "description": "Server contains the echo server settings"
+    },
+    "db": {
+      "$ref": "#/$defs/entx.Config",
+      "description": "DB contains the database configuration for the ent client"
+    },
+    "turso": {
+      "$ref": "#/$defs/turso.Config",
+      "description": "Turso contains the configuration for the turso client"
+    },
+    "redis": {
+      "$ref": "#/$defs/cache.Config",
+      "description": "Redis contains the redis configuration for the key-value store"
+    },
+    "tracer": {
+      "$ref": "#/$defs/otelx.Config",
+      "description": "Tracer contains the tracing config for opentelemetry"
+    },
+    "sessions": {
+      "$ref": "#/$defs/sessions.Config",
+      "description": "Sessions config for user sessions and cookies"
+    },
+    "ratelimit": {
+      "$ref": "#/$defs/ratelimit.Config",
+      "description": "Ratelimit contains the configuration for the rate limiter"
+    }
+  },
+  "additionalProperties": false,
+  "type": "object",
+  "description": "Config contains the configuration for the openlane server"
+}

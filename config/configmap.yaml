@@ -1,0 +1,91 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "common.names.fullname" . -}}-config
+  {{ $labels := include "common.tplvalues.merge" (dict "values" ( list .Values.api.commonLabels (include "common.labels.standard" .) ) "context" . ) }}
+  labels: {{- include "common.tplvalues.render" ( dict "value" $labels "context" $) | nindent 4 }}
+  {{- if .Values.api.commonAnnotations }}
+  {{- $annotations := include "common.tplvalues.merge" ( dict "values" ( list .Values.api.commonAnnotations ) "context" . ) }}
+  annotations: {{- include "common.tplvalues.render" ( dict "value" $annotations "context" $) | nindent 4 }}
+  {{- end }}
+data:
+  DBX_REFRESH_INTERVAL: {{ .Values.dbx.refresh_interval | 10m }}
+  DBX_SERVER_DEBUG: {{ .Values.dbx.server.debug | false }}
+  DBX_SERVER_DEV: {{ .Values.dbx.server.dev | false }}
+  DBX_SERVER_LISTEN: {{ .Values.dbx.server.listen | ":1337" }}
+  DBX_SERVER_SHUTDOWN_GRACE_PERIOD: {{ .Values.dbx.server.shutdown_grace_period | 10s }}
+  DBX_SERVER_READ_TIMEOUT: {{ .Values.dbx.server.read_timeout | 15s }}
+  DBX_SERVER_WRITE_TIMEOUT: {{ .Values.dbx.server.write_timeout | 15s }}
+  DBX_SERVER_IDLE_TIMEOUT: {{ .Values.dbx.server.idle_timeout | 30s }}
+  DBX_SERVER_READ_HEADER_TIMEOUT: {{ .Values.dbx.server.read_header_timeout | 2s }}
+  DBX_SERVER_TLS_ENABLED: {{ .Values.dbx.server.tls.enabled | false }}
+  DBX_SERVER_TLS_CERT_FILE: {{ .Values.dbx.server.tls.cert_file | "server.crt" }}
+  DBX_SERVER_TLS_CERT_KEY: {{ .Values.dbx.server.tls.cert_key | "server.key" }}
+  DBX_SERVER_TLS_AUTO_CERT: {{ .Values.dbx.server.tls.auto_cert | false }}
+  DBX_SERVER_CORS_ENABLED: {{ .Values.dbx.server.cors.enabled | true }}
+  DBX_SERVER_CORS_PREFIXES: {{ .Values.dbx.server.cors.prefixes }}
+  DBX_SERVER_CORS_ALLOWORIGINS: {{ .Values.dbx.server.cors.allowOrigins }}
+  DBX_SERVER_CORS_COOKIEINSECURE: {{ .Values.dbx.server.cors.cookieInsecure }}
+  DBX_SERVER_SECURE_ENABLED: {{ .Values.dbx.server.secure.enabled | true }}
+  DBX_SERVER_SECURE_XSSPROTECTION: {{ .Values.dbx.server.secure.xssprotection | "1; mode=block" }}
+  DBX_SERVER_SECURE_CONTENTTYPENOSNIFF: {{ .Values.dbx.server.secure.contenttypenosniff | "nosniff" }}
+  DBX_SERVER_SECURE_XFRAMEOPTIONS: {{ .Values.dbx.server.secure.xframeoptions | "SAMEORIGIN" }}
+  DBX_SERVER_SECURE_HSTSPRELOADENABLED: {{ .Values.dbx.server.secure.hstspreloadenabled | false }}
+  DBX_SERVER_SECURE_HSTSMAXAGE: {{ .Values.dbx.server.secure.hstsmaxage | 31536000 }}
+  DBX_SERVER_SECURE_CONTENTSECURITYPOLICY: {{ .Values.dbx.server.secure.contentsecuritypolicy | "default-src 'self'" }}
+  DBX_SERVER_SECURE_REFERRERPOLICY: {{ .Values.dbx.server.secure.referrerpolicy | "same-origin" }}
+  DBX_SERVER_SECURE_CSPREPORTONLY: {{ .Values.dbx.server.secure.cspreportonly | false }}
+  DBX_SERVER_REDIRECTS_ENABLED: {{ .Values.dbx.server.redirects.enabled | true }}
+  DBX_SERVER_REDIRECTS_REDIRECTS: {{ .Values.dbx.server.redirects.redirects }}
+  DBX_SERVER_REDIRECTS_CODE: {{ .Values.dbx.server.redirects.code }}
+  DBX_SERVER_CACHECONTROL_ENABLED: {{ .Values.dbx.server.cachecontrol.enabled | true }}
+  DBX_SERVER_CACHECONTROL_NOCACHEHEADERS: {{ .Values.dbx.server.cachecontrol.noCacheHeaders }}
+  DBX_SERVER_CACHECONTROL_ETAGHEADERS: {{ .Values.dbx.server.cachecontrol.etagHeaders }}
+  DBX_SERVER_MIME_ENABLED: {{ .Values.dbx.server.mime.enabled | true }}
+  DBX_SERVER_MIME_MIMETYPESFILE: {{ .Values.dbx.server.mime.mimeTypesFile }}
+  DBX_SERVER_MIME_DEFAULTCONTENTTYPE: {{ .Values.dbx.server.mime.defaultContentType | "application/data" }}
+  DBX_DB_DEBUG: {{ .Values.dbx.db.debug | false }}
+  DBX_DB_DATABASENAME: {{ .Values.dbx.db.databaseName | "openlane" }}
+  DBX_DB_DRIVERNAME: {{ .Values.dbx.db.driverName | "libsql" }}
+  DBX_DB_MULTIWRITE: {{ .Values.dbx.db.multiWrite | false }}
+  DBX_DB_PRIMARYDBSOURCE: {{ .Values.dbx.db.primaryDbSource | "file:openlane.db" }}
+  DBX_DB_SECONDARYDBSOURCE: {{ .Values.dbx.db.secondaryDbSource | "file:backup.db" }}
+  DBX_DB_CACHETTL: {{ .Values.dbx.db.cacheTTL | 1s }}
+  DBX_DB_RUNMIGRATIONS: {{ .Values.dbx.db.runMigrations | true }}
+  DBX_DB_MIGRATIONPROVIDER: {{ .Values.dbx.db.migrationProvider | "atlas" }}
+  DBX_DB_ENABLEHISTORY: {{ .Values.dbx.db.enableHistory | false }}
+  DBX_TURSO_TOKEN: {{ .Values.dbx.turso.token }}
+  DBX_TURSO_BASEURL: {{ .Values.dbx.turso.baseUrl | "https://api.turso.tech" }}
+  DBX_TURSO_ORGNAME: {{ .Values.dbx.turso.orgName }}
+  DBX_REDIS_ENABLED: {{ .Values.dbx.redis.enabled | true }}
+  DBX_REDIS_ADDRESS: {{ .Values.dbx.redis.address | "localhost:6379" }}
+  DBX_REDIS_NAME: {{ .Values.dbx.redis.name | "openlane" }}
+  DBX_REDIS_USERNAME: {{ .Values.dbx.redis.username }}
+  DBX_REDIS_PASSWORD: {{ .Values.dbx.redis.password }}
+  DBX_REDIS_DB: {{ .Values.dbx.redis.db | 0 }}
+  DBX_REDIS_DIALTIMEOUT: {{ .Values.dbx.redis.dialTimeout | 5s }}
+  DBX_REDIS_READTIMEOUT: {{ .Values.dbx.redis.readTimeout | 0 }}
+  DBX_REDIS_WRITETIMEOUT: {{ .Values.dbx.redis.writeTimeout | 0 }}
+  DBX_REDIS_MAXRETRIES: {{ .Values.dbx.redis.maxRetries | 3 }}
+  DBX_REDIS_MINIDLECONNS: {{ .Values.dbx.redis.minIdleConns | 0 }}
+  DBX_REDIS_MAXIDLECONNS: {{ .Values.dbx.redis.maxIdleConns | 0 }}
+  DBX_REDIS_MAXACTIVECONNS: {{ .Values.dbx.redis.maxActiveConns | 0 }}
+  DBX_TRACER_ENABLED: {{ .Values.dbx.tracer.enabled | false }}
+  DBX_TRACER_PROVIDER: {{ .Values.dbx.tracer.provider | "stdout" }}
+  DBX_TRACER_ENVIRONMENT: {{ .Values.dbx.tracer.environment | "development" }}
+  DBX_TRACER_STDOUT_PRETTY: {{ .Values.dbx.tracer.stdout.pretty | true }}
+  DBX_TRACER_STDOUT_DISABLETIMESTAMP: {{ .Values.dbx.tracer.stdout.disableTimestamp | false }}
+  DBX_TRACER_OTLP_ENDPOINT: {{ .Values.dbx.tracer.otlp.endpoint | "localhost:4317" }}
+  DBX_TRACER_OTLP_INSECURE: {{ .Values.dbx.tracer.otlp.insecure | true }}
+  DBX_TRACER_OTLP_CERTIFICATE: {{ .Values.dbx.tracer.otlp.certificate }}
+  DBX_TRACER_OTLP_HEADERS: {{ .Values.dbx.tracer.otlp.headers }}
+  DBX_TRACER_OTLP_COMPRESSION: {{ .Values.dbx.tracer.otlp.compression }}
+  DBX_TRACER_OTLP_TIMEOUT: {{ .Values.dbx.tracer.otlp.timeout | 10s }}
+  DBX_SESSIONS_SIGNINGKEY: {{ .Values.dbx.sessions.signingKey | "my-signing-secret" }}
+  DBX_SESSIONS_ENCRYPTIONKEY: {{ .Values.dbx.sessions.encryptionKey | "encryptionsecret" }}
+  DBX_SESSIONS_DOMAIN: {{ .Values.dbx.sessions.domain }}
+  DBX_RATELIMIT_ENABLED: {{ .Values.dbx.ratelimit.enabled | false }}
+  DBX_RATELIMIT_LIMIT: {{ .Values.dbx.ratelimit.limit | 10 }}
+  DBX_RATELIMIT_BURST: {{ .Values.dbx.ratelimit.burst | 30 }}
+  DBX_RATELIMIT_EXPIRES: {{ .Values.dbx.ratelimit.expires | 10m }}

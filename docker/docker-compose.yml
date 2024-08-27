@@ -1,0 +1,22 @@
+services:
+  api:
+    image: dbx:dev
+    depends_on:
+      - openfga
+    command:
+      - serve
+      - --debug
+      - --pretty
+      - --config=/config/.config.yaml
+    volumes:
+      - type: bind
+        source: ../config/.config.yaml
+        target: /config/.config.yaml
+    ports:
+      - "1337:1337"
+    restart: unless-stopped
+    environment:
+      - OPENLANE_REDIS_ADDRESS=redis:6379
+      - OPENLANE_AUTHZ_HOST_URL=openfga:8080
+    networks:
+      - default
