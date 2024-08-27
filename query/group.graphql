@@ -1,0 +1,44 @@
+query GetGroup($name: String!) {
+  group(name: $name) {
+    id
+    name
+    description
+    primaryLocation
+    locations
+    region
+  }
+}
+
+query GetAllGroups {
+  groups {
+    edges {
+      node {
+        id
+        name
+        description
+        primaryLocation
+        locations
+        region
+      }
+    }
+  }
+}
+
+mutation CreateGroup($input: CreateGroupInput!) {
+  createGroup(input: $input) {
+    group {
+      id
+      name
+      description
+      primaryLocation
+      locations
+      region
+    }
+  }
+}
+
+mutation DeleteGroup($name: String!) {
+  deleteGroup(name: $name) {
+    deletedID
+  }
+}

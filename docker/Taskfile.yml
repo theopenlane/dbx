@@ -1,0 +1,84 @@
+version: "3"
+
+tasks:
+  build:
+    dir: ..
+    desc: builds the dbx docker image
+    cmds:
+      - "docker build -f docker/Dockerfile . -t dbx:dev"
+
+  dbx:
+    dir: ..
+    desc: brings up the compose environment for the dbx server configured with auth
+    deps: [build]
+    cmds:
+      - "docker compose -f ./docker/docker-compose-redis.yml  -f ./docker/docker-compose.yml -f ./docker/docker-compose-fga.yml -p dbx up -d"
+
+  dbx:down:
+    dir: ..
+    desc: brings the dbx compose environment down
+    cmds:
+      - "docker compose -p dbx down"
+
+  postgres:
+    dir: ..
+    desc: brings up the compose environment for postgres development
+    cmds:
+      - "docker compose -f ./docker/docker-compose-pg.yml -p postgres up -d"
+
+  postgres:down:
+    dir: ..
+    desc: brings the postgres compose environment down
+    cmds:
+      - docker compose -p postgres down
+
+  all:up:
+    dir: ..
+    desc: brings up the full docker compose development environment including dbx server, postgres, fga, and rover
+    cmds:
+      - task: dbx
+      - task: :rover
+
+  all:down:
+    dir: ..
+    desc: brings down both fga and dbx server compose environments
+    cmds:
+      - task: dbx:down
+
+  redis:
+    dir: ..
+    desc: brings up the compose environment for redis
+    cmds:
+      - "docker compose -f ./docker/docker-compose-redis.yml -p redis up -d"
+
+  redis:down:
+    dir: ..
+    desc: brings up the compose environment for redis
+    cmds:
+      - "docker compose -p redis down"
+
+  fga:
+    dir: ..
+    desc: brings up the compose environment for openfga development
+    cmds:
+      - "docker compose -f ./docker/docker-compose-fga.yml -p fga up -d"
+
+  fga:down:
+    dir: ..
+    desc: brings the fga compose environment down
+    cmds:
+      - docker compose -p fga down
+
+  fga:open:
+    dir: ..
+    desc: opens the fga playground in a browser
+    cmds:
+      - 'open "http://localhost:3000/playground"'
+
+  fga:up:
+    dir: ..
+    desc: brings the fga compose environment up and opens the fga playground
+    aliases: [fgaup]
+    cmds:
+      - task: fga
+      - task: fga:open

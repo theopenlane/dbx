@@ -1,0 +1,8 @@
+version: "3"
+
+tasks:
+  version:
+    desc: gets the cli version
+    cmds:
+      - go run main.go org version
+

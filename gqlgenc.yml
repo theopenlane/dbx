@@ -1,0 +1,22 @@
+model:
+  package: Dbxclient
+  filename: ./pkg/dbxclient/models.go
+client:
+  package: Dbxclient
+  filename: ./pkg/dbxclient/graphclient.go
+models:
+  Int:
+    model: github.com/99designs/gqlgen/graphql.Int64
+  ID:
+    model:
+      - github.com/99designs/gqlgen/graphql.String
+  JSON:
+    model:
+      - github.com/theopenlane/entx.json.RawMessage
+schema: ["schema.graphql"]
+query: ["query/*.graphql"]
+generate:
+  clientV2: true
+  clientInterfaceName: "Dbxclient"
+  query: false
+  mutation: false

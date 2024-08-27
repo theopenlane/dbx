@@ -1,0 +1,75 @@
+extend type Query {
+    """
+    Look up database by ID
+    """
+     database(
+        """
+        Name of the database
+        """
+        name: String!
+    ):  Database!
+}
+
+extend type Mutation{
+    """
+    Create a new database
+    """
+    createDatabase(
+        """
+        values of the database
+        """
+        input: CreateDatabaseInput!
+    ): DatabaseCreatePayload!
+    """
+    Update an existing database
+    """
+    updateDatabase(
+        """
+        Name of the database
+        """
+        name: String!
+        """
+        New values for the database
+        """
+        input: UpdateDatabaseInput!
+    ): DatabaseUpdatePayload!
+    """
+    Delete an existing database
+    """
+    deleteDatabase(
+        """
+        Name of the database
+        """
+        name: String!
+    ): DatabaseDeletePayload!
+}
+
+"""
+Return response for createDatabase mutation
+"""
+type DatabaseCreatePayload {
+    """
+    Created database
+    """
+    database: Database!
+}
+
+"""
+Return response for updateDatabase mutation
+"""
+type DatabaseUpdatePayload {
+    """
+    Updated database
+    """
+    database: Database!
+}
+
+"""
+Return response for deleteDatabase mutation
+"""
+type DatabaseDeletePayload {
+    """
+    Deleted database ID
+    """
+    deletedID: ID!
+}

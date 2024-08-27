@@ -1,0 +1,95 @@
+db:
+    cacheTTL: 1000000000
+    databaseName: openlane
+    debug: false
+    driverName: libsql
+    enableHistory: false
+    migrationProvider: atlas
+    multiWrite: false
+    primaryDbSource: file:openlane.db
+    runMigrations: true
+    secondaryDbSource: file:backup.db
+ratelimit:
+    burst: 30
+    enabled: false
+    expires: 600000000000
+    limit: 10
+redis:
+    address: localhost:6379
+    db: 0
+    dialTimeout: 5000000000
+    enabled: true
+    maxActiveConns: 0
+    maxIdleConns: 0
+    maxRetries: 3
+    minIdleConns: 0
+    name: openlane
+    password: ""
+    readTimeout: 0
+    username: ""
+    writeTimeout: 0
+refresh_interval: 600000000000
+server:
+    cacheControl:
+        enabled: true
+        etagHeaders: null
+        noCacheHeaders: null
+    cors:
+        allowOrigins: null
+        cookieInsecure: false
+        enabled: true
+        prefixes: null
+    debug: false
+    dev: false
+    idle_timeout: 30000000000
+    listen: :1337
+    mime:
+        defaultContentType: application/data
+        enabled: true
+        mimeTypesFile: ""
+    read_header_timeout: 2000000000
+    read_timeout: 15000000000
+    redirect:
+        code: 0
+        enabled: true
+        redirects: null
+    secure:
+        contentsecuritypolicy: default-src 'self'
+        contenttypenosniff: nosniff
+        cspreportonly: false
+        enabled: true
+        hstsmaxage: 31536000
+        hstspreloadenabled: false
+        referrerpolicy: same-origin
+        xframeoptions: SAMEORIGIN
+        xssprotection: 1; mode=block
+    shutdown_grace_period: 10000000000
+    tls:
+        auto_cert: false
+        cert_file: server.crt
+        cert_key: server.key
+        config: null
+        enabled: false
+    write_timeout: 15000000000
+sessions:
+    domain: ""
+    encryptionKey: encryptionsecret
+    signingKey: my-signing-secret
+tracer:
+    enabled: false
+    environment: development
+    otlp:
+        certificate: ""
+        compression: ""
+        endpoint: localhost:4317
+        headers: null
+        insecure: true
+        timeout: 10000000000
+    provider: stdout
+    stdout:
+        disableTimestamp: false
+        pretty: true
+turso:
+    baseUrl: https://api.turso.tech
+    orgName: ""
+    token: ""

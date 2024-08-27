@@ -1,0 +1,47 @@
+query GetDatabase($name: String!) {
+  database(name: $name) {
+    id
+    name
+    organizationID
+    provider
+    status
+    dsn
+    geo
+  }
+}
+
+query GetAllDatabases {
+  databases {
+    edges {
+      node {
+        id
+        name
+        organizationID
+        provider
+        status
+        dsn
+        geo
+      }
+    }
+  }
+}
+
+mutation CreateDatabase($input: CreateDatabaseInput!) {
+  createDatabase(input: $input) {
+    database {
+      id
+      name
+      organizationID
+      provider
+      status
+      dsn
+      geo
+    }
+  }
+}
+
+mutation DeleteDatabase($name: String!) {
+  deleteDatabase(name: $name) {
+    deletedID
+  }
+}
