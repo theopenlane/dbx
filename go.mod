@@ -43,10 +43,7 @@ require (
 	golang.org/x/crypto v0.26.0
 )
 
-require (
-	github.com/gertd/go-pluralize v0.2.1 // indirect
-	github.com/hokaccha/go-prettyjson v0.0.0-20211117102719-0474bc63780f // indirect
-)
+require github.com/hokaccha/go-prettyjson v0.0.0-20211117102719-0474bc63780f // indirect
 
 require (
 	ariga.io/atlas v0.25.1-0.20240717145915-af51d3945208 // indirect

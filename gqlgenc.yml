@@ -1,8 +1,8 @@
 model:
-  package: Dbxclient
+  package: dbxclient
   filename: ./pkg/dbxclient/models.go
 client:
-  package: Dbxclient
+  package: dbxclient
   filename: ./pkg/dbxclient/graphclient.go
 models:
   Int:
