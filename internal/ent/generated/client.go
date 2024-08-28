@@ -17,10 +17,10 @@ import (
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
-	"github.com/theopenlane/iam/fgax"
 	"github.com/theopenlane/dbx/internal/ent/generated/database"
 	"github.com/theopenlane/dbx/internal/ent/generated/group"
 	"github.com/theopenlane/go-turso"
+	"github.com/theopenlane/iam/fgax"
 	"go.uber.org/zap"
 	"gocloud.dev/secrets"
 
