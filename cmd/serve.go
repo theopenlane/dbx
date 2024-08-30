@@ -5,11 +5,11 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"github.com/theopenlane/core/pkg/otelx"
+	"github.com/theopenlane/beacon/otelx"
 	"go.uber.org/zap"
 
-	"github.com/theopenlane/core/pkg/cache"
 	"github.com/theopenlane/go-turso"
+	"github.com/theopenlane/utils/cache"
 
 	ent "github.com/theopenlane/dbx/internal/ent/generated"
 	"github.com/theopenlane/dbx/internal/entdb"
@@ -49,18 +49,22 @@ func serve(ctx context.Context) error {
 
 	so := serveropts.NewServerOptions(serverOpts, viper.GetString("config"))
 
-	err = otelx.NewTracer(so.Config.Settings.Tracer, appName, logger)
+	err = otelx.NewTracer(so.Config.Settings.Tracer, appName)
 	if err != nil {
 		logger.Fatalw("failed to initialize tracer", "error", err)
 	}
 
-	tursoClient, err := turso.NewClient(so.Config.Settings.Turso)
-	if err != nil {
-		logger.Fatalw("failed to initialize turso client", "error", err)
-	}
-
 	// create ent dependency injection
-	entOpts := []ent.Option{ent.Logger(*logger), ent.Turso(tursoClient)}
+	entOpts := []ent.Option{ent.Logger(*logger)}
+
+	if so.Config.Settings.Providers.TursoEnabled {
+		tursoClient, err := turso.NewClient(so.Config.Settings.Turso)
+		if err != nil {
+			logger.Fatalw("failed to initialize turso client", "error", err)
+		}
+
+		entOpts = append(entOpts, ent.Turso(tursoClient))
+	}
 
 	// Setup DB connection
 	entdbClient, dbConfig, err := entdb.NewMultiDriverDBClient(ctx, so.Config.Settings.DB, logger, entOpts)

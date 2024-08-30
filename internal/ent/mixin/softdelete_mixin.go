@@ -11,8 +11,8 @@ import (
 	"entgo.io/ent/schema/field"
 	"entgo.io/ent/schema/mixin"
 
-	"github.com/theopenlane/core/pkg/auth"
 	"github.com/theopenlane/entx"
+	"github.com/theopenlane/iam/auth"
 
 	"github.com/theopenlane/dbx/internal/ent/generated"
 	// "github.com/theopenlane/dbx/internal/ent/generated/hook"

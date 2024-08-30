@@ -68,6 +68,20 @@
       "additionalProperties": false,
       "type": "object"
     },
+    "config.Providers": {
+      "properties": {
+        "tursoEnabled": {
+          "type": "boolean",
+          "description": "TursoEnabled enables the turso provider"
+        },
+        "localEnabled": {
+          "type": "boolean",
+          "description": "LocalEnabled enables the local provider"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
     "config.Server": {
       "properties": {
         "debug": {
@@ -82,23 +96,23 @@
           "type": "string",
           "description": "Listen sets the listen address to serve the echo server on"
         },
-        "shutdown_grace_period": {
+        "shutdownGracePeriod": {
           "type": "integer",
           "description": "ShutdownGracePeriod sets the grace period for in flight requests before shutting down"
         },
-        "read_timeout": {
+        "readTimeout": {
           "type": "integer",
           "description": "ReadTimeout sets the maximum duration for reading the entire request including the body"
         },
-        "write_timeout": {
+        "writeTimeout": {
           "type": "integer",
           "description": "WriteTimeout sets the maximum duration before timing out writes of the response"
         },
-        "idle_timeout": {
+        "idleTimeout": {
           "type": "integer",
           "description": "IdleTimeout sets the maximum amount of time to wait for the next request when keep-alives are enabled"
         },
-        "read_header_timeout": {
+        "readHeaderTimeout": {
           "type": "integer",
           "description": "ReadHeaderTimeout sets the amount of time allowed to read request headers"
         },
@@ -140,15 +154,15 @@
           "type": "boolean",
           "description": "Enabled turns on TLS settings for the server"
         },
-        "cert_file": {
+        "certFile": {
           "type": "string",
           "description": "CertFile location for the TLS server"
         },
-        "cert_key": {
+        "certKey": {
           "type": "string",
           "description": "CertKey file location for the TLS server"
         },
-        "auto_cert": {
+        "autoCert": {
           "type": "boolean",
           "description": "AutoCert generates the cert with letsencrypt, this does not work on localhost"
         }
@@ -411,7 +425,7 @@
     }
   },
   "properties": {
-    "refresh_interval": {
+    "refreshInterval": {
       "type": "integer",
       "description": "RefreshInterval determines how often to reload the config"
     },
@@ -422,6 +436,10 @@
     "db": {
       "$ref": "#/$defs/entx.Config",
       "description": "DB contains the database configuration for the ent client"
+    },
+    "providers": {
+      "$ref": "#/$defs/config.Providers",
+      "description": "Providers contains the configuration for the providers"
     },
     "turso": {
       "$ref": "#/$defs/turso.Config",

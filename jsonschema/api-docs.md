@@ -7,9 +7,10 @@ Config contains the configuration for the openlane server
 
 |Name|Type|Description|Required|
 |----|----|-----------|--------|
-|**refresh\_interval**|`integer`|RefreshInterval determines how often to reload the config<br/>||
+|**refreshInterval**|`integer`|RefreshInterval determines how often to reload the config<br/>||
 |[**server**](#server)|`object`|Server settings for the echo server<br/>|yes|
 |[**db**](#db)|`object`||yes|
+|[**providers**](#providers)|`object`|||
 |[**turso**](#turso)|`object`||yes|
 |[**redis**](#redis)|`object`|||
 |[**tracer**](#tracer)|`object`|||
@@ -30,11 +31,11 @@ Server settings for the echo server
 |**debug**|`boolean`|Debug enables debug mode for the server<br/>|no|
 |**dev**|`boolean`|Dev enables echo's dev mode options<br/>|no|
 |**listen**|`string`|Listen sets the listen address to serve the echo server on<br/>|yes|
-|**shutdown\_grace\_period**|`integer`|ShutdownGracePeriod sets the grace period for in flight requests before shutting down<br/>|no|
-|**read\_timeout**|`integer`|ReadTimeout sets the maximum duration for reading the entire request including the body<br/>|no|
-|**write\_timeout**|`integer`|WriteTimeout sets the maximum duration before timing out writes of the response<br/>|no|
-|**idle\_timeout**|`integer`|IdleTimeout sets the maximum amount of time to wait for the next request when keep-alives are enabled<br/>|no|
-|**read\_header\_timeout**|`integer`|ReadHeaderTimeout sets the amount of time allowed to read request headers<br/>|no|
+|**shutdownGracePeriod**|`integer`|ShutdownGracePeriod sets the grace period for in flight requests before shutting down<br/>|no|
+|**readTimeout**|`integer`|ReadTimeout sets the maximum duration for reading the entire request including the body<br/>|no|
+|**writeTimeout**|`integer`|WriteTimeout sets the maximum duration before timing out writes of the response<br/>|no|
+|**idleTimeout**|`integer`|IdleTimeout sets the maximum amount of time to wait for the next request when keep-alives are enabled<br/>|no|
+|**readHeaderTimeout**|`integer`|ReadHeaderTimeout sets the amount of time allowed to read request headers<br/>|no|
 |[**tls**](#servertls)|`object`|TLS settings for the server for secure connections<br/>|no|
 |[**cors**](#servercors)|`object`||no|
 |[**secure**](#serversecure)|`object`||no|
@@ -54,9 +55,9 @@ TLS settings for the server for secure connections
 |Name|Type|Description|Required|
 |----|----|-----------|--------|
 |**enabled**|`boolean`|Enabled turns on TLS settings for the server<br/>||
-|**cert\_file**|`string`|CertFile location for the TLS server<br/>||
-|**cert\_key**|`string`|CertKey file location for the TLS server<br/>||
-|**auto\_cert**|`boolean`|AutoCert generates the cert with letsencrypt, this does not work on localhost<br/>||
+|**certFile**|`string`|CertFile location for the TLS server<br/>||
+|**certKey**|`string`|CertKey file location for the TLS server<br/>||
+|**autoCert**|`boolean`|AutoCert generates the cert with letsencrypt, this does not work on localhost<br/>||
 
 **Additional Properties:** not allowed  
 <a name="servercors"></a>
@@ -179,6 +180,17 @@ TLS settings for the server for secure connections
 |**runMigrations**|`boolean`|run migrations on startup<br/>|no|
 |**migrationProvider**|`string`|migration provider to use for running migrations<br/>|no|
 |**enableHistory**|`boolean`|enable history data to be logged to the database<br/>|no|
+
+**Additional Properties:** not allowed  
+<a name="providers"></a>
+## providers: object
+
+**Properties**
+
+|Name|Type|Description|Required|
+|----|----|-----------|--------|
+|**tursoEnabled**|`boolean`|TursoEnabled enables the turso provider<br/>||
+|**localEnabled**|`boolean`|LocalEnabled enables the local provider<br/>||
 
 **Additional Properties:** not allowed  
 <a name="turso"></a>
