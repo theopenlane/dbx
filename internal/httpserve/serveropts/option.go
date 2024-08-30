@@ -14,7 +14,6 @@ import (
 	"github.com/theopenlane/dbx/internal/httpserve/config"
 	"github.com/theopenlane/dbx/internal/httpserve/server"
 
-	"github.com/theopenlane/core/pkg/cache"
 	"github.com/theopenlane/core/pkg/middleware/cachecontrol"
 	"github.com/theopenlane/core/pkg/middleware/cors"
 	"github.com/theopenlane/core/pkg/middleware/echocontext"
@@ -23,6 +22,7 @@ import (
 	"github.com/theopenlane/core/pkg/middleware/redirect"
 	"github.com/theopenlane/core/pkg/middleware/secure"
 	"github.com/theopenlane/iam/sessions"
+	"github.com/theopenlane/utils/cache"
 )
 
 type ServerOption interface {

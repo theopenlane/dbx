@@ -9,6 +9,9 @@ db:
     primaryDbSource: file:openlane.db
     runMigrations: true
     secondaryDbSource: file:backup.db
+providers:
+    localEnabled: true
+    tursoEnabled: false
 ratelimit:
     burst: 30
     enabled: false
@@ -28,7 +31,7 @@ redis:
     readTimeout: 0
     username: ""
     writeTimeout: 0
-refresh_interval: 600000000000
+refreshInterval: 600000000000
 server:
     cacheControl:
         enabled: true
@@ -41,14 +44,14 @@ server:
         prefixes: null
     debug: false
     dev: false
-    idle_timeout: 30000000000
+    idleTimeout: 30000000000
     listen: :1337
     mime:
         defaultContentType: application/data
         enabled: true
         mimeTypesFile: ""
-    read_header_timeout: 2000000000
-    read_timeout: 15000000000
+    readHeaderTimeout: 2000000000
+    readTimeout: 15000000000
     redirect:
         code: 0
         enabled: true
@@ -63,14 +66,14 @@ server:
         referrerpolicy: same-origin
         xframeoptions: SAMEORIGIN
         xssprotection: 1; mode=block
-    shutdown_grace_period: 10000000000
+    shutdownGracePeriod: 10000000000
     tls:
-        auto_cert: false
-        cert_file: server.crt
-        cert_key: server.key
+        autoCert: false
+        certFile: server.crt
+        certKey: server.key
         config: null
         enabled: false
-    write_timeout: 15000000000
+    writeTimeout: 15000000000
 sessions:
     domain: ""
     encryptionKey: encryptionsecret

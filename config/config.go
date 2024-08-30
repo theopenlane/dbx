@@ -14,15 +14,15 @@ import (
 
 	turso "github.com/theopenlane/go-turso"
 
-	"github.com/theopenlane/core/pkg/cache"
+	"github.com/theopenlane/beacon/otelx"
 	"github.com/theopenlane/core/pkg/middleware/cachecontrol"
 	"github.com/theopenlane/core/pkg/middleware/cors"
 	"github.com/theopenlane/core/pkg/middleware/mime"
 	"github.com/theopenlane/core/pkg/middleware/ratelimit"
 	"github.com/theopenlane/core/pkg/middleware/redirect"
 	"github.com/theopenlane/core/pkg/middleware/secure"
-	"github.com/theopenlane/core/pkg/otelx"
 	"github.com/theopenlane/iam/sessions"
+	"github.com/theopenlane/utils/cache"
 )
 
 var (
@@ -32,13 +32,16 @@ var (
 // Config contains the configuration for the openlane server
 type Config struct {
 	// RefreshInterval determines how often to reload the config
-	RefreshInterval time.Duration `json:"refresh_interval" koanf:"refresh_interval" default:"10m"`
+	RefreshInterval time.Duration `json:"refreshInterval" koanf:"refreshInterval" default:"10m"`
 
 	// Server contains the echo server settings
 	Server Server `json:"server" koanf:"server"`
 
 	// DB contains the database configuration for the ent client
 	DB entx.Config `json:"db" koanf:"db"`
+
+	// Providers contains the configuration for the providers
+	Providers Providers `json:"providers" koanf:"providers"`
 
 	// Turso contains the configuration for the turso client
 	Turso turso.Config `json:"turso" koanf:"turso"`
@@ -56,6 +59,13 @@ type Config struct {
 	Ratelimit ratelimit.Config `json:"ratelimit" koanf:"ratelimit"`
 }
 
+type Providers struct {
+	// TursoEnabled enables the turso provider
+	TursoEnabled bool `json:"tursoEnabled" koanf:"tursoEnabled" default:"false"`
+	// LocalEnabled enables the local provider
+	LocalEnabled bool `json:"localEnabled" koanf:"localEnabled" default:"true"`
+}
+
 // Server settings for the echo server
 type Server struct {
 	// Debug enables debug mode for the server
@@ -65,15 +75,15 @@ type Server struct {
 	// Listen sets the listen address to serve the echo server on
 	Listen string `json:"listen" koanf:"listen" jsonschema:"required" default:":1337"`
 	// ShutdownGracePeriod sets the grace period for in flight requests before shutting down
-	ShutdownGracePeriod time.Duration `json:"shutdown_grace_period" koanf:"shutdown_grace_period" default:"10s"`
+	ShutdownGracePeriod time.Duration `json:"shutdownGracePeriod" koanf:"shutdownGracePeriod" default:"10s"`
 	// ReadTimeout sets the maximum duration for reading the entire request including the body
-	ReadTimeout time.Duration `json:"read_timeout" koanf:"read_timeout" default:"15s"`
+	ReadTimeout time.Duration `json:"readTimeout" koanf:"readTimeout" default:"15s"`
 	// WriteTimeout sets the maximum duration before timing out writes of the response
-	WriteTimeout time.Duration `json:"write_timeout" koanf:"write_timeout" default:"15s"`
+	WriteTimeout time.Duration `json:"writeTimeout" koanf:"writeTimeout" default:"15s"`
 	// IdleTimeout sets the maximum amount of time to wait for the next request when keep-alives are enabled
-	IdleTimeout time.Duration `json:"idle_timeout" koanf:"idle_timeout" default:"30s"`
+	IdleTimeout time.Duration `json:"idleTimeout" koanf:"idleTimeout" default:"30s"`
 	// ReadHeaderTimeout sets the amount of time allowed to read request headers
-	ReadHeaderTimeout time.Duration `json:"read_header_timeout" koanf:"read_header_timeout" default:"2s"`
+	ReadHeaderTimeout time.Duration `json:"readHeaderTimeout" koanf:"readHeaderTimeout" default:"2s"`
 	// TLS contains the tls configuration settings
 	TLS TLS `json:"tls" koanf:"tls"`
 	// CORS contains settings to allow cross origin settings and insecure cookies
@@ -92,11 +102,11 @@ type Server struct {
 type CORS struct {
 	// AllowOrigins is a list of allowed origin to indicate whether the response can be shared with
 	// requesting code from the given origin
-	AllowOrigins []string `json:"allow_origins" koanf:"allow_origins"`
+	AllowOrigins []string `json:"allowOrigins" koanf:"allowOrigins"`
 	// CookieInsecure allows CSRF cookie to be sent to servers that the browser considers
 	// unsecured. Useful for cases where the connection is secured via VPN rather than
 	// HTTPS directly.
-	CookieInsecure bool `json:"cookie_insecure" koanf:"cookie_insecure"`
+	CookieInsecure bool `json:"cookieInsecure" koanf:"cookieInsecure"`
 }
 
 // TLS settings for the server for secure connections
@@ -106,11 +116,11 @@ type TLS struct {
 	// Enabled turns on TLS settings for the server
 	Enabled bool `json:"enabled" koanf:"enabled" default:"false"`
 	// CertFile location for the TLS server
-	CertFile string `json:"cert_file" koanf:"cert_file" default:"server.crt"`
+	CertFile string `json:"certFile" koanf:"certFile" default:"server.crt"`
 	// CertKey file location for the TLS server
-	CertKey string `json:"cert_key" koanf:"cert_key" default:"server.key"`
+	CertKey string `json:"certKey" koanf:"certKey" default:"server.key"`
 	// AutoCert generates the cert with letsencrypt, this does not work on localhost
-	AutoCert bool `json:"auto_cert" koanf:"auto_cert" default:"false"`
+	AutoCert bool `json:"autoCert" koanf:"autoCert" default:"false"`
 }
 
 // Load is responsible for loading the configuration from a YAML file and environment variables.

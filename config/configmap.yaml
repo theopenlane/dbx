@@ -10,19 +10,19 @@ metadata:
   annotations: {{- include "common.tplvalues.render" ( dict "value" $annotations "context" $) | nindent 4 }}
   {{- end }}
 data:
-  DBX_REFRESH_INTERVAL: {{ .Values.dbx.refresh_interval | 10m }}
+  DBX_REFRESHINTERVAL: {{ .Values.dbx.refreshInterval | 10m }}
   DBX_SERVER_DEBUG: {{ .Values.dbx.server.debug | false }}
   DBX_SERVER_DEV: {{ .Values.dbx.server.dev | false }}
   DBX_SERVER_LISTEN: {{ .Values.dbx.server.listen | ":1337" }}
-  DBX_SERVER_SHUTDOWN_GRACE_PERIOD: {{ .Values.dbx.server.shutdown_grace_period | 10s }}
-  DBX_SERVER_READ_TIMEOUT: {{ .Values.dbx.server.read_timeout | 15s }}
-  DBX_SERVER_WRITE_TIMEOUT: {{ .Values.dbx.server.write_timeout | 15s }}
-  DBX_SERVER_IDLE_TIMEOUT: {{ .Values.dbx.server.idle_timeout | 30s }}
-  DBX_SERVER_READ_HEADER_TIMEOUT: {{ .Values.dbx.server.read_header_timeout | 2s }}
+  DBX_SERVER_SHUTDOWNGRACEPERIOD: {{ .Values.dbx.server.shutdownGracePeriod | 10s }}
+  DBX_SERVER_READTIMEOUT: {{ .Values.dbx.server.readTimeout | 15s }}
+  DBX_SERVER_WRITETIMEOUT: {{ .Values.dbx.server.writeTimeout | 15s }}
+  DBX_SERVER_IDLETIMEOUT: {{ .Values.dbx.server.idleTimeout | 30s }}
+  DBX_SERVER_READHEADERTIMEOUT: {{ .Values.dbx.server.readHeaderTimeout | 2s }}
   DBX_SERVER_TLS_ENABLED: {{ .Values.dbx.server.tls.enabled | false }}
-  DBX_SERVER_TLS_CERT_FILE: {{ .Values.dbx.server.tls.cert_file | "server.crt" }}
-  DBX_SERVER_TLS_CERT_KEY: {{ .Values.dbx.server.tls.cert_key | "server.key" }}
-  DBX_SERVER_TLS_AUTO_CERT: {{ .Values.dbx.server.tls.auto_cert | false }}
+  DBX_SERVER_TLS_CERTFILE: {{ .Values.dbx.server.tls.certFile | "server.crt" }}
+  DBX_SERVER_TLS_CERTKEY: {{ .Values.dbx.server.tls.certKey | "server.key" }}
+  DBX_SERVER_TLS_AUTOCERT: {{ .Values.dbx.server.tls.autoCert | false }}
   DBX_SERVER_CORS_ENABLED: {{ .Values.dbx.server.cors.enabled | true }}
   DBX_SERVER_CORS_PREFIXES: {{ .Values.dbx.server.cors.prefixes }}
   DBX_SERVER_CORS_ALLOWORIGINS: {{ .Values.dbx.server.cors.allowOrigins }}
@@ -55,6 +55,8 @@ data:
   DBX_DB_RUNMIGRATIONS: {{ .Values.dbx.db.runMigrations | true }}
   DBX_DB_MIGRATIONPROVIDER: {{ .Values.dbx.db.migrationProvider | "atlas" }}
   DBX_DB_ENABLEHISTORY: {{ .Values.dbx.db.enableHistory | false }}
+  DBX_PROVIDERS_TURSOENABLED: {{ .Values.dbx.providers.tursoEnabled | false }}
+  DBX_PROVIDERS_LOCALENABLED: {{ .Values.dbx.providers.localEnabled | true }}
   DBX_TURSO_TOKEN: {{ .Values.dbx.turso.token }}
   DBX_TURSO_BASEURL: {{ .Values.dbx.turso.baseUrl | "https://api.turso.tech" }}
   DBX_TURSO_ORGNAME: {{ .Values.dbx.turso.orgName }}

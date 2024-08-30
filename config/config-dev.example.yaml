@@ -18,3 +18,7 @@ turso:
   baseUrl: https://api.turso.tech
   orgName: "openlane"
   token: ""
+
+providers:
+    localEnabled: true
+    tursoEnabled: false

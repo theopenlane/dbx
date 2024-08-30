@@ -29,8 +29,8 @@ func HookCreateDatabase() ent.Hook {
 			name := strings.ToLower(fmt.Sprintf("org-%s", orgID))
 			mutation.SetName(name)
 
-			// if the provider is turso, create a database
-			if provider == enums.Turso {
+			// if the provider is turso and turso is enabled, create a database
+			if provider == enums.Turso && mutation.Turso != nil {
 				// get the group to assign the database to
 				groupName, err := getGroupName(ctx, mutation)
 				if err != nil {
