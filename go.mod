@@ -34,7 +34,7 @@ require (
 	github.com/theopenlane/echo-prometheus v0.1.0
 	github.com/theopenlane/echox v0.1.0
 	github.com/theopenlane/echozap v0.1.0
-	github.com/theopenlane/entx v0.1.4
+	github.com/theopenlane/entx v0.1.5
 	github.com/theopenlane/go-turso v0.1.0
 	github.com/theopenlane/iam v0.1.6
 	github.com/vektah/gqlparser/v2 v2.5.16
@@ -174,7 +174,7 @@ require (
 	github.com/stretchr/objx v0.5.2 // indirect
 	github.com/subosito/gotenv v1.6.0 // indirect
 	github.com/theopenlane/utils v0.1.5
-	github.com/tursodatabase/libsql-client-go v0.0.0-20240812094001-348a4e45b535 // indirect
+	github.com/tursodatabase/libsql-client-go v0.0.0-20240902231107-85af5b9d094d // indirect
 	github.com/urfave/cli/v2 v2.27.4 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasttemplate v1.2.2 // indirect
