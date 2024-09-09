@@ -361,8 +361,8 @@ github.com/prometheus/common v0.57.0 h1:Ro/rKjwdq9mZn1K5QPctzh+MA4Lp0BuYk5ZZEVho
 github.com/prometheus/common v0.57.0/go.mod h1:7uRPFSUTbfZWsJ7MHY56sqt7hLQu3bxXHDnNhl8E9qI=
 github.com/prometheus/procfs v0.15.1 h1:YagwOFzUgYfKKHX6Dr+sHT7km/hxC76UB0learggepc=
 github.com/prometheus/procfs v0.15.1/go.mod h1:fB45yRUv8NstnjriLhBQLuOUt+WW4BsoGhij/e3PBqk=
-github.com/ravilushqa/otelgqlgen v0.16.0 h1:tEryUp/Kai5lccgA0Hl0lb/LUdJmqIJT31HwwxaYiUM=
-github.com/ravilushqa/otelgqlgen v0.16.0/go.mod h1:72/ZmqsGciNzAEYavQRKqhiRaZ4piW/Fjk4xLnG3SAg=
+github.com/ravilushqa/otelgqlgen v0.17.0 h1:bLwQfKqtj9P24QpjM2sc1ipBm5Fqv2u7DKN5LIpj3g8=
+github.com/ravilushqa/otelgqlgen v0.17.0/go.mod h1:orOIikuYsay1y3CmLgd5gsHcT9EsnXwNKmkAplzzYXQ=
 github.com/redis/go-redis/v9 v9.6.1 h1:HHDteefn6ZkTtY5fGUE8tj8uy85AHk6zP7CpzIAM0y4=
 github.com/redis/go-redis/v9 v9.6.1/go.mod h1:0C0c6ycQsdpVNQpxb1njEQIqkx5UcsM8FJCQLgE9+RA=
 github.com/remyoudompheng/bigfft v0.0.0-20230129092748-24d4a6f8daec h1:W09IVJc94icq4NjY3clb7Lk8O1qJ8BdBEF8z0ibU0rE=
