@@ -12,7 +12,8 @@ steps:
         key: "generate"
         plugins:
           - docker#v5.11.0:
-              image: "ghcr.io/theopenlane/build-image:v0.1.2"
+              image: "ghcr.io/theopenlane/build-image:latest"
+              always-pull: true
               command: ["task", "ci"]
               environment:
                 - "GOTOOLCHAIN=auto"
@@ -20,7 +21,8 @@ steps:
         key: "generate_config"
         plugins:
           - docker#v5.11.0:
-              image: "ghcr.io/theopenlane/build-image:v0.1.2"
+              image: "ghcr.io/theopenlane/build-image:latest"
+              always-pull: true
               command: ["task", "config:ci"]
               environment:
                 - "GOTOOLCHAIN=auto"
@@ -32,8 +34,9 @@ steps:
         key: "lint"
         plugins:
           - docker#v5.11.0:
-              image: "golangci-lint:latest-alpine"
-              command: ["golangci-lint", "run", "-v"]
+              image: "ghcr.io/theopenlane/build-image:latest"
+              always-pull: true
+              command: ["task", "go:lint"]
               always-pull: true
               environment:
                 - "GOTOOLCHAIN=auto"
@@ -43,8 +46,9 @@ steps:
           TEST_DB_URL: "libsql://file::memory:?cache=shared"
         plugins:
           - docker#v5.11.0:
-              image: golang:1.23.0
-              command: ["go", "test", "-coverprofile=coverage.out", "./..."]
+              image: "ghcr.io/theopenlane/build-image:latest"
+              always-pull: true
+              command: ["task", "go:test:cover"]
               environment:
                 - "TEST_DB_URL"
         artifact_paths: ["coverage.out"]
@@ -58,8 +62,9 @@ steps:
           - "sqlite://file:ent?mode=memory&cache=shared"
         plugins:
           - docker#v5.11.0:
-              image: golang:1.23.0
-              command: ["go", "test", "-coverprofile=coverage.out", "./..."]
+              image: "ghcr.io/theopenlane/build-image:latest"
+              always-pull: true
+              command: ["task", "go:test:cover"]
               environment:
                 - "TEST_DB_URL"
                 - "TEST_DB_CONTAINER_EXPIRY=8" # container expiry in minutes
@@ -120,21 +125,23 @@ steps:
         artifact_paths: "bin/${APP_NAME}"
         plugins:
           - docker#v5.11.0:
-              image: "golang:1.23.0"
+              image: "ghcr.io/theopenlane/build-image:latest"
+              always-pull: true
+              command: ["task", "go:build"]
               environment:
                 - CGO_ENABLED=0
                 - GOOS=linux
-              command: ["go", "build", "-buildvcs=false", "-mod=mod", "-a", "-o", "bin/$APP_NAME"]
       - label: ":terminal: build cli"
         key: "gobuild-cli"
         artifact_paths: "bin/${APP_NAME}-cli"
         plugins:
           - docker#v5.11.0:
-              image: "golang:1.23.0"
+              image: "ghcr.io/theopenlane/build-image:latest"
+              always-pull: true
+              command: ["task", "go:build-cli"]
               environment:
                 - GOOS=darwin
                 - GOARCH=arm64
-              command: ["go", "build", "-buildvcs=false", "-mod=mod", "-a", "-o", "bin/${APP_NAME}-cli", "./cmd/cli"]
   - group: ":docker: Image Build"
     depends_on: "go-builds"
     key: "image-build"

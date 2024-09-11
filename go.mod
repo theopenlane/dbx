@@ -1,6 +1,6 @@
 module github.com/theopenlane/dbx
 
-go 1.23.0
+go 1.23.1
 
 require (
 	ariga.io/entcache v0.1.0
@@ -30,7 +30,7 @@ require (
 	github.com/spf13/viper v1.19.0
 	github.com/stretchr/testify v1.9.0
 	github.com/theopenlane/beacon v0.1.0
-	github.com/theopenlane/core v0.1.8
+	github.com/theopenlane/core v0.1.9
 	github.com/theopenlane/echo-prometheus v0.1.0
 	github.com/theopenlane/echox v0.1.0
 	github.com/theopenlane/echozap v0.1.0
