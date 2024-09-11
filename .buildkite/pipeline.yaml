@@ -34,7 +34,7 @@ steps:
         key: "lint"
         plugins:
           - docker#v5.11.0:
-              mage: "ghcr.io/theopenlane/build-image:latest"
+              image: "ghcr.io/theopenlane/build-image:latest"
               always-pull: true
               command: ["task", "go:lint"]
               always-pull: true
