@@ -23,6 +23,7 @@ env:
   TEST_FGA_URL: "localhost:8080"
   ENV: config
   GODEBUG: gotypesalias=0 # remove once the backport fixes the types.Alias bug
+  GOFLAGS: -buildvcs=false
 
 tasks:
   install:
@@ -60,6 +61,12 @@ tasks:
     aliases: [cover]
     cmds:
       - go test -v ./... -coverprofile=coverage.out
+
+  go:test:cover:out:
+    desc: runs and outputs results of created go tests with coverage
+    aliases: [cover]
+    cmds:
+      - task: go:test:cover
       - go tool cover -html=coverage.out
 
   go:fmt:
