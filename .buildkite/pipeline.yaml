@@ -138,7 +138,7 @@ steps:
           - docker#v5.11.0:
               image: "ghcr.io/theopenlane/build-image:latest"
               always-pull: true
-              command: ["task", "go:build:cli"]
+              command: ["task", "go:build-cli"]
               environment:
                 - GOOS=darwin
                 - GOARCH=arm64
