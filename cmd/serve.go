@@ -3,11 +3,10 @@ package cmd
 import (
 	"context"
 
+	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"github.com/theopenlane/beacon/otelx"
-	"go.uber.org/zap"
-
 	"github.com/theopenlane/go-turso"
 	"github.com/theopenlane/utils/cache"
 
@@ -42,7 +41,6 @@ func serve(ctx context.Context) error {
 	serverOpts := []serveropts.ServerOption{}
 	serverOpts = append(serverOpts,
 		serveropts.WithConfigProvider(&config.ConfigProviderWithRefresh{}),
-		serveropts.WithLogger(logger),
 		serveropts.WithHTTPS(),
 		serveropts.WithMiddleware(),
 	)
@@ -51,23 +49,23 @@ func serve(ctx context.Context) error {
 
 	err = otelx.NewTracer(so.Config.Settings.Tracer, appName)
 	if err != nil {
-		logger.Fatalw("failed to initialize tracer", "error", err)
+		log.Fatal().Err(err).Msg("failed to initialize tracer")
 	}
 
 	// create ent dependency injection
-	entOpts := []ent.Option{ent.Logger(*logger)}
+	entOpts := []ent.Option{}
 
 	if so.Config.Settings.Providers.TursoEnabled {
 		tursoClient, err := turso.NewClient(so.Config.Settings.Turso)
 		if err != nil {
-			logger.Fatalw("failed to initialize turso client", "error", err)
+			log.Fatal().Err(err).Msg("failed to initialize turso client")
 		}
 
 		entOpts = append(entOpts, ent.Turso(tursoClient))
 	}
 
 	// Setup DB connection
-	entdbClient, dbConfig, err := entdb.NewMultiDriverDBClient(ctx, so.Config.Settings.DB, logger, entOpts)
+	entdbClient, dbConfig, err := entdb.NewMultiDriverDBClient(ctx, so.Config.Settings.DB, entOpts)
 	if err != nil {
 		return err
 	}
@@ -89,13 +87,13 @@ func serve(ctx context.Context) error {
 		serveropts.WithReadyChecks(dbConfig, redisClient),
 	)
 
-	srv := server.NewServer(so.Config, so.Config.Logger)
+	srv := server.NewServer(so.Config)
 
 	// Setup Graph API Handlers
 	so.AddServerOptions(serveropts.WithGraphRoute(srv, entdbClient))
 
 	if err := srv.StartEchoServer(ctx); err != nil {
-		logger.Error("failed to run server", zap.Error(err))
+		log.Error().Err(err).Msg("failed to run server")
 	}
 
 	return nil

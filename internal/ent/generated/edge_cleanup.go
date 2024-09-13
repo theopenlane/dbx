@@ -5,6 +5,7 @@ package generated
 import (
 	"context"
 
+	"github.com/rs/zerolog/log"
 	"github.com/theopenlane/dbx/internal/ent/generated/database"
 	"github.com/theopenlane/dbx/internal/ent/generated/group"
 )
@@ -18,7 +19,7 @@ func GroupEdgeCleanup(ctx context.Context, id string) error {
 
 	if exists, err := FromContext(ctx).Database.Query().Where((database.HasGroupWith(group.ID(id)))).Exist(ctx); err == nil && exists {
 		if databaseCount, err := FromContext(ctx).Database.Delete().Where(database.HasGroupWith(group.ID(id))).Exec(ctx); err != nil {
-			FromContext(ctx).Logger.Debugw("deleting database", "count", databaseCount, "err", err)
+			log.Debug().Err(err).Int("count", databaseCount).Msg("deleting database")
 			return err
 		}
 	}

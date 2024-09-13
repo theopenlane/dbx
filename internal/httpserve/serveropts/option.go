@@ -2,12 +2,11 @@ package serveropts
 
 import (
 	"github.com/redis/go-redis/v9"
+	"github.com/rs/zerolog/log"
 	echoprometheus "github.com/theopenlane/echo-prometheus"
 	echo "github.com/theopenlane/echox"
 	"github.com/theopenlane/echox/middleware"
-	"github.com/theopenlane/echozap"
 	"github.com/theopenlane/entx"
-	"go.uber.org/zap"
 
 	"github.com/theopenlane/dbx/internal/ent/generated"
 	"github.com/theopenlane/dbx/internal/graphapi"
@@ -16,11 +15,11 @@ import (
 
 	"github.com/theopenlane/core/pkg/middleware/cachecontrol"
 	"github.com/theopenlane/core/pkg/middleware/cors"
-	"github.com/theopenlane/core/pkg/middleware/echocontext"
 	"github.com/theopenlane/core/pkg/middleware/mime"
 	"github.com/theopenlane/core/pkg/middleware/ratelimit"
 	"github.com/theopenlane/core/pkg/middleware/redirect"
 	"github.com/theopenlane/core/pkg/middleware/secure"
+	"github.com/theopenlane/echox/middleware/echocontext"
 	"github.com/theopenlane/iam/sessions"
 	"github.com/theopenlane/utils/cache"
 )
@@ -47,16 +46,6 @@ func newApplyFunc(apply func(option *ServerOptions)) *applyFunc {
 func WithConfigProvider(cfgProvider config.ConfigProvider) ServerOption {
 	return newApplyFunc(func(s *ServerOptions) {
 		s.ConfigProvider = cfgProvider
-	})
-}
-
-// WithLogger supplies the logger for the server
-func WithLogger(l *zap.SugaredLogger) ServerOption {
-	return newApplyFunc(func(s *ServerOptions) {
-		// Add logger to main config
-		s.Config.Logger = l
-		// Add logger to the handlers config
-		s.Config.Handler.Logger = l
 	})
 }
 
@@ -99,8 +88,7 @@ func WithReadyChecks(c *entx.EntClientConfig, r *redis.Client) ServerOption {
 func WithGraphRoute(srv *server.Server, c *generated.Client) ServerOption {
 	return newApplyFunc(func(s *ServerOptions) {
 		// Setup Graph API Handlers
-		r := graphapi.NewResolver(c).
-			WithLogger(s.Config.Logger.Named("resolvers"))
+		r := graphapi.NewResolver(c)
 
 		handler := r.Handler(s.Config.Settings.Server.Dev)
 
@@ -122,10 +110,10 @@ func WithMiddleware() ServerOption {
 			middleware.RequestID(), // add request id
 			middleware.Recover(),   // recover server from any panic/fatal error gracefully
 			middleware.LoggerWithConfig(middleware.LoggerConfig{
-				Format: "remote_ip=${remote_ip}, method=${method}, uri=${uri}, status=${status}, session=${header:Set-Cookie}, host=${host}, referer=${referer}, user_agent=${user_agent}, route=${route}, path=${path}, auth=${header:Authorization}\n",
+				Output: log.Logger.Hook(LevelNameHook{}),
+				Format: "remote_ip=${remote_ip}, method=${method}, uri=${uri}, status=${status}, session=${header:Set-Cookie}, host=${host}, referer=${referer}, user_agent=${user_agent}, route=${route}, path=${path}",
 			}),
 			echoprometheus.MetricsMiddleware(),                                                       // add prometheus metrics
-			echozap.ZapLogger(s.Config.Logger.Desugar()),                                             // add zap logger, middleware requires the "regular" zap logger
 			echocontext.EchoContextToContextMiddleware(),                                             // adds echo context to parent
 			mime.NewWithConfig(mime.Config{DefaultContentType: echo.MIMEApplicationJSONCharsetUTF8}), // add mime middleware
 		)
@@ -157,8 +145,6 @@ func WithSessionManager(rc *redis.Client) ServerOption {
 		sessionConfig := sessions.NewSessionConfig(
 			sm,
 			sessions.WithPersistence(rc),
-			sessions.WithLogger(s.Config.Logger),
-			//			sessions.WithSkipperFunc(authmw.SessionSkipperFunc),
 		)
 
 		// set cookie config to be used

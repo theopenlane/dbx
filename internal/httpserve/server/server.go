@@ -3,8 +3,8 @@ package server
 import (
 	"context"
 
+	"github.com/rs/zerolog/log"
 	echo "github.com/theopenlane/echox"
-	"go.uber.org/zap"
 
 	echodebug "github.com/theopenlane/core/pkg/middleware/debug"
 
@@ -15,8 +15,6 @@ import (
 type Server struct {
 	// config contains the base server settings
 	config config.Config
-	// logger contains the zap logger
-	logger *zap.SugaredLogger
 	// handlers contains additional handlers to register with the echo server
 	handlers []handler
 }
@@ -33,10 +31,9 @@ func (s *Server) AddHandler(r handler) {
 }
 
 // NewServer returns a new Server configuration
-func NewServer(c config.Config, l *zap.SugaredLogger) *Server {
+func NewServer(c config.Config) *Server {
 	return &Server{
 		config: c,
-		logger: l,
 	}
 }
 
@@ -55,7 +52,7 @@ func (s *Server) StartEchoServer(ctx context.Context) error {
 	srv.Debug = s.config.Settings.Server.Debug
 
 	if srv.Debug {
-		srv.Use(echodebug.BodyDump(s.logger))
+		srv.Use(echodebug.BodyDump())
 	}
 
 	for _, m := range s.config.DefaultMiddleware {
@@ -75,12 +72,12 @@ func (s *Server) StartEchoServer(ctx context.Context) error {
 	// Print routes on startup
 	routes := srv.Router().Routes()
 	for _, r := range routes {
-		s.logger.Infow("registered route", "route", r.Path(), "method", r.Method())
+		log.Info().Str("route", r.Path()).Str("method", r.Method()).Msg("registered route")
 	}
 
 	// if TLS is enabled, start new echo server with TLS
 	if s.config.Settings.Server.TLS.Enabled {
-		s.logger.Infow("starting in https mode")
+		log.Info().Msg("starting in https mode")
 
 		return sc.StartTLS(srv, s.config.Settings.Server.TLS.CertFile, s.config.Settings.Server.TLS.CertKey)
 	}

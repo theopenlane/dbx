@@ -7,6 +7,7 @@ package graphapi
 import (
 	"context"
 
+	"github.com/rs/zerolog/log"
 	"github.com/theopenlane/dbx/internal/ent/generated"
 	"github.com/theopenlane/dbx/internal/ent/generated/group"
 	"github.com/theopenlane/utils/rout"
@@ -19,7 +20,7 @@ func (r *mutationResolver) CreateGroup(ctx context.Context, input generated.Crea
 		if generated.IsConstraintError(err) {
 			constraintError := err.(*generated.ConstraintError)
 
-			r.logger.Debugw("constraint error", "error", constraintError.Error())
+			log.Debug().Err(constraintError).Msg("constraint error")
 
 			return nil, constraintError
 		}
@@ -30,7 +31,7 @@ func (r *mutationResolver) CreateGroup(ctx context.Context, input generated.Crea
 			return nil, rout.InvalidField(ve.Name)
 		}
 
-		r.logger.Errorw("failed to create group", "error", err)
+		log.Error().Err(err).Msg("failed to create group")
 
 		return nil, err
 	}
@@ -45,7 +46,7 @@ func (r *mutationResolver) UpdateGroup(ctx context.Context, name string, input g
 		Where(group.NameEQ(name)).
 		Only(ctx)
 	if err != nil {
-		r.logger.Errorw("failed to get group", "error", err)
+		log.Error().Err(err).Msg("failed to get group")
 
 		return nil, err
 	}
@@ -54,7 +55,7 @@ func (r *mutationResolver) UpdateGroup(ctx context.Context, name string, input g
 		SetInput(input).
 		Save(ctx)
 	if err != nil {
-		r.logger.Errorw("failed to update group", "error", err)
+		log.Error().Err(err).Msg("failed to update group")
 
 		return nil, err
 	}
@@ -66,7 +67,7 @@ func (r *mutationResolver) UpdateGroup(ctx context.Context, name string, input g
 func (r *mutationResolver) DeleteGroup(ctx context.Context, name string) (*GroupDeletePayload, error) {
 	group, err := withTransactionalMutation(ctx).Group.Query().Where(group.NameEQ(name)).Only(ctx)
 	if err != nil {
-		r.logger.Errorw("failed to get group", "error", err)
+		log.Error().Err(err).Msg("failed to get group")
 
 		return nil, err
 	}
@@ -76,7 +77,7 @@ func (r *mutationResolver) DeleteGroup(ctx context.Context, name string) (*Group
 	}
 
 	if err := withTransactionalMutation(ctx).Group.DeleteOneID(group.ID).Exec(ctx); err != nil {
-		r.logger.Errorw("failed to delete group", "error", err)
+		log.Error().Err(err).Msg("failed to delete group")
 
 		return nil, err
 	}
@@ -88,7 +89,7 @@ func (r *mutationResolver) DeleteGroup(ctx context.Context, name string) (*Group
 func (r *queryResolver) Group(ctx context.Context, name string) (*generated.Group, error) {
 	group, err := withTransactionalMutation(ctx).Group.Query().Where(group.NameEQ(name)).Only(ctx)
 	if err != nil {
-		r.logger.Errorw("failed to get group", "error", err)
+		log.Error().Err(err).Msg("failed to get group")
 
 		return nil, err
 	}

@@ -6,6 +6,7 @@ import (
 	"entgo.io/ent"
 
 	"github.com/99designs/gqlgen/graphql"
+	"github.com/rs/zerolog/log"
 	"github.com/theopenlane/go-turso"
 	"github.com/theopenlane/utils/rout"
 
@@ -30,7 +31,7 @@ func HookGroupCreate() ent.Hook {
 				return nil, err
 			}
 
-			mutation.Logger.Infow("created turso group", "group", group.Group.Name, "locations", group.Group.Locations)
+			log.Info().Str("group", group.Group.Name).Strs("locations", group.Group.Locations).Msg("created turso group")
 
 			// write things that we need to the database
 			return next.Mutate(ctx, mutation)
@@ -60,7 +61,7 @@ func HookGroupUpdate() ent.Hook {
 					}
 
 					if _, err := mutation.Turso.Group.AddLocation(ctx, req); err != nil {
-						mutation.Logger.Errorw("failed to add location to group", "group", name, "location", loc, "error", err)
+						log.Error().Str("group", name).Str("location", loc).Err(err).Msg("failed to add location to group")
 
 						return nil, err
 					}
@@ -81,7 +82,7 @@ func HookGroupDelete() ent.Hook {
 				name := gtx.Variables["name"].(string)
 
 				if name == "" {
-					mutation.Logger.Errorw("unable to delete group, no name provided")
+					log.Error().Msg("unable to delete group, no name provided")
 
 					return nil, rout.InvalidField("name")
 				}
@@ -91,7 +92,7 @@ func HookGroupDelete() ent.Hook {
 					return nil, err
 				}
 
-				mutation.Logger.Infow("deleted turso group", "group", group.Group)
+				log.Info().Interface("group", group.Group).Msg("deleted turso group")
 			}
 
 			// write things that we need to the database

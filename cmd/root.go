@@ -1,17 +1,20 @@
 package cmd
 
 import (
+	"fmt"
+	"os"
+	"path/filepath"
+	"runtime/debug"
+	"time"
+
+	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
-	"go.uber.org/zap"
 )
 
 const appName = "dbx"
-
-var (
-	logger *zap.SugaredLogger
-)
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -40,12 +43,11 @@ func init() {
 // refer to the README.md for more information
 func initConfig() {
 	err := viper.ReadInConfig()
-
-	logger = newLogger()
-
-	if err == nil {
-		logger.Infow("using config file", "file", viper.ConfigFileUsed())
+	if err != nil {
+		log.Info().Err(err).Str("file", viper.ConfigFileUsed()).Msg("error reading config file")
 	}
+
+	setupLogging()
 }
 
 // viperBindFlag provides a wrapper around the viper bindings that panics if an error occurs
@@ -56,23 +58,38 @@ func viperBindFlag(name string, flag *pflag.Flag) {
 	}
 }
 
-// newLogger creates a new zap logger with the appropriate configuration based on the viper settings for pretty and debug
-func newLogger() *zap.SugaredLogger {
-	cfg := zap.NewProductionConfig()
-	if viper.GetBool("pretty") {
-		cfg = zap.NewDevelopmentConfig()
-	}
+// setupLogging sets up the logging defaults for the application
+func setupLogging() {
+	// setup logging with time and app name
+	log.Logger = zerolog.New(os.Stderr).
+		With().Timestamp().
+		Logger().
+		With().Str("app", appName).
+		Logger()
 
+	// set the log level
+	zerolog.SetGlobalLevel(zerolog.InfoLevel)
+
+	// set the log level to debug if the debug flag is set and add additional information
 	if viper.GetBool("debug") {
-		cfg.Level = zap.NewAtomicLevelAt(zap.DebugLevel)
-	} else {
-		cfg.Level = zap.NewAtomicLevelAt(zap.InfoLevel)
+		zerolog.SetGlobalLevel(zerolog.DebugLevel)
+
+		buildInfo, _ := debug.ReadBuildInfo()
+
+		log.Logger = log.Logger.With().
+			Caller().
+			Int("pid", os.Getpid()).
+			Str("go_version", buildInfo.GoVersion).Logger()
 	}
 
-	logger, err := cfg.Build()
-	if err != nil {
-		panic(err)
+	// pretty logging for development
+	if viper.GetBool("pretty") {
+		log.Logger = log.Output(zerolog.ConsoleWriter{
+			Out:        os.Stderr,
+			TimeFormat: time.RFC3339,
+			FormatCaller: func(i interface{}) string {
+				return filepath.Base(fmt.Sprintf("%s", i))
+			},
+		})
 	}
-
-	return logger.Sugar()
 }

@@ -17,7 +17,6 @@ import (
 	"github.com/theopenlane/go-turso"
 	"github.com/theopenlane/iam/entfga"
 	"github.com/theopenlane/iam/fgax"
-	"go.uber.org/zap"
 	"gocloud.dev/secrets"
 )
 
@@ -73,10 +72,6 @@ func main() {
 		entc.Dependency(
 			entc.DependencyName("Authz"),
 			entc.DependencyType(fgax.Client{}),
-		),
-		entc.Dependency(
-			entc.DependencyName("Logger"),
-			entc.DependencyType(zap.SugaredLogger{}),
 		),
 		entc.Dependency(
 			entc.DependencyName("Turso"),
