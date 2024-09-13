@@ -58,10 +58,12 @@ require (
 	github.com/nyaruka/phonenumbers v1.4.0 // indirect
 	github.com/posthog/posthog-go v1.2.21 // indirect
 	github.com/pquerna/otp v1.4.0 // indirect
+	github.com/rs/zerolog v1.33.0 // indirect
 	github.com/sendgrid/rest v2.6.9+incompatible // indirect
 	github.com/sendgrid/sendgrid-go v3.16.0+incompatible // indirect
 	github.com/theopenlane/httpsling v0.2.0 // indirect
 	github.com/x448/float16 v0.8.4 // indirect
+	modernc.org/libc v1.59.9 // indirect
 )
 
 require (
@@ -172,7 +174,7 @@ require (
 	github.com/stoewer/go-strcase v1.3.0 // indirect
 	github.com/stretchr/objx v0.5.2 // indirect
 	github.com/subosito/gotenv v1.6.0 // indirect
-	github.com/theopenlane/utils v0.1.5
+	github.com/theopenlane/utils v0.2.0
 	github.com/tursodatabase/libsql-client-go v0.0.0-20240902231107-85af5b9d094d // indirect
 	github.com/urfave/cli/v2 v2.27.4 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
@@ -217,7 +219,7 @@ require (
 	modernc.org/gc/v3 v3.0.0-20240801135723-a856999a2e4a // indirect
 	modernc.org/mathutil v1.6.0 // indirect
 	modernc.org/memory v1.8.0 // indirect
-	modernc.org/sqlite v1.33.0 // indirect
+	modernc.org/sqlite v1.33.1 // indirect
 	modernc.org/strutil v1.2.0 // indirect
 	modernc.org/token v1.1.0 // indirect
 )
