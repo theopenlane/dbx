@@ -399,8 +399,8 @@ github.com/subosito/gotenv v1.6.0 h1:9NlTDc1FTs4qu0DDq7AEtTPNw6SVm7uBMsUCUjABIf8
 github.com/subosito/gotenv v1.6.0/go.mod h1:Dk4QP5c2W3ibzajGcXpNraDfq2IrhjMIvMSWPKKo0FU=
 github.com/theopenlane/beacon v0.1.0 h1:cyGx18rbaJTZT8pRcqMMvg+kN6uh86X4OoDahQp6VnE=
 github.com/theopenlane/beacon v0.1.0/go.mod h1:gOJAanQzfmDF3FIyv7Lwx16bKI7YPkJx1iRT4SdcBW4=
-github.com/theopenlane/core v0.1.10-0.20240913205734-41bd730e20cf h1:jaRi4/Mmi+mFG+HYUKIoZh6iGqCuTdzNLPHfWkKdiJQ=
-github.com/theopenlane/core v0.1.10-0.20240913205734-41bd730e20cf/go.mod h1:pFQbbCPMgnLoNrOu8ab/nENSBqppb2qMFf9wnQHbGDU=
+github.com/theopenlane/core v0.1.10 h1:Y/Bd27g0C3OFt/sB8Wxucq1AGr9W6JPWR5+zmFDnS/I=
+github.com/theopenlane/core v0.1.10/go.mod h1:pFQbbCPMgnLoNrOu8ab/nENSBqppb2qMFf9wnQHbGDU=
 github.com/theopenlane/echo-prometheus v0.1.0 h1:1zMejBVHe5w4zLHS+k5FV9S/46QBiwO6ggTSKi6r/7E=
 github.com/theopenlane/echo-prometheus v0.1.0/go.mod h1:Eiiv1ZLXKMsteQ3T+H1tFfSSZuXSvQfZp95qr5hmGkA=
 github.com/theopenlane/echox v0.2.0 h1:s9DJJrsLOSPsXVfgmQxgXmSVtxzztBnSmcVX4ax7tIM=
