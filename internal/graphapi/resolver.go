@@ -12,9 +12,9 @@ import (
 	"github.com/99designs/gqlgen/graphql/handler/transport"
 	"github.com/gorilla/websocket"
 	"github.com/ravilushqa/otelgqlgen"
+	"github.com/rs/zerolog/log"
 	echo "github.com/theopenlane/echox"
 	"github.com/wundergraph/graphql-go-tools/pkg/playground"
-	"go.uber.org/zap"
 
 	ent "github.com/theopenlane/dbx/internal/ent/generated"
 )
@@ -40,7 +40,6 @@ var (
 // Resolver provides a graph response resolver
 type Resolver struct {
 	client *ent.Client
-	logger *zap.SugaredLogger
 }
 
 // NewResolver returns a resolver configured with the given ent client
@@ -48,12 +47,6 @@ func NewResolver(client *ent.Client) *Resolver {
 	return &Resolver{
 		client: client,
 	}
-}
-
-func (r Resolver) WithLogger(l *zap.SugaredLogger) *Resolver {
-	r.logger = l
-
-	return &r
 }
 
 // Handler is an http handler wrapping a Resolver
@@ -145,7 +138,7 @@ func (h *Handler) Routes(e *echo.Group) {
 	if h.playground != nil {
 		handlers, err := h.playground.Handlers()
 		if err != nil {
-			h.r.logger.Fatal("error configuring playground handlers", "error", err)
+			log.Fatal().Err(err).Msg("error configuring playground handlers")
 			return
 		}
 

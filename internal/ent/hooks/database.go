@@ -8,6 +8,7 @@ import (
 	"entgo.io/ent"
 
 	"github.com/99designs/gqlgen/graphql"
+	"github.com/rs/zerolog/log"
 	"github.com/theopenlane/go-turso"
 	"github.com/theopenlane/utils/rout"
 
@@ -49,7 +50,7 @@ func HookCreateDatabase() ent.Hook {
 					return nil, err
 				}
 
-				mutation.Logger.Infow("created turso db", "db", db.Database.DatabaseID, "hostname", db.Database.Hostname)
+				log.Info().Str("db", db.Database.DatabaseID).Str("hostname", db.Database.Hostname).Msg("created turso db")
 
 				mutation.SetDsn(db.Database.Hostname)
 			} else {
@@ -76,7 +77,7 @@ func HookDatabaseDelete() ent.Hook {
 				name := gtx.Variables["name"].(string)
 
 				if name == "" {
-					mutation.Logger.Errorw("unable to delete database, no name provided")
+					log.Error().Msg("unable to delete database, no name provided")
 
 					return nil, rout.InvalidField("name")
 				}
@@ -86,7 +87,7 @@ func HookDatabaseDelete() ent.Hook {
 					return nil, err
 				}
 
-				mutation.Logger.Infow("deleted turso database", "database", db.Database)
+				log.Info().Str("db", db.Database).Msg("deleted turso db")
 			}
 
 			// write things that we need to the database
@@ -103,7 +104,7 @@ func getGroupName(ctx context.Context, mutation *generated.DatabaseMutation) (st
 	if ok && groupID != "" {
 		g, err := mutation.Client().Group.Get(ctx, groupID)
 		if err != nil {
-			mutation.Logger.Errorw("unable to get group, invalid group ID", "error", err)
+			log.Error().Err(err).Msg("unable to get group, invalid group ID")
 
 			return "", err
 		}
@@ -115,20 +116,20 @@ func getGroupName(ctx context.Context, mutation *generated.DatabaseMutation) (st
 	geo, ok := mutation.Geo()
 
 	if !ok || geo == "" {
-		mutation.Logger.Errorw("unable to get geo or group id, cannot create database")
+		log.Error().Msg("unable to get geo or group id, cannot create database")
 
 		return "", rout.InvalidField("geo")
 	}
 
 	g, err := mutation.Client().Group.Query().Where(group.RegionEQ(enums.Region(geo))).Only(ctx)
 	if err != nil {
-		mutation.Logger.Errorw("unable to get associated group", "error", err)
+		log.Error().Err(err).Msg("unable to get associated group")
 
 		return "", err
 	}
 
 	if g == nil {
-		mutation.Logger.Errorw("unable to get associated group", "geo", geo)
+		log.Error().Str("geo", geo).Msg("unable to get associated group, invalid geo")
 
 		return "", rout.InvalidField("geo")
 	}

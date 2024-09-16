@@ -2,20 +2,19 @@ package graphapi_test
 
 import (
 	"context"
-	"log"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 
+	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
 	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/suite"
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/Yamashou/gqlgenc/clientv2"
-	"github.com/theopenlane/core/pkg/testutils"
 	"github.com/theopenlane/go-turso"
-	"go.uber.org/zap"
-	"go.uber.org/zap/zaptest"
+	"github.com/theopenlane/utils/testutils"
 
 	ent "github.com/theopenlane/dbx/internal/ent/generated"
 	"github.com/theopenlane/dbx/internal/entdb"
@@ -47,6 +46,8 @@ type graphClient struct {
 }
 
 func (suite *GraphTestSuite) SetupSuite() {
+	zerolog.SetGlobalLevel(zerolog.Disabled)
+
 	suite.tf = entdb.NewTestFixture()
 }
 
@@ -55,14 +56,10 @@ func (suite *GraphTestSuite) SetupTest() {
 
 	ctx := context.Background()
 
-	// setup logger
-	logger := zap.NewNop().Sugar()
-
 	// setup mock turso client
 	tc := turso.NewMockClient()
 
 	opts := []ent.Option{
-		ent.Logger(*logger),
 		ent.Turso(tc),
 	}
 
@@ -84,7 +81,7 @@ func (suite *GraphTestSuite) SetupTest() {
 func (suite *GraphTestSuite) TearDownTest() {
 	if suite.client.db != nil {
 		if err := suite.client.db.Close(); err != nil {
-			log.Fatalf("failed to close database: %s", err)
+			log.Fatal().Err(err).Msg("failed to close database")
 		}
 	}
 }
@@ -94,11 +91,9 @@ func (suite *GraphTestSuite) TearDownSuite() {
 }
 
 func graphTestClient(t *testing.T, c *ent.Client) dbxclient.Dbxclient {
-	logger := zaptest.NewLogger(t, zaptest.Level(zap.ErrorLevel)).Sugar()
-
 	srv := handler.NewDefaultServer(
 		graphapi.NewExecutableSchema(
-			graphapi.Config{Resolvers: graphapi.NewResolver(c).WithLogger(logger)},
+			graphapi.Config{Resolvers: graphapi.NewResolver(c)},
 		))
 
 	graphapi.WithTransactions(srv, c)

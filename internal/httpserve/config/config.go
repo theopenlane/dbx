@@ -6,7 +6,6 @@ import (
 	"time"
 
 	echo "github.com/theopenlane/echox"
-	"go.uber.org/zap"
 	"golang.org/x/crypto/acme"
 	"golang.org/x/crypto/acme/autocert"
 
@@ -36,9 +35,6 @@ type (
 	Config struct {
 		// add all the configuration settings for the openlane server
 		Settings config.Config
-
-		// Logger contains the logger used by echo functions
-		Logger *zap.SugaredLogger
 		// Routes contains the handler functions
 		Routes []http.Handler
 		// DefaultMiddleware to enable on the echo server used on all requests

@@ -3,7 +3,6 @@ package handlers
 import (
 	"github.com/redis/go-redis/v9"
 	echo "github.com/theopenlane/echox"
-	"go.uber.org/zap"
 
 	"github.com/theopenlane/iam/sessions"
 
@@ -18,8 +17,6 @@ type Handler struct {
 	DBClient *ent.Client
 	// RedisClient to interact with redis
 	RedisClient *redis.Client
-	// Logger provides the zap logger to do logging things from the handlers
-	Logger *zap.SugaredLogger
 	// ReadyChecks is a set of checkFuncs to determine if the application is "ready" upon startup
 	ReadyChecks Checks
 	// SessionConfig to handle sessions

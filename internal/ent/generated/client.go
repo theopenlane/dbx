@@ -21,7 +21,6 @@ import (
 	"github.com/theopenlane/dbx/internal/ent/generated/group"
 	"github.com/theopenlane/go-turso"
 	"github.com/theopenlane/iam/fgax"
-	"go.uber.org/zap"
 	"gocloud.dev/secrets"
 
 	"github.com/theopenlane/dbx/internal/ent/generated/internal"
@@ -79,7 +78,6 @@ type (
 		inters        *inters
 		SecretsKeeper *secrets.Keeper
 		Authz         fgax.Client
-		Logger        zap.SugaredLogger
 		Turso         *turso.Client
 		HTTPClient    *http.Client
 		// schemaConfig contains alternative names for all tables.
@@ -138,13 +136,6 @@ func SecretsKeeper(v *secrets.Keeper) Option {
 func Authz(v fgax.Client) Option {
 	return func(c *config) {
 		c.Authz = v
-	}
-}
-
-// Logger configures the Logger.
-func Logger(v zap.SugaredLogger) Option {
-	return func(c *config) {
-		c.Logger = v
 	}
 }
 

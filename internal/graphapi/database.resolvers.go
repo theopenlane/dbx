@@ -8,6 +8,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/rs/zerolog/log"
 	"github.com/theopenlane/dbx/internal/ent/generated"
 	"github.com/theopenlane/dbx/internal/ent/generated/database"
 	"github.com/theopenlane/utils/rout"
@@ -20,7 +21,7 @@ func (r *mutationResolver) CreateDatabase(ctx context.Context, input generated.C
 		if generated.IsConstraintError(err) {
 			constraintError := err.(*generated.ConstraintError)
 
-			r.logger.Debugw("constraint error", "error", constraintError.Error())
+			log.Debug().Err(constraintError).Msg("constraint error")
 
 			return nil, constraintError
 		}
@@ -31,7 +32,7 @@ func (r *mutationResolver) CreateDatabase(ctx context.Context, input generated.C
 			return nil, rout.InvalidField(ve.Name)
 		}
 
-		r.logger.Errorw("failed to create database", "error", err)
+		log.Error().Err(err).Msg("failed to create database")
 
 		return nil, err
 	}
@@ -48,13 +49,13 @@ func (r *mutationResolver) UpdateDatabase(ctx context.Context, name string, inpu
 func (r *mutationResolver) DeleteDatabase(ctx context.Context, name string) (*DatabaseDeletePayload, error) {
 	db, err := withTransactionalMutation(ctx).Database.Query().Where(database.NameEQ(name)).Only(ctx)
 	if err != nil {
-		r.logger.Errorw("failed to get database", "error", err)
+		log.Error().Err(err).Msg("failed to get database")
 
 		return nil, err
 	}
 
 	if err := withTransactionalMutation(ctx).Database.DeleteOneID(db.ID).Exec(ctx); err != nil {
-		r.logger.Errorw("failed to delete database", "error", err)
+		log.Error().Err(err).Msg("failed to delete database")
 
 		return nil, err
 	}
@@ -66,7 +67,7 @@ func (r *mutationResolver) DeleteDatabase(ctx context.Context, name string) (*Da
 func (r *queryResolver) Database(ctx context.Context, name string) (*generated.Database, error) {
 	db, err := withTransactionalMutation(ctx).Database.Query().Where(database.NameEQ(name)).Only(ctx)
 	if err != nil {
-		r.logger.Errorw("failed to get database", "error", err)
+		log.Error().Err(err).Msg("failed to get database")
 
 		return nil, err
 	}

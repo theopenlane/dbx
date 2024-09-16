@@ -4,18 +4,22 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"path/filepath"
 	"reflect"
+	"runtime/debug"
 	"strings"
 	"text/tabwriter"
+	"time"
 
 	"github.com/TylerBrock/colorjson"
 	"github.com/Yamashou/gqlgenc/clientv2"
 	homedir "github.com/mitchellh/go-homedir"
+	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 	"github.com/theopenlane/utils/cli/rows"
-	"go.uber.org/zap"
 
 	"github.com/theopenlane/dbx/pkg/dbxclient"
 )
@@ -28,7 +32,6 @@ const (
 
 var (
 	cfgFile string
-	Logger  *zap.SugaredLogger
 )
 
 var (
@@ -96,35 +99,49 @@ func initConfig() {
 	viper.AutomaticEnv() // read in environment variables that match
 
 	err := viper.ReadInConfig()
+	if err == nil {
+		log.Info().Str("file", viper.ConfigFileUsed()).Msg("using config file")
+	}
 
 	GraphAPIHost = fmt.Sprintf("%s%s", RootHost, graphEndpoint)
 
 	setupLogging()
-
-	if err == nil {
-		Logger.Infow("using config file", "file", viper.ConfigFileUsed())
-	}
 }
 
+// setupLogging sets up the logging defaults for the application
 func setupLogging() {
-	cfg := zap.NewProductionConfig()
-	if viper.GetBool("logging.pretty") {
-		cfg = zap.NewDevelopmentConfig()
-	}
+	// setup logging with time and app name
+	log.Logger = zerolog.New(os.Stderr).
+		With().Timestamp().
+		Logger().
+		With().Str("app", appName).
+		Logger()
 
+	// set the log level
+	zerolog.SetGlobalLevel(zerolog.InfoLevel)
+
+	// set the log level to debug if the debug flag is set and add additional information
 	if viper.GetBool("logging.debug") {
-		cfg.Level = zap.NewAtomicLevelAt(zap.DebugLevel)
-	} else {
-		cfg.Level = zap.NewAtomicLevelAt(zap.InfoLevel)
+		zerolog.SetGlobalLevel(zerolog.DebugLevel)
+
+		buildInfo, _ := debug.ReadBuildInfo()
+
+		log.Logger = log.Logger.With().
+			Caller().
+			Int("pid", os.Getpid()).
+			Str("go_version", buildInfo.GoVersion).Logger()
 	}
 
-	l, err := cfg.Build()
-	if err != nil {
-		panic(err)
+	// pretty logging for development
+	if viper.GetBool("logging.pretty") {
+		log.Logger = log.Output(zerolog.ConsoleWriter{
+			Out:        os.Stderr,
+			TimeFormat: time.RFC3339,
+			FormatCaller: func(i interface{}) string {
+				return filepath.Base(fmt.Sprintf("%s", i))
+			},
+		})
 	}
-
-	Logger = l.Sugar().With("app", appName)
-	defer Logger.Sync() //nolint:errcheck
 }
 
 // ViperBindFlag provides a wrapper around the viper bindings that panics if an error occurs
