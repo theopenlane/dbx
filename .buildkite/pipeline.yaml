@@ -37,7 +37,6 @@ steps:
               image: "ghcr.io/theopenlane/build-image:latest"
               always-pull: true
               command: ["task", "go:lint"]
-              always-pull: true
               environment:
                 - "GOTOOLCHAIN=auto"
       - label: ":golang: go test - libsql"
