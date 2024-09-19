@@ -12,4 +12,6 @@
 
 Setup [Taskfile](https://taskfile.dev/installation/) by following the instructions and using one of the various convenient package managers or installation scripts. After installation, you can then simply run `task install` to load the associated dependencies. Nearly everything in this repository assumes you already have a local golang environment setup so this is not included. Please see the associated documentation.
 
+## Contributing
 
+See the [contributing](.github/CONTRIBUTING.md) guide for more information
