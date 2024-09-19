@@ -155,7 +155,7 @@ require (
 	github.com/stoewer/go-strcase v1.3.0 // indirect
 	github.com/stretchr/objx v0.5.2 // indirect
 	github.com/subosito/gotenv v1.6.0 // indirect
-	github.com/theopenlane/utils v0.2.0
+	github.com/theopenlane/utils v0.2.1
 	github.com/tursodatabase/libsql-client-go v0.0.0-20240902231107-85af5b9d094d // indirect
 	github.com/urfave/cli/v2 v2.27.4 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
