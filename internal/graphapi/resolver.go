@@ -14,6 +14,7 @@ import (
 	"github.com/ravilushqa/otelgqlgen"
 	"github.com/rs/zerolog/log"
 	echo "github.com/theopenlane/echox"
+	"github.com/vektah/gqlparser/v2/ast"
 	"github.com/wundergraph/graphql-go-tools/pkg/playground"
 
 	ent "github.com/theopenlane/dbx/internal/ent/generated"
@@ -80,11 +81,11 @@ func (r *Resolver) Handler(withPlayground bool) *Handler {
 	srv.AddTransport(transport.POST{})
 	srv.AddTransport(transport.MultipartForm{})
 
-	srv.SetQueryCache(lru.New(1000)) // nolint:mnd
+	srv.SetQueryCache(lru.New[*ast.QueryDocument](1000)) // nolint:mnd
 
 	srv.Use(extension.Introspection{})
 	srv.Use(extension.AutomaticPersistedQuery{
-		Cache: lru.New(100), // nolint:mnd
+		Cache: lru.New[string](100), // nolint:mnd
 	})
 	// add transactional db client
 	WithTransactions(srv, r.client)
