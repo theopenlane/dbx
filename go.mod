@@ -31,7 +31,7 @@ require (
 	github.com/spf13/viper v1.19.0
 	github.com/stretchr/testify v1.9.0
 	github.com/theopenlane/beacon v0.1.0
-	github.com/theopenlane/core v0.1.10
+	github.com/theopenlane/core v0.1.11
 	github.com/theopenlane/echo-prometheus v0.1.0
 	github.com/theopenlane/echox v0.2.0
 	github.com/theopenlane/entx v0.2.1
@@ -97,7 +97,7 @@ require (
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/go-openapi/inflect v0.21.0 // indirect
 	github.com/go-redis/redis/v8 v8.11.5 // indirect
-	github.com/go-viper/mapstructure/v2 v2.1.0 // indirect
+	github.com/go-viper/mapstructure/v2 v2.2.1 // indirect
 	github.com/goccy/go-json v0.10.3 // indirect
 	github.com/golang-jwt/jwt/v5 v5.2.1 // indirect
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
@@ -137,7 +137,7 @@ require (
 	github.com/ogen-go/ogen v1.3.0 // indirect
 	github.com/oklog/ulid/v2 v2.1.0 // indirect
 	github.com/openfga/api/proto v0.0.0-20240906203051-102620ef2a66 // indirect
-	github.com/openfga/go-sdk v0.6.0 // indirect
+	github.com/openfga/go-sdk v0.6.1 // indirect
 	github.com/openfga/language/pkg/go v0.2.0-beta.2 // indirect
 	github.com/openfga/openfga v1.6.1 // indirect
 	github.com/pelletier/go-toml/v2 v2.2.3 // indirect
