@@ -34,7 +34,7 @@ require (
 	github.com/theopenlane/core v0.1.10
 	github.com/theopenlane/echo-prometheus v0.1.0
 	github.com/theopenlane/echox v0.2.0
-	github.com/theopenlane/entx v0.2.1
+	github.com/theopenlane/entx v0.2.2
 	github.com/theopenlane/go-turso v0.1.0
 	github.com/theopenlane/iam v0.2.0
 	github.com/vektah/gqlparser/v2 v2.5.16
@@ -52,10 +52,6 @@ require (
 	github.com/docker/go-connections v0.5.0 // indirect
 	github.com/docker/go-units v0.5.0 // indirect
 	github.com/hokaccha/go-prettyjson v0.0.0-20211117102719-0474bc63780f // indirect
-	github.com/jackc/pgpassfile v1.0.0 // indirect
-	github.com/jackc/pgservicefile v0.0.0-20240606120523-5a60cdf6a761 // indirect
-	github.com/jackc/pgx/v5 v5.7.1 // indirect
-	github.com/jackc/puddle/v2 v2.2.2 // indirect
 	github.com/lib/pq v1.10.9 // indirect
 	github.com/opencontainers/go-digest v1.0.0 // indirect
 	github.com/opencontainers/image-spec v1.1.0 // indirect
