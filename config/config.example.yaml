@@ -2,7 +2,7 @@ db:
     cacheTTL: 1000000000
     databaseName: openlane
     debug: false
-    driverName: libsql
+    driverName: pgx
     enableHistory: false
     migrationProvider: atlas
     multiWrite: false

@@ -47,7 +47,7 @@ data:
   DBX_SERVER_MIME_DEFAULTCONTENTTYPE: {{ .Values.dbx.server.mime.defaultContentType | "application/data" }}
   DBX_DB_DEBUG: {{ .Values.dbx.db.debug | false }}
   DBX_DB_DATABASENAME: {{ .Values.dbx.db.databaseName | "openlane" }}
-  DBX_DB_DRIVERNAME: {{ .Values.dbx.db.driverName | "libsql" }}
+  DBX_DB_DRIVERNAME: {{ .Values.dbx.db.driverName | "pgx" }}
   DBX_DB_MULTIWRITE: {{ .Values.dbx.db.multiWrite | false }}
   DBX_DB_PRIMARYDBSOURCE: {{ .Values.dbx.db.primaryDbSource | "file:openlane.db" }}
   DBX_DB_SECONDARYDBSOURCE: {{ .Values.dbx.db.secondaryDbSource | "file:backup.db" }}
