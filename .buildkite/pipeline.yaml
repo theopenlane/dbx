@@ -11,7 +11,7 @@ steps:
       - label: ":golang: go generate"
         key: "generate"
         plugins:
-          - docker#v5.11.0:
+          - docker#v5.12.0:
               image: "ghcr.io/theopenlane/build-image:latest"
               always-pull: true
               command: ["task", "ci"]
@@ -20,7 +20,7 @@ steps:
       - label: ":yaml: generate config"
         key: "generate_config"
         plugins:
-          - docker#v5.11.0:
+          - docker#v5.12.0:
               image: "ghcr.io/theopenlane/build-image:latest"
               always-pull: true
               command: ["task", "config:ci"]
@@ -33,7 +33,7 @@ steps:
       - label: ":golangci-lint: lint :lint-roller:"
         key: "lint"
         plugins:
-          - docker#v5.11.0:
+          - docker#v5.12.0:
               image: "ghcr.io/theopenlane/build-image:latest"
               always-pull: true
               command: ["task", "go:lint"]
@@ -44,7 +44,7 @@ steps:
         env:
           TEST_DB_URL: "libsql://file::memory:?cache=shared"
         plugins:
-          - docker#v5.11.0:
+          - docker#v5.12.0:
               image: "ghcr.io/theopenlane/build-image:latest"
               always-pull: true
               command: ["task", "go:test:cover"]
@@ -60,7 +60,7 @@ steps:
           - "docker://postgres:15-alpine"
           - "sqlite://file:ent?mode=memory&cache=shared"
         plugins:
-          - docker#v5.11.0:
+          - docker#v5.12.0:
               image: "ghcr.io/theopenlane/build-image:latest"
               always-pull: true
               command: ["task", "go:test:cover"]
@@ -78,7 +78,7 @@ steps:
       - label: ":closed_lock_with_key: gosec"
         key: "gosec"
         plugins:
-          - docker#v5.11.0:
+          - docker#v5.12.0:
               image: "securego/gosec:2.20.0"
               command: ["-no-fail", "-exclude-generated", "-fmt sonarqube", "-out", "results.txt", "./..."]
               environment:
@@ -94,7 +94,7 @@ steps:
           - artifacts#v1.9.4:
               download: "coverage.out"
               step: "go_test_libsql"
-          - docker#v5.11.0:
+          - docker#v5.12.0:
               image: "sonarsource/sonar-scanner-cli:11.0"
               environment:
                 - "SONAR_TOKEN"
@@ -110,7 +110,7 @@ steps:
           - artifacts#v1.9.4:
               download: coverage.out
               step: "go_test_libsql"
-          - docker#v5.11.0:
+          - docker#v5.12.0:
               image: "sonarsource/sonar-scanner-cli:11.0"
               environment:
                 - "SONAR_TOKEN"
@@ -123,7 +123,7 @@ steps:
         key: "gobuild-server"
         artifact_paths: "bin/${APP_NAME}"
         plugins:
-          - docker#v5.11.0:
+          - docker#v5.12.0:
               image: "ghcr.io/theopenlane/build-image:latest"
               always-pull: true
               command: ["task", "go:build"]
@@ -134,7 +134,7 @@ steps:
         key: "gobuild-cli"
         artifact_paths: "bin/${APP_NAME}-cli"
         plugins:
-          - docker#v5.11.0:
+          - docker#v5.12.0:
               image: "ghcr.io/theopenlane/build-image:latest"
               always-pull: true
               command: ["task", "go:build-cli"]
