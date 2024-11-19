@@ -414,8 +414,8 @@ github.com/theopenlane/go-turso v0.1.0 h1:FoxZMwL1W0b1DAaZTzVrXn6KOh2bKX33nKRHin
 github.com/theopenlane/go-turso v0.1.0/go.mod h1:+EE7wZGdCm+DGLv/KphVdFE7YjmqGH8/mqHpzS/Tbps=
 github.com/theopenlane/iam v0.3.1 h1:qZz/h1dHyuHbKMq4wvpKFCj1Gliq6cpfNNAT1ynK3JA=
 github.com/theopenlane/iam v0.3.1/go.mod h1:wdXzW9XiBzFzagNC7uW/TuwpVMQETrkkNBr0HbU3FEY=
-github.com/theopenlane/utils v0.3.1 h1:CCRre2rpuj35Qij2hWgro0Urg94KJq6aAo2pdaWkziI=
-github.com/theopenlane/utils v0.3.1/go.mod h1:sAvism3Vv8pb0kRj2lYQBYUaAKKRJSwULYoQzzLTTJw=
+github.com/theopenlane/utils v0.4.0 h1:k0DNZFjp1hpwfqObwXb2XgaO0jJ6ULJuJH06c9Ekquk=
+github.com/theopenlane/utils v0.4.0/go.mod h1:sAvism3Vv8pb0kRj2lYQBYUaAKKRJSwULYoQzzLTTJw=
 github.com/tursodatabase/libsql-client-go v0.0.0-20240902231107-85af5b9d094d h1:dOMI4+zEbDI37KGb0TI44GUAwxHF9cMsIoDTJ7UmgfU=
 github.com/tursodatabase/libsql-client-go v0.0.0-20240902231107-85af5b9d094d/go.mod h1:l8xTsYB90uaVdMHXMCxKKLSgw5wLYBwBKKefNIUnm9s=
 github.com/urfave/cli/v2 v2.27.5 h1:WoHEJLdsXr6dDWoJgMq/CboDmyY/8HMMH1fTECbih+w=
