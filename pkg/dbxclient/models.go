@@ -212,13 +212,13 @@ type DatabaseWhereInput struct {
 	DeletedByContainsFold *string  `json:"deletedByContainsFold,omitempty"`
 	// organization_id field predicates
 	OrganizationID             *string  `json:"organizationID,omitempty"`
-	OrganizationIDNeq          *string  `json:"organizationIDNEQ,omitempty"`
+	OrganizationIdneq          *string  `json:"organizationIDNEQ,omitempty"`
 	OrganizationIDIn           []string `json:"organizationIDIn,omitempty"`
 	OrganizationIDNotIn        []string `json:"organizationIDNotIn,omitempty"`
-	OrganizationIDGt           *string  `json:"organizationIDGT,omitempty"`
-	OrganizationIDGte          *string  `json:"organizationIDGTE,omitempty"`
-	OrganizationIDLt           *string  `json:"organizationIDLT,omitempty"`
-	OrganizationIDLte          *string  `json:"organizationIDLTE,omitempty"`
+	OrganizationIdgt           *string  `json:"organizationIDGT,omitempty"`
+	OrganizationIdgte          *string  `json:"organizationIDGTE,omitempty"`
+	OrganizationIdlt           *string  `json:"organizationIDLT,omitempty"`
+	OrganizationIdlte          *string  `json:"organizationIDLTE,omitempty"`
 	OrganizationIDContains     *string  `json:"organizationIDContains,omitempty"`
 	OrganizationIDHasPrefix    *string  `json:"organizationIDHasPrefix,omitempty"`
 	OrganizationIDHasSuffix    *string  `json:"organizationIDHasSuffix,omitempty"`
@@ -270,13 +270,13 @@ type DatabaseWhereInput struct {
 	DsnContainsFold *string  `json:"dsnContainsFold,omitempty"`
 	// group_id field predicates
 	GroupID             *string  `json:"groupID,omitempty"`
-	GroupIDNeq          *string  `json:"groupIDNEQ,omitempty"`
+	GroupIdneq          *string  `json:"groupIDNEQ,omitempty"`
 	GroupIDIn           []string `json:"groupIDIn,omitempty"`
 	GroupIDNotIn        []string `json:"groupIDNotIn,omitempty"`
-	GroupIDGt           *string  `json:"groupIDGT,omitempty"`
-	GroupIDGte          *string  `json:"groupIDGTE,omitempty"`
-	GroupIDLt           *string  `json:"groupIDLT,omitempty"`
-	GroupIDLte          *string  `json:"groupIDLTE,omitempty"`
+	GroupIdgt           *string  `json:"groupIDGT,omitempty"`
+	GroupIdgte          *string  `json:"groupIDGTE,omitempty"`
+	GroupIdlt           *string  `json:"groupIDLT,omitempty"`
+	GroupIdlte          *string  `json:"groupIDLTE,omitempty"`
 	GroupIDContains     *string  `json:"groupIDContains,omitempty"`
 	GroupIDHasPrefix    *string  `json:"groupIDHasPrefix,omitempty"`
 	GroupIDHasSuffix    *string  `json:"groupIDHasSuffix,omitempty"`
