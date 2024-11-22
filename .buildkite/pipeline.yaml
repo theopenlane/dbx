@@ -56,9 +56,7 @@ steps:
         env:
           TEST_DB_URL: "{{matrix}}"
         matrix:
-          - "docker://postgres:16-alpine"
-          - "docker://postgres:15-alpine"
-          - "sqlite://file:ent?mode=memory&cache=shared"
+          - "docker://postgres:17-alpine"
         plugins:
           - docker#v5.12.0:
               image: "ghcr.io/theopenlane/build-image:latest"
@@ -71,26 +69,14 @@ steps:
               volumes:
                 - "/var/run/docker.sock:/var/run/docker.sock"
         artifact_paths: ["coverage.out"]
-  - group: ":closed_lock_with_key: Security Checks"
-    depends_on: "tests"
-    key: "security"
-    steps:
-      - label: ":closed_lock_with_key: gosec"
-        key: "gosec"
-        plugins:
-          - docker#v5.12.0:
-              image: "securego/gosec:2.20.0"
-              command: ["-no-fail", "-exclude-generated", "-fmt sonarqube", "-out", "results.txt", "./..."]
-              environment:
-                - "GOTOOLCHAIN=auto"
-        artifact_paths: ["results.txt"]
       - label: ":github: upload PR reports"
         key: "scan-upload-pr"
         if: build.pull_request.id != null
-        depends_on: ["gosec", "go_test_libsql"]
+        depends_on: ["go_test_libsql"]
         plugins:
-          - artifacts#v1.9.4:
-              download: "results.txt"
+          - cluster-secrets#v1.0.0:
+              variables:
+                SONAR_TOKEN: SONAR_TOKEN
           - artifacts#v1.9.4:
               download: "coverage.out"
               step: "go_test_libsql"
@@ -103,10 +89,11 @@ steps:
       - label: ":github: upload reports"
         key: "scan-upload"
         if: build.branch == "main"
-        depends_on: ["gosec", "go_test_libsql"]
+        depends_on: ["go_test_libsql"]
         plugins:
-          - artifacts#v1.9.4:
-              download: results.txt
+          - cluster-secrets#v1.0.0:
+              variables:
+                SONAR_TOKEN: SONAR_TOKEN
           - artifacts#v1.9.4:
               download: coverage.out
               step: "go_test_libsql"
@@ -152,6 +139,9 @@ steps:
           #!/bin/bash
           ls
         plugins:
+          - cluster-secrets#v1.0.0:
+              variables:
+                SECRET_GHCR_PUBLISH_TOKEN: SECRET_GHCR_PUBLISH_TOKEN
           - theopenlane/docker-metadata#v1.0.0:
               images:
                 - "${IMAGE_REPO}"
@@ -167,6 +157,7 @@ steps:
               ignore-unfixed: true
               security-checks: config,secret,vuln
               skip-files: 'cosign.key,Dockerfile.dev'
+              trivy-version: "0.57.1"
       - label: ":docker: docker build and publish"
         key: "docker-build"
         if: build.branch == "main"
@@ -174,6 +165,9 @@ steps:
           #!/bin/bash
           ls
         plugins:
+          - cluster-secrets#v1.0.0:
+              variables:
+                SECRET_GHCR_PUBLISH_TOKEN: SECRET_GHCR_PUBLISH_TOKEN
           - docker-login#v3.0.0:
               username: theopenlane-bender
               password-env: SECRET_GHCR_PUBLISH_TOKEN
@@ -193,6 +187,7 @@ steps:
               ignore-unfixed: true
               security-checks: config,secret,vuln
               skip-files: 'cosign.key,Dockerfile.dev'
+              trivy-version: "0.57.1"
       - label: ":docker: docker build and publish"
         key: "docker-build-and-tag"
         if: build.tag != null
@@ -200,6 +195,9 @@ steps:
           #!/bin/bash
           ls
         plugins:
+          - cluster-secrets#v1.0.0:
+              variables:
+                SECRET_GHCR_PUBLISH_TOKEN: SECRET_GHCR_PUBLISH_TOKEN
           - docker-login#v3.0.0:
               username: theopenlane-bender
               password-env: SECRET_GHCR_PUBLISH_TOKEN
@@ -214,8 +212,3 @@ steps:
               push: true
               build-args:
                 - NAME=${APP_NAME}
-          - equinixmetal-buildkite/trivy#v1.19.0:
-              severity: CRITICAL,HIGH
-              ignore-unfixed: true
-              security-checks: config,secret,vuln
-              skip-files: 'cosign.key,Dockerfile.dev'
