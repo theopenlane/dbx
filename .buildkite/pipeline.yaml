@@ -142,6 +142,10 @@ steps:
           - cluster-secrets#v1.0.0:
               variables:
                 SECRET_GHCR_PUBLISH_TOKEN: SECRET_GHCR_PUBLISH_TOKEN
+          - docker-login#v3.0.0:
+              username: theopenlane-bender
+              password-env: SECRET_GHCR_PUBLISH_TOKEN
+              server: ghcr.io
           - theopenlane/docker-metadata#v1.0.0:
               images:
                 - "${IMAGE_REPO}"
