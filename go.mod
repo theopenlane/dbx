@@ -29,7 +29,7 @@ require (
 	github.com/spf13/cobra v1.8.1
 	github.com/spf13/pflag v1.0.5
 	github.com/spf13/viper v1.19.0
-	github.com/stretchr/testify v1.9.0
+	github.com/stretchr/testify v1.10.0
 	github.com/theopenlane/beacon v0.1.0
 	github.com/theopenlane/core v0.4.2
 	github.com/theopenlane/echo-prometheus v0.1.0
