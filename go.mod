@@ -8,7 +8,7 @@ require (
 	entgo.io/ent v0.14.1
 	github.com/99designs/gqlgen v0.17.57
 	github.com/TylerBrock/colorjson v0.0.0-20200706003622-8a50f05110d2
-	github.com/Yamashou/gqlgenc v0.27.2
+	github.com/Yamashou/gqlgenc v0.27.3
 	github.com/brianvoe/gofakeit/v7 v7.1.2
 	github.com/gorilla/websocket v1.5.3
 	github.com/hashicorp/go-multierror v1.1.1
