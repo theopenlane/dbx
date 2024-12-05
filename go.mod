@@ -36,7 +36,7 @@ require (
 	github.com/theopenlane/echox v0.2.0
 	github.com/theopenlane/entx v0.2.3
 	github.com/theopenlane/go-turso v0.1.0
-	github.com/theopenlane/iam v0.4.0
+	github.com/theopenlane/iam v0.4.1
 	github.com/vektah/gqlparser/v2 v2.5.20
 	github.com/wundergraph/graphql-go-tools v1.67.4
 	gocloud.dev v0.40.0
@@ -196,9 +196,9 @@ require (
 	golang.org/x/time v0.8.0 // indirect
 	golang.org/x/tools v0.27.0 // indirect
 	golang.org/x/xerrors v0.0.0-20240716161551-93cc26a95ae9 // indirect
-	google.golang.org/api v0.209.0 // indirect
+	google.golang.org/api v0.210.0 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20241104194629-dd2ea8efbc28 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20241113202542-65e8d215514f // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20241118233622-e639e219e697 // indirect
 	google.golang.org/grpc v1.67.1 // indirect
 	google.golang.org/protobuf v1.35.2 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
