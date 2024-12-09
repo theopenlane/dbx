@@ -76,8 +76,6 @@ github.com/cespare/xxhash/v2 v2.3.0 h1:UL815xU9SqsFlibzuggzjXhog7bL6oX9BbNZnL2UF
 github.com/cespare/xxhash/v2 v2.3.0/go.mod h1:VGX0DQ3Q6kWi7AoAeZDth3/j3BFtOZR5XLFGgcrjCOs=
 github.com/client9/misspell v0.3.4/go.mod h1:qj6jICC3Q7zFZvVWo7KLAzC3yx5G7kyvSDkc90ppPyw=
 github.com/cncf/udpa/go v0.0.0-20191209042840-269d4d468f6f/go.mod h1:M8M6+tZqaGXZJjfX53e64911xZQV5JYwmTeXPW+k8Sc=
-github.com/coder/websocket v1.8.12 h1:5bUXkEPPIbewrnkU8LTCLVaxi4N4J8ahufH2vlo4NAo=
-github.com/coder/websocket v1.8.12/go.mod h1:LNVeNrXQZfe5qhS9ALED3uA+l5pPqvwXg3CKoDBB2gs=
 github.com/containerd/continuity v0.4.3 h1:6HVkalIp+2u1ZLH1J/pYX2oBVXlJZvh1X1A7bEZ9Su8=
 github.com/containerd/continuity v0.4.3/go.mod h1:F6PTNCKepoxEaXLQp3wDAjygEnImnZ/7o4JzpodfroQ=
 github.com/coreos/go-systemd/v22 v22.5.0/go.mod h1:Y58oyj3AT4RCenI/lSvhwexgC+NSVTIJ3seZv2GcEnc=
@@ -414,10 +412,8 @@ github.com/theopenlane/go-turso v0.1.0 h1:FoxZMwL1W0b1DAaZTzVrXn6KOh2bKX33nKRHin
 github.com/theopenlane/go-turso v0.1.0/go.mod h1:+EE7wZGdCm+DGLv/KphVdFE7YjmqGH8/mqHpzS/Tbps=
 github.com/theopenlane/iam v0.4.1 h1:P8cvguKu/m2ok26aTnQoFMlZplDev+HOZVNT5rmxyWQ=
 github.com/theopenlane/iam v0.4.1/go.mod h1:KkoLje0sGxNgScBEBC57/e4MeUQcQ2cfF2CbjcfYLPM=
-github.com/theopenlane/utils v0.4.0 h1:k0DNZFjp1hpwfqObwXb2XgaO0jJ6ULJuJH06c9Ekquk=
-github.com/theopenlane/utils v0.4.0/go.mod h1:sAvism3Vv8pb0kRj2lYQBYUaAKKRJSwULYoQzzLTTJw=
-github.com/tursodatabase/libsql-client-go v0.0.0-20240902231107-85af5b9d094d h1:dOMI4+zEbDI37KGb0TI44GUAwxHF9cMsIoDTJ7UmgfU=
-github.com/tursodatabase/libsql-client-go v0.0.0-20240902231107-85af5b9d094d/go.mod h1:l8xTsYB90uaVdMHXMCxKKLSgw5wLYBwBKKefNIUnm9s=
+github.com/theopenlane/utils v0.4.2 h1:f72oSi3lQj05QRZKiqqSSqy4RY4Wgy1qIRv3RGjftVE=
+github.com/theopenlane/utils v0.4.2/go.mod h1:rGGqAI6hxDZVAUB+kmp7HOzD9RmHnsH6K/nr9QQgsTs=
 github.com/urfave/cli/v2 v2.27.5 h1:WoHEJLdsXr6dDWoJgMq/CboDmyY/8HMMH1fTECbih+w=
 github.com/urfave/cli/v2 v2.27.5/go.mod h1:3Sevf16NykTbInEnD0yKkjDAeZDS0A6bzhBH5hrMvTQ=
 github.com/valyala/bytebufferpool v1.0.0 h1:GqA5TC/0021Y/b9FG4Oi9Mr3q7XYx6KllzawFIhcdPw=
