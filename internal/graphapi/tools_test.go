@@ -12,6 +12,7 @@ import (
 	"github.com/stretchr/testify/suite"
 
 	"github.com/99designs/gqlgen/graphql/handler"
+	"github.com/99designs/gqlgen/graphql/handler/transport"
 	"github.com/Yamashou/gqlgenc/clientv2"
 	"github.com/theopenlane/go-turso"
 	"github.com/theopenlane/utils/testutils"
@@ -20,6 +21,9 @@ import (
 	"github.com/theopenlane/dbx/internal/entdb"
 	"github.com/theopenlane/dbx/internal/graphapi"
 	"github.com/theopenlane/dbx/pkg/dbxclient"
+
+	_ "github.com/tursodatabase/libsql-client-go/libsql"
+	_ "modernc.org/sqlite"
 )
 
 // TestGraphTestSuite runs all the tests in the GraphTestSuite
@@ -91,10 +95,16 @@ func (suite *GraphTestSuite) TearDownSuite() {
 }
 
 func graphTestClient(t *testing.T, c *ent.Client) dbxclient.Dbxclient {
-	srv := handler.NewDefaultServer(
+	srv := handler.New(
 		graphapi.NewExecutableSchema(
 			graphapi.Config{Resolvers: graphapi.NewResolver(c)},
 		))
+
+	// add all the transports to the server
+	srv.AddTransport(transport.Options{})
+	srv.AddTransport(transport.GET{})
+	srv.AddTransport(transport.POST{})
+	srv.AddTransport(transport.MultipartForm{})
 
 	graphapi.WithTransactions(srv, c)
 

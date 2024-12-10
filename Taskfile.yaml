@@ -82,7 +82,7 @@ tasks:
   go:build:
     desc: Runs go build for the dbx server
     cmds:
-      - go build -mod=mod -o dbx
+      - "{{ .GOOS }} {{ .GOARCH }} go build -mod=mod -o dbx"
 
   go:build-cli:
     aliases: [buildcli]

@@ -60,7 +60,7 @@ type Handler struct {
 
 // Handler returns an http handler for a graph resolver
 func (r *Resolver) Handler(withPlayground bool) *Handler {
-	srv := handler.NewDefaultServer(
+	srv := handler.New(
 		NewExecutableSchema(
 			Config{
 				Resolvers: r,
