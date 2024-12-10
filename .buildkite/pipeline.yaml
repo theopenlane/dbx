@@ -28,7 +28,6 @@ steps:
                 - "GOTOOLCHAIN=auto"
   - group: ":test_tube: Tests"
     key: "tests"
-    depends_on: "precheck"
     steps:
       - label: ":golangci-lint: lint :lint-roller:"
         key: "lint"
@@ -104,7 +103,6 @@ steps:
                 - "SONAR_TOKEN"
                 - "SONAR_HOST_URL=$SONAR_HOST"
   - group: ":golang: Builds"
-    depends_on: "tests"
     if: build.branch !~ /^renovate\//
     key: "go-builds"
     steps:
@@ -115,7 +113,7 @@ steps:
           - docker#v5.12.0:
               image: "ghcr.io/theopenlane/build-image:latest"
               always-pull: true
-              command: ["task", "go:build":ci]
+              command: ["task", "go:build:ci"]
               environment:
                 - CGO_ENABLED=0
                 - GOOS=linux
