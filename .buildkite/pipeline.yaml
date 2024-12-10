@@ -28,10 +28,10 @@ steps:
                 - "GOTOOLCHAIN=auto"
   - group: ":test_tube: Tests"
     key: "tests"
-    depends_on: "precheck"
     steps:
       - label: ":golangci-lint: lint :lint-roller:"
         key: "lint"
+        if: build.branch !~ /^renovate\//
         plugins:
           - docker#v5.12.0:
               image: "ghcr.io/theopenlane/build-image:latest"
@@ -103,7 +103,7 @@ steps:
                 - "SONAR_TOKEN"
                 - "SONAR_HOST_URL=$SONAR_HOST"
   - group: ":golang: Builds"
-    depends_on: "tests"
+    if: build.branch !~ /^renovate\//
     key: "go-builds"
     steps:
       - label: ":golang: build"
@@ -113,7 +113,7 @@ steps:
           - docker#v5.12.0:
               image: "ghcr.io/theopenlane/build-image:latest"
               always-pull: true
-              command: ["task", "go:build"]
+              command: ["task", "go:build:ci"]
               environment:
                 - CGO_ENABLED=0
                 - GOOS=linux
@@ -124,12 +124,13 @@ steps:
           - docker#v5.12.0:
               image: "ghcr.io/theopenlane/build-image:latest"
               always-pull: true
-              command: ["task", "go:build-cli"]
+              command: ["task", "go:build-cli:ci"]
               environment:
                 - GOOS=darwin
                 - GOARCH=arm64
   - group: ":docker: Image Build"
     depends_on: "go-builds"
+    if: build.branch !~ /^renovate\//
     key: "image-build"
     steps:
       - label: ":docker: docker pr build"
@@ -139,6 +140,11 @@ steps:
           #!/bin/bash
           ls
         plugins:
+          - artifacts#v1.9.4:
+              download:
+                - from: "bin/${APP_NAME}"
+                  to: "${APP_NAME}"
+              step: "gobuild-server"
           - cluster-secrets#v1.0.0:
               variables:
                 SECRET_GHCR_PUBLISH_TOKEN: SECRET_GHCR_PUBLISH_TOKEN
@@ -169,6 +175,10 @@ steps:
           #!/bin/bash
           ls
         plugins:
+          - artifacts#v1.9.4:
+              download:
+                - from: "bin/${APP_NAME}"
+                  to: "${APP_NAME}"
           - cluster-secrets#v1.0.0:
               variables:
                 SECRET_GHCR_PUBLISH_TOKEN: SECRET_GHCR_PUBLISH_TOKEN
@@ -199,6 +209,10 @@ steps:
           #!/bin/bash
           ls
         plugins:
+          - artifacts#v1.9.4:
+              download:
+                - from: "bin/${APP_NAME}"
+                  to: "${APP_NAME}"
           - cluster-secrets#v1.0.0:
               variables:
                 SECRET_GHCR_PUBLISH_TOKEN: SECRET_GHCR_PUBLISH_TOKEN
