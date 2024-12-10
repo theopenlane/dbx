@@ -115,7 +115,7 @@ steps:
           - docker#v5.12.0:
               image: "ghcr.io/theopenlane/build-image:latest"
               always-pull: true
-              command: ["task", "go:build"]
+              command: ["task", "go:build":ci]
               environment:
                 - CGO_ENABLED=0
                 - GOOS=linux
@@ -126,7 +126,7 @@ steps:
           - docker#v5.12.0:
               image: "ghcr.io/theopenlane/build-image:latest"
               always-pull: true
-              command: ["task", "go:build-cli"]
+              command: ["task", "go:build-cli:ci"]
               environment:
                 - GOOS=darwin
                 - GOARCH=arm64
