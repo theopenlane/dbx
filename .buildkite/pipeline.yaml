@@ -32,6 +32,7 @@ steps:
     steps:
       - label: ":golangci-lint: lint :lint-roller:"
         key: "lint"
+        if: build.branch !~ /^renovate\//
         plugins:
           - docker#v5.12.0:
               image: "ghcr.io/theopenlane/build-image:latest"
@@ -104,6 +105,7 @@ steps:
                 - "SONAR_HOST_URL=$SONAR_HOST"
   - group: ":golang: Builds"
     depends_on: "tests"
+    if: build.branch !~ /^renovate\//
     key: "go-builds"
     steps:
       - label: ":golang: build"
@@ -130,6 +132,7 @@ steps:
                 - GOARCH=arm64
   - group: ":docker: Image Build"
     depends_on: "go-builds"
+    if: build.branch !~ /^renovate\//
     key: "image-build"
     steps:
       - label: ":docker: docker pr build"
