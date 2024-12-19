@@ -410,8 +410,8 @@ github.com/theopenlane/core v0.6.1 h1:BtcNta7Mqmd59KBES9GtKJzYR5cSlwvFwfQHLwTW0e
 github.com/theopenlane/core v0.6.1/go.mod h1:fwVDlee7axq0WH3ZGgSQZtXS24iDRvWzqUkYV2EjjM8=
 github.com/theopenlane/echo-prometheus v0.1.0 h1:1zMejBVHe5w4zLHS+k5FV9S/46QBiwO6ggTSKi6r/7E=
 github.com/theopenlane/echo-prometheus v0.1.0/go.mod h1:Eiiv1ZLXKMsteQ3T+H1tFfSSZuXSvQfZp95qr5hmGkA=
-github.com/theopenlane/echox v0.2.0 h1:s9DJJrsLOSPsXVfgmQxgXmSVtxzztBnSmcVX4ax7tIM=
-github.com/theopenlane/echox v0.2.0/go.mod h1:nfxwQpwvqYYI/pFHJKDs3/HLvjYKEGCih4XDgLSma64=
+github.com/theopenlane/echox v0.2.1 h1:ZhVkimmWxpKITf67oM57SrLWeIdnV8+dNXlC+VzlRaQ=
+github.com/theopenlane/echox v0.2.1/go.mod h1:4j/Hx0uoLk5gVzdA83Qqz7xBEmqpoEP+OnzVaw2p6/o=
 github.com/theopenlane/entx v0.3.0 h1:8aSordsEdpH1Fo0N6qgPgIcSryMBiF+sx/1bYjXuqYY=
 github.com/theopenlane/entx v0.3.0/go.mod h1:JhpipQ1Rcg/XYYIDUB4PcaWMqsUE0VO9tZzMHqYjQtQ=
 github.com/theopenlane/go-turso v0.1.0 h1:FoxZMwL1W0b1DAaZTzVrXn6KOh2bKX33nKRHinytaAQ=
