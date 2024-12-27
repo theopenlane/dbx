@@ -6,7 +6,7 @@ require (
 	ariga.io/entcache v0.1.0
 	entgo.io/contrib v0.6.0
 	entgo.io/ent v0.14.1
-	github.com/99designs/gqlgen v0.17.60
+	github.com/99designs/gqlgen v0.17.61
 	github.com/TylerBrock/colorjson v0.0.0-20200706003622-8a50f05110d2
 	github.com/Yamashou/gqlgenc v0.28.1
 	github.com/brianvoe/gofakeit/v7 v7.1.2
@@ -34,7 +34,7 @@ require (
 	github.com/theopenlane/core v0.6.2
 	github.com/theopenlane/echo-prometheus v0.1.0
 	github.com/theopenlane/echox v0.2.0
-	github.com/theopenlane/entx v0.3.0
+	github.com/theopenlane/entx v0.3.1
 	github.com/theopenlane/go-turso v0.1.0
 	github.com/theopenlane/iam v0.5.0
 	github.com/tursodatabase/libsql-client-go v0.0.0-20240902231107-85af5b9d094d
@@ -88,7 +88,7 @@ require (
 
 require (
 	ariga.io/atlas v0.26.1 // indirect
-	github.com/XSAM/otelsql v0.35.0 // indirect
+	github.com/XSAM/otelsql v0.36.0 // indirect
 	github.com/agext/levenshtein v1.2.3 // indirect
 	github.com/agnivade/levenshtein v1.2.0 // indirect
 	github.com/antlr4-go/antlr/v4 v4.13.1 // indirect
