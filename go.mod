@@ -41,7 +41,7 @@ require (
 	github.com/vektah/gqlparser/v2 v2.5.21
 	github.com/wundergraph/graphql-go-tools v1.67.4
 	gocloud.dev v0.40.0
-	golang.org/x/crypto v0.31.0
+	golang.org/x/crypto v0.32.0
 	modernc.org/sqlite v1.34.4
 )
 
@@ -201,7 +201,7 @@ require (
 	golang.org/x/net v0.33.0 // indirect
 	golang.org/x/oauth2 v0.24.0 // indirect
 	golang.org/x/sync v0.10.0 // indirect
-	golang.org/x/sys v0.28.0 // indirect
+	golang.org/x/sys v0.29.0 // indirect
 	golang.org/x/text v0.21.0 // indirect
 	golang.org/x/time v0.8.0 // indirect
 	golang.org/x/tools v0.28.0 // indirect
