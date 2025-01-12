@@ -10,10 +10,10 @@ import (
 )
 
 type Dbxclient interface {
-	GetDatabase(ctx context.Context, name string, interceptors ...clientv2.RequestInterceptor) (*GetDatabase, error)
-	GetAllDatabases(ctx context.Context, interceptors ...clientv2.RequestInterceptor) (*GetAllDatabases, error)
 	CreateDatabase(ctx context.Context, input CreateDatabaseInput, interceptors ...clientv2.RequestInterceptor) (*CreateDatabase, error)
 	DeleteDatabase(ctx context.Context, name string, interceptors ...clientv2.RequestInterceptor) (*DeleteDatabase, error)
+	GetAllDatabases(ctx context.Context, interceptors ...clientv2.RequestInterceptor) (*GetAllDatabases, error)
+	GetDatabase(ctx context.Context, name string, interceptors ...clientv2.RequestInterceptor) (*GetDatabase, error)
 	GetGroup(ctx context.Context, name string, interceptors ...clientv2.RequestInterceptor) (*GetGroup, error)
 	GetAllGroups(ctx context.Context, interceptors ...clientv2.RequestInterceptor) (*GetAllGroups, error)
 	CreateGroup(ctx context.Context, input CreateGroupInput, interceptors ...clientv2.RequestInterceptor) (*CreateGroup, error)
@@ -28,144 +28,28 @@ func NewClient(cli clientv2.HttpClient, baseURL string, options *clientv2.Option
 	return &Client{Client: clientv2.NewClient(cli, baseURL, options, interceptors...)}
 }
 
-type GetDatabase_Database struct {
-	ID             string                 "json:\"id\" graphql:\"id\""
-	Name           string                 "json:\"name\" graphql:\"name\""
-	OrganizationID string                 "json:\"organizationID\" graphql:\"organizationID\""
-	Provider       enums.DatabaseProvider "json:\"provider\" graphql:\"provider\""
-	Status         enums.DatabaseStatus   "json:\"status\" graphql:\"status\""
-	Dsn            string                 "json:\"dsn\" graphql:\"dsn\""
-	Geo            *string                "json:\"geo,omitempty\" graphql:\"geo\""
-}
-
-func (t *GetDatabase_Database) GetID() string {
-	if t == nil {
-		t = &GetDatabase_Database{}
-	}
-	return t.ID
-}
-func (t *GetDatabase_Database) GetName() string {
-	if t == nil {
-		t = &GetDatabase_Database{}
-	}
-	return t.Name
-}
-func (t *GetDatabase_Database) GetOrganizationID() string {
-	if t == nil {
-		t = &GetDatabase_Database{}
-	}
-	return t.OrganizationID
-}
-func (t *GetDatabase_Database) GetProvider() *enums.DatabaseProvider {
-	if t == nil {
-		t = &GetDatabase_Database{}
-	}
-	return &t.Provider
-}
-func (t *GetDatabase_Database) GetStatus() *enums.DatabaseStatus {
-	if t == nil {
-		t = &GetDatabase_Database{}
-	}
-	return &t.Status
-}
-func (t *GetDatabase_Database) GetDsn() string {
-	if t == nil {
-		t = &GetDatabase_Database{}
-	}
-	return t.Dsn
-}
-func (t *GetDatabase_Database) GetGeo() *string {
-	if t == nil {
-		t = &GetDatabase_Database{}
-	}
-	return t.Geo
-}
-
-type GetAllDatabases_Databases_Edges_Node struct {
-	ID             string                 "json:\"id\" graphql:\"id\""
-	Name           string                 "json:\"name\" graphql:\"name\""
-	OrganizationID string                 "json:\"organizationID\" graphql:\"organizationID\""
-	Provider       enums.DatabaseProvider "json:\"provider\" graphql:\"provider\""
-	Status         enums.DatabaseStatus   "json:\"status\" graphql:\"status\""
-	Dsn            string                 "json:\"dsn\" graphql:\"dsn\""
-	Geo            *string                "json:\"geo,omitempty\" graphql:\"geo\""
-}
-
-func (t *GetAllDatabases_Databases_Edges_Node) GetID() string {
-	if t == nil {
-		t = &GetAllDatabases_Databases_Edges_Node{}
-	}
-	return t.ID
-}
-func (t *GetAllDatabases_Databases_Edges_Node) GetName() string {
-	if t == nil {
-		t = &GetAllDatabases_Databases_Edges_Node{}
-	}
-	return t.Name
-}
-func (t *GetAllDatabases_Databases_Edges_Node) GetOrganizationID() string {
-	if t == nil {
-		t = &GetAllDatabases_Databases_Edges_Node{}
-	}
-	return t.OrganizationID
-}
-func (t *GetAllDatabases_Databases_Edges_Node) GetProvider() *enums.DatabaseProvider {
-	if t == nil {
-		t = &GetAllDatabases_Databases_Edges_Node{}
-	}
-	return &t.Provider
-}
-func (t *GetAllDatabases_Databases_Edges_Node) GetStatus() *enums.DatabaseStatus {
-	if t == nil {
-		t = &GetAllDatabases_Databases_Edges_Node{}
-	}
-	return &t.Status
-}
-func (t *GetAllDatabases_Databases_Edges_Node) GetDsn() string {
-	if t == nil {
-		t = &GetAllDatabases_Databases_Edges_Node{}
-	}
-	return t.Dsn
-}
-func (t *GetAllDatabases_Databases_Edges_Node) GetGeo() *string {
-	if t == nil {
-		t = &GetAllDatabases_Databases_Edges_Node{}
-	}
-	return t.Geo
-}
-
-type GetAllDatabases_Databases_Edges struct {
-	Node *GetAllDatabases_Databases_Edges_Node "json:\"node,omitempty\" graphql:\"node\""
-}
-
-func (t *GetAllDatabases_Databases_Edges) GetNode() *GetAllDatabases_Databases_Edges_Node {
-	if t == nil {
-		t = &GetAllDatabases_Databases_Edges{}
-	}
-	return t.Node
-}
-
-type GetAllDatabases_Databases struct {
-	Edges []*GetAllDatabases_Databases_Edges "json:\"edges,omitempty\" graphql:\"edges\""
-}
-
-func (t *GetAllDatabases_Databases) GetEdges() []*GetAllDatabases_Databases_Edges {
-	if t == nil {
-		t = &GetAllDatabases_Databases{}
-	}
-	return t.Edges
-}
-
 type CreateDatabase_CreateDatabase_Database struct {
+	Dsn            string                 "json:\"dsn\" graphql:\"dsn\""
+	Geo            *string                "json:\"geo,omitempty\" graphql:\"geo\""
 	ID             string                 "json:\"id\" graphql:\"id\""
 	Name           string                 "json:\"name\" graphql:\"name\""
 	OrganizationID string                 "json:\"organizationID\" graphql:\"organizationID\""
 	Provider       enums.DatabaseProvider "json:\"provider\" graphql:\"provider\""
 	Status         enums.DatabaseStatus   "json:\"status\" graphql:\"status\""
-	Dsn            string                 "json:\"dsn\" graphql:\"dsn\""
-	Geo            *string                "json:\"geo,omitempty\" graphql:\"geo\""
 }
 
+func (t *CreateDatabase_CreateDatabase_Database) GetDsn() string {
+	if t == nil {
+		t = &CreateDatabase_CreateDatabase_Database{}
+	}
+	return t.Dsn
+}
+func (t *CreateDatabase_CreateDatabase_Database) GetGeo() *string {
+	if t == nil {
+		t = &CreateDatabase_CreateDatabase_Database{}
+	}
+	return t.Geo
+}
 func (t *CreateDatabase_CreateDatabase_Database) GetID() string {
 	if t == nil {
 		t = &CreateDatabase_CreateDatabase_Database{}
@@ -196,18 +80,6 @@ func (t *CreateDatabase_CreateDatabase_Database) GetStatus() *enums.DatabaseStat
 	}
 	return &t.Status
 }
-func (t *CreateDatabase_CreateDatabase_Database) GetDsn() string {
-	if t == nil {
-		t = &CreateDatabase_CreateDatabase_Database{}
-	}
-	return t.Dsn
-}
-func (t *CreateDatabase_CreateDatabase_Database) GetGeo() *string {
-	if t == nil {
-		t = &CreateDatabase_CreateDatabase_Database{}
-	}
-	return t.Geo
-}
 
 type CreateDatabase_CreateDatabase struct {
 	Database CreateDatabase_CreateDatabase_Database "json:\"database\" graphql:\"database\""
@@ -231,20 +103,160 @@ func (t *DeleteDatabase_DeleteDatabase) GetDeletedID() string {
 	return t.DeletedID
 }
 
+type GetAllDatabases_Databases_Edges_Node struct {
+	Dsn            string                 "json:\"dsn\" graphql:\"dsn\""
+	Geo            *string                "json:\"geo,omitempty\" graphql:\"geo\""
+	ID             string                 "json:\"id\" graphql:\"id\""
+	Name           string                 "json:\"name\" graphql:\"name\""
+	OrganizationID string                 "json:\"organizationID\" graphql:\"organizationID\""
+	Provider       enums.DatabaseProvider "json:\"provider\" graphql:\"provider\""
+	Status         enums.DatabaseStatus   "json:\"status\" graphql:\"status\""
+}
+
+func (t *GetAllDatabases_Databases_Edges_Node) GetDsn() string {
+	if t == nil {
+		t = &GetAllDatabases_Databases_Edges_Node{}
+	}
+	return t.Dsn
+}
+func (t *GetAllDatabases_Databases_Edges_Node) GetGeo() *string {
+	if t == nil {
+		t = &GetAllDatabases_Databases_Edges_Node{}
+	}
+	return t.Geo
+}
+func (t *GetAllDatabases_Databases_Edges_Node) GetID() string {
+	if t == nil {
+		t = &GetAllDatabases_Databases_Edges_Node{}
+	}
+	return t.ID
+}
+func (t *GetAllDatabases_Databases_Edges_Node) GetName() string {
+	if t == nil {
+		t = &GetAllDatabases_Databases_Edges_Node{}
+	}
+	return t.Name
+}
+func (t *GetAllDatabases_Databases_Edges_Node) GetOrganizationID() string {
+	if t == nil {
+		t = &GetAllDatabases_Databases_Edges_Node{}
+	}
+	return t.OrganizationID
+}
+func (t *GetAllDatabases_Databases_Edges_Node) GetProvider() *enums.DatabaseProvider {
+	if t == nil {
+		t = &GetAllDatabases_Databases_Edges_Node{}
+	}
+	return &t.Provider
+}
+func (t *GetAllDatabases_Databases_Edges_Node) GetStatus() *enums.DatabaseStatus {
+	if t == nil {
+		t = &GetAllDatabases_Databases_Edges_Node{}
+	}
+	return &t.Status
+}
+
+type GetAllDatabases_Databases_Edges struct {
+	Node *GetAllDatabases_Databases_Edges_Node "json:\"node,omitempty\" graphql:\"node\""
+}
+
+func (t *GetAllDatabases_Databases_Edges) GetNode() *GetAllDatabases_Databases_Edges_Node {
+	if t == nil {
+		t = &GetAllDatabases_Databases_Edges{}
+	}
+	return t.Node
+}
+
+type GetAllDatabases_Databases struct {
+	Edges []*GetAllDatabases_Databases_Edges "json:\"edges,omitempty\" graphql:\"edges\""
+}
+
+func (t *GetAllDatabases_Databases) GetEdges() []*GetAllDatabases_Databases_Edges {
+	if t == nil {
+		t = &GetAllDatabases_Databases{}
+	}
+	return t.Edges
+}
+
+type GetDatabase_Database struct {
+	Dsn            string                 "json:\"dsn\" graphql:\"dsn\""
+	Geo            *string                "json:\"geo,omitempty\" graphql:\"geo\""
+	ID             string                 "json:\"id\" graphql:\"id\""
+	Name           string                 "json:\"name\" graphql:\"name\""
+	OrganizationID string                 "json:\"organizationID\" graphql:\"organizationID\""
+	Provider       enums.DatabaseProvider "json:\"provider\" graphql:\"provider\""
+	Status         enums.DatabaseStatus   "json:\"status\" graphql:\"status\""
+}
+
+func (t *GetDatabase_Database) GetDsn() string {
+	if t == nil {
+		t = &GetDatabase_Database{}
+	}
+	return t.Dsn
+}
+func (t *GetDatabase_Database) GetGeo() *string {
+	if t == nil {
+		t = &GetDatabase_Database{}
+	}
+	return t.Geo
+}
+func (t *GetDatabase_Database) GetID() string {
+	if t == nil {
+		t = &GetDatabase_Database{}
+	}
+	return t.ID
+}
+func (t *GetDatabase_Database) GetName() string {
+	if t == nil {
+		t = &GetDatabase_Database{}
+	}
+	return t.Name
+}
+func (t *GetDatabase_Database) GetOrganizationID() string {
+	if t == nil {
+		t = &GetDatabase_Database{}
+	}
+	return t.OrganizationID
+}
+func (t *GetDatabase_Database) GetProvider() *enums.DatabaseProvider {
+	if t == nil {
+		t = &GetDatabase_Database{}
+	}
+	return &t.Provider
+}
+func (t *GetDatabase_Database) GetStatus() *enums.DatabaseStatus {
+	if t == nil {
+		t = &GetDatabase_Database{}
+	}
+	return &t.Status
+}
+
 type GetGroup_Group struct {
-	ID              string       "json:\"id\" graphql:\"id\""
-	Name            string       "json:\"name\" graphql:\"name\""
 	Description     *string      "json:\"description,omitempty\" graphql:\"description\""
-	PrimaryLocation string       "json:\"primaryLocation\" graphql:\"primaryLocation\""
+	ID              string       "json:\"id\" graphql:\"id\""
 	Locations       []string     "json:\"locations,omitempty\" graphql:\"locations\""
+	Name            string       "json:\"name\" graphql:\"name\""
+	PrimaryLocation string       "json:\"primaryLocation\" graphql:\"primaryLocation\""
 	Region          enums.Region "json:\"region\" graphql:\"region\""
 }
 
+func (t *GetGroup_Group) GetDescription() *string {
+	if t == nil {
+		t = &GetGroup_Group{}
+	}
+	return t.Description
+}
 func (t *GetGroup_Group) GetID() string {
 	if t == nil {
 		t = &GetGroup_Group{}
 	}
 	return t.ID
+}
+func (t *GetGroup_Group) GetLocations() []string {
+	if t == nil {
+		t = &GetGroup_Group{}
+	}
+	return t.Locations
 }
 func (t *GetGroup_Group) GetName() string {
 	if t == nil {
@@ -252,23 +264,11 @@ func (t *GetGroup_Group) GetName() string {
 	}
 	return t.Name
 }
-func (t *GetGroup_Group) GetDescription() *string {
-	if t == nil {
-		t = &GetGroup_Group{}
-	}
-	return t.Description
-}
 func (t *GetGroup_Group) GetPrimaryLocation() string {
 	if t == nil {
 		t = &GetGroup_Group{}
 	}
 	return t.PrimaryLocation
-}
-func (t *GetGroup_Group) GetLocations() []string {
-	if t == nil {
-		t = &GetGroup_Group{}
-	}
-	return t.Locations
 }
 func (t *GetGroup_Group) GetRegion() *enums.Region {
 	if t == nil {
@@ -278,19 +278,31 @@ func (t *GetGroup_Group) GetRegion() *enums.Region {
 }
 
 type GetAllGroups_Groups_Edges_Node struct {
-	ID              string       "json:\"id\" graphql:\"id\""
-	Name            string       "json:\"name\" graphql:\"name\""
 	Description     *string      "json:\"description,omitempty\" graphql:\"description\""
-	PrimaryLocation string       "json:\"primaryLocation\" graphql:\"primaryLocation\""
+	ID              string       "json:\"id\" graphql:\"id\""
 	Locations       []string     "json:\"locations,omitempty\" graphql:\"locations\""
+	Name            string       "json:\"name\" graphql:\"name\""
+	PrimaryLocation string       "json:\"primaryLocation\" graphql:\"primaryLocation\""
 	Region          enums.Region "json:\"region\" graphql:\"region\""
 }
 
+func (t *GetAllGroups_Groups_Edges_Node) GetDescription() *string {
+	if t == nil {
+		t = &GetAllGroups_Groups_Edges_Node{}
+	}
+	return t.Description
+}
 func (t *GetAllGroups_Groups_Edges_Node) GetID() string {
 	if t == nil {
 		t = &GetAllGroups_Groups_Edges_Node{}
 	}
 	return t.ID
+}
+func (t *GetAllGroups_Groups_Edges_Node) GetLocations() []string {
+	if t == nil {
+		t = &GetAllGroups_Groups_Edges_Node{}
+	}
+	return t.Locations
 }
 func (t *GetAllGroups_Groups_Edges_Node) GetName() string {
 	if t == nil {
@@ -298,23 +310,11 @@ func (t *GetAllGroups_Groups_Edges_Node) GetName() string {
 	}
 	return t.Name
 }
-func (t *GetAllGroups_Groups_Edges_Node) GetDescription() *string {
-	if t == nil {
-		t = &GetAllGroups_Groups_Edges_Node{}
-	}
-	return t.Description
-}
 func (t *GetAllGroups_Groups_Edges_Node) GetPrimaryLocation() string {
 	if t == nil {
 		t = &GetAllGroups_Groups_Edges_Node{}
 	}
 	return t.PrimaryLocation
-}
-func (t *GetAllGroups_Groups_Edges_Node) GetLocations() []string {
-	if t == nil {
-		t = &GetAllGroups_Groups_Edges_Node{}
-	}
-	return t.Locations
 }
 func (t *GetAllGroups_Groups_Edges_Node) GetRegion() *enums.Region {
 	if t == nil {
@@ -346,19 +346,31 @@ func (t *GetAllGroups_Groups) GetEdges() []*GetAllGroups_Groups_Edges {
 }
 
 type CreateGroup_CreateGroup_Group struct {
-	ID              string       "json:\"id\" graphql:\"id\""
-	Name            string       "json:\"name\" graphql:\"name\""
 	Description     *string      "json:\"description,omitempty\" graphql:\"description\""
-	PrimaryLocation string       "json:\"primaryLocation\" graphql:\"primaryLocation\""
+	ID              string       "json:\"id\" graphql:\"id\""
 	Locations       []string     "json:\"locations,omitempty\" graphql:\"locations\""
+	Name            string       "json:\"name\" graphql:\"name\""
+	PrimaryLocation string       "json:\"primaryLocation\" graphql:\"primaryLocation\""
 	Region          enums.Region "json:\"region\" graphql:\"region\""
 }
 
+func (t *CreateGroup_CreateGroup_Group) GetDescription() *string {
+	if t == nil {
+		t = &CreateGroup_CreateGroup_Group{}
+	}
+	return t.Description
+}
 func (t *CreateGroup_CreateGroup_Group) GetID() string {
 	if t == nil {
 		t = &CreateGroup_CreateGroup_Group{}
 	}
 	return t.ID
+}
+func (t *CreateGroup_CreateGroup_Group) GetLocations() []string {
+	if t == nil {
+		t = &CreateGroup_CreateGroup_Group{}
+	}
+	return t.Locations
 }
 func (t *CreateGroup_CreateGroup_Group) GetName() string {
 	if t == nil {
@@ -366,23 +378,11 @@ func (t *CreateGroup_CreateGroup_Group) GetName() string {
 	}
 	return t.Name
 }
-func (t *CreateGroup_CreateGroup_Group) GetDescription() *string {
-	if t == nil {
-		t = &CreateGroup_CreateGroup_Group{}
-	}
-	return t.Description
-}
 func (t *CreateGroup_CreateGroup_Group) GetPrimaryLocation() string {
 	if t == nil {
 		t = &CreateGroup_CreateGroup_Group{}
 	}
 	return t.PrimaryLocation
-}
-func (t *CreateGroup_CreateGroup_Group) GetLocations() []string {
-	if t == nil {
-		t = &CreateGroup_CreateGroup_Group{}
-	}
-	return t.Locations
 }
 func (t *CreateGroup_CreateGroup_Group) GetRegion() *enums.Region {
 	if t == nil {
@@ -413,28 +413,6 @@ func (t *DeleteGroup_DeleteGroup) GetDeletedID() string {
 	return t.DeletedID
 }
 
-type GetDatabase struct {
-	Database GetDatabase_Database "json:\"database\" graphql:\"database\""
-}
-
-func (t *GetDatabase) GetDatabase() *GetDatabase_Database {
-	if t == nil {
-		t = &GetDatabase{}
-	}
-	return &t.Database
-}
-
-type GetAllDatabases struct {
-	Databases GetAllDatabases_Databases "json:\"databases\" graphql:\"databases\""
-}
-
-func (t *GetAllDatabases) GetDatabases() *GetAllDatabases_Databases {
-	if t == nil {
-		t = &GetAllDatabases{}
-	}
-	return &t.Databases
-}
-
 type CreateDatabase struct {
 	CreateDatabase CreateDatabase_CreateDatabase "json:\"createDatabase\" graphql:\"createDatabase\""
 }
@@ -455,6 +433,28 @@ func (t *DeleteDatabase) GetDeleteDatabase() *DeleteDatabase_DeleteDatabase {
 		t = &DeleteDatabase{}
 	}
 	return &t.DeleteDatabase
+}
+
+type GetAllDatabases struct {
+	Databases GetAllDatabases_Databases "json:\"databases\" graphql:\"databases\""
+}
+
+func (t *GetAllDatabases) GetDatabases() *GetAllDatabases_Databases {
+	if t == nil {
+		t = &GetAllDatabases{}
+	}
+	return &t.Databases
+}
+
+type GetDatabase struct {
+	Database GetDatabase_Database "json:\"database\" graphql:\"database\""
+}
+
+func (t *GetDatabase) GetDatabase() *GetDatabase_Database {
+	if t == nil {
+		t = &GetDatabase{}
+	}
+	return &t.Database
 }
 
 type GetGroup struct {
@@ -499,68 +499,6 @@ func (t *DeleteGroup) GetDeleteGroup() *DeleteGroup_DeleteGroup {
 		t = &DeleteGroup{}
 	}
 	return &t.DeleteGroup
-}
-
-const GetDatabaseDocument = `query GetDatabase ($name: String!) {
-	database(name: $name) {
-		id
-		name
-		organizationID
-		provider
-		status
-		dsn
-		geo
-	}
-}
-`
-
-func (c *Client) GetDatabase(ctx context.Context, name string, interceptors ...clientv2.RequestInterceptor) (*GetDatabase, error) {
-	vars := map[string]any{
-		"name": name,
-	}
-
-	var res GetDatabase
-	if err := c.Client.Post(ctx, "GetDatabase", GetDatabaseDocument, &res, vars, interceptors...); err != nil {
-		if c.Client.ParseDataWhenErrors {
-			return &res, err
-		}
-
-		return nil, err
-	}
-
-	return &res, nil
-}
-
-const GetAllDatabasesDocument = `query GetAllDatabases {
-	databases {
-		edges {
-			node {
-				id
-				name
-				organizationID
-				provider
-				status
-				dsn
-				geo
-			}
-		}
-	}
-}
-`
-
-func (c *Client) GetAllDatabases(ctx context.Context, interceptors ...clientv2.RequestInterceptor) (*GetAllDatabases, error) {
-	vars := map[string]any{}
-
-	var res GetAllDatabases
-	if err := c.Client.Post(ctx, "GetAllDatabases", GetAllDatabasesDocument, &res, vars, interceptors...); err != nil {
-		if c.Client.ParseDataWhenErrors {
-			return &res, err
-		}
-
-		return nil, err
-	}
-
-	return &res, nil
 }
 
 const CreateDatabaseDocument = `mutation CreateDatabase ($input: CreateDatabaseInput!) {
@@ -609,6 +547,68 @@ func (c *Client) DeleteDatabase(ctx context.Context, name string, interceptors .
 
 	var res DeleteDatabase
 	if err := c.Client.Post(ctx, "DeleteDatabase", DeleteDatabaseDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const GetAllDatabasesDocument = `query GetAllDatabases {
+	databases {
+		edges {
+			node {
+				id
+				name
+				organizationID
+				provider
+				status
+				dsn
+				geo
+			}
+		}
+	}
+}
+`
+
+func (c *Client) GetAllDatabases(ctx context.Context, interceptors ...clientv2.RequestInterceptor) (*GetAllDatabases, error) {
+	vars := map[string]any{}
+
+	var res GetAllDatabases
+	if err := c.Client.Post(ctx, "GetAllDatabases", GetAllDatabasesDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const GetDatabaseDocument = `query GetDatabase ($name: String!) {
+	database(name: $name) {
+		id
+		name
+		organizationID
+		provider
+		status
+		dsn
+		geo
+	}
+}
+`
+
+func (c *Client) GetDatabase(ctx context.Context, name string, interceptors ...clientv2.RequestInterceptor) (*GetDatabase, error) {
+	vars := map[string]any{
+		"name": name,
+	}
+
+	var res GetDatabase
+	if err := c.Client.Post(ctx, "GetDatabase", GetDatabaseDocument, &res, vars, interceptors...); err != nil {
 		if c.Client.ParseDataWhenErrors {
 			return &res, err
 		}
@@ -735,10 +735,10 @@ func (c *Client) DeleteGroup(ctx context.Context, name string, interceptors ...c
 }
 
 var DocumentOperationNames = map[string]string{
-	GetDatabaseDocument:     "GetDatabase",
-	GetAllDatabasesDocument: "GetAllDatabases",
 	CreateDatabaseDocument:  "CreateDatabase",
 	DeleteDatabaseDocument:  "DeleteDatabase",
+	GetAllDatabasesDocument: "GetAllDatabases",
+	GetDatabaseDocument:     "GetDatabase",
 	GetGroupDocument:        "GetGroup",
 	GetAllGroupsDocument:    "GetAllGroups",
 	CreateGroupDocument:     "CreateGroup",
