@@ -1,6 +1,6 @@
 run:
   timeout: 10m
-  allow-serial-runners: true
+  allow-parallel-runners: true
   concurrency: 0
 linters-settings:
   goimports:

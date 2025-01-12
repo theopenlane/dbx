@@ -25,6 +25,11 @@ env:
   GOFLAGS: -buildvcs=false
 
 tasks:
+  default:
+    silent: true
+    cmds:
+      - task --list
+
   install:
     desc: installs tools and packages needed to develop against the dbx repo
     cmds:
