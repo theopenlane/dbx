@@ -157,7 +157,7 @@ steps:
                 - "${IMAGE_REPO}"
               extra_tags:
                 - "${IMAGE_TAG}"
-          - theopenlane/container-build#v1.1.0:
+          - theopenlane/container-build#v1.1.1:
               dockerfile: docker/Dockerfile
               push: false
               build-args:
@@ -191,7 +191,7 @@ steps:
                 - "${IMAGE_REPO}"
               extra_tags:
                 - "${IMAGE_TAG}"
-          - theopenlane/container-build#v1.1.0:
+          - theopenlane/container-build#v1.1.1:
               dockerfile: docker/Dockerfile
               push: true
               build-args:
@@ -225,7 +225,7 @@ steps:
                 - "${IMAGE_REPO}"
               extra_tags:
                 - "${BUILDKITE_TAG}"
-          - theopenlane/container-build#v1.1.0:
+          - theopenlane/container-build#v1.1.1:
               dockerfile: docker/Dockerfile
               push: true
               build-args:
