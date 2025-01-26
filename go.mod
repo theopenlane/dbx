@@ -1,8 +1,6 @@
 module github.com/theopenlane/dbx
 
-go 1.23.4
-
-toolchain go1.23.5
+go 1.23.5
 
 require (
 	ariga.io/entcache v0.1.0
@@ -173,7 +171,7 @@ require (
 	github.com/stoewer/go-strcase v1.3.0 // indirect
 	github.com/stretchr/objx v0.5.2 // indirect
 	github.com/subosito/gotenv v1.6.0 // indirect
-	github.com/theopenlane/utils v0.4.2
+	github.com/theopenlane/utils v0.4.3
 	github.com/urfave/cli/v2 v2.27.5 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasttemplate v1.2.2 // indirect
