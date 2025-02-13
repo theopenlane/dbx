@@ -42,7 +42,7 @@ require (
 	github.com/wundergraph/graphql-go-tools v1.67.4
 	gocloud.dev v0.40.0
 	golang.org/x/crypto v0.33.0
-	modernc.org/sqlite v1.34.5
+	modernc.org/sqlite v1.35.0
 )
 
 require (
@@ -78,9 +78,9 @@ require (
 	gopkg.in/mattn/go-colorable.v0 v0.1.0 // indirect
 	gopkg.in/mattn/go-isatty.v0 v0.0.4 // indirect
 	gopkg.in/mattn/go-runewidth.v0 v0.0.4 // indirect
-	modernc.org/libc v1.60.0 // indirect
-	modernc.org/mathutil v1.6.0 // indirect
-	modernc.org/memory v1.8.0 // indirect
+	modernc.org/libc v1.61.13 // indirect
+	modernc.org/mathutil v1.7.1 // indirect
+	modernc.org/memory v1.8.2 // indirect
 )
 
 require (
