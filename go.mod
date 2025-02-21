@@ -23,7 +23,7 @@ require (
 	github.com/pressly/goose/v3 v3.24.1
 	github.com/prometheus/client_golang v1.20.5
 	github.com/ravilushqa/otelgqlgen v0.17.0
-	github.com/redis/go-redis/v9 v9.7.0
+	github.com/redis/go-redis/v9 v9.7.1
 	github.com/rs/zerolog v1.33.0
 	github.com/samber/lo v1.49.1
 	github.com/spf13/cobra v1.9.1
