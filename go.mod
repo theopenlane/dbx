@@ -41,7 +41,7 @@ require (
 	github.com/vektah/gqlparser/v2 v2.5.21
 	github.com/wundergraph/graphql-go-tools v1.67.4
 	gocloud.dev v0.40.0
-	golang.org/x/crypto v0.33.0
+	golang.org/x/crypto v0.34.0
 	modernc.org/sqlite v1.35.0
 )
 
