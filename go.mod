@@ -38,7 +38,7 @@ require (
 	github.com/theopenlane/go-turso v0.1.0
 	github.com/theopenlane/iam v0.7.0
 	github.com/tursodatabase/libsql-client-go v0.0.0-20240902231107-85af5b9d094d
-	github.com/vektah/gqlparser/v2 v2.5.21
+	github.com/vektah/gqlparser/v2 v2.5.23
 	github.com/wundergraph/graphql-go-tools v1.67.4
 	gocloud.dev v0.40.0
 	golang.org/x/crypto v0.34.0
@@ -87,7 +87,7 @@ require (
 	ariga.io/atlas v0.26.1 // indirect
 	github.com/XSAM/otelsql v0.36.0 // indirect
 	github.com/agext/levenshtein v1.2.3 // indirect
-	github.com/agnivade/levenshtein v1.2.0 // indirect
+	github.com/agnivade/levenshtein v1.2.1 // indirect
 	github.com/antlr4-go/antlr/v4 v4.13.1 // indirect
 	github.com/apparentlymart/go-textseg/v15 v15.0.0 // indirect
 	github.com/bahlo/generic-list-go v0.2.0 // indirect
