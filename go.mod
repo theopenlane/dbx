@@ -42,7 +42,7 @@ require (
 	github.com/wundergraph/graphql-go-tools v1.67.4
 	gocloud.dev v0.40.0
 	golang.org/x/crypto v0.35.0
-	modernc.org/sqlite v1.35.0
+	modernc.org/sqlite v1.36.0
 )
 
 require (
