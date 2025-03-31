@@ -34,7 +34,7 @@ require (
 	github.com/theopenlane/core v0.6.7
 	github.com/theopenlane/echo-prometheus v0.1.0
 	github.com/theopenlane/echox v0.2.1
-	github.com/theopenlane/entx v0.3.3
+	github.com/theopenlane/entx v0.6.1
 	github.com/theopenlane/go-turso v0.1.0
 	github.com/theopenlane/iam v0.7.0
 	github.com/tursodatabase/libsql-client-go v0.0.0-20240902231107-85af5b9d094d
