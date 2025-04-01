@@ -5,8 +5,8 @@ go 1.23.5
 require (
 	ariga.io/entcache v0.1.0
 	entgo.io/contrib v0.6.0
-	entgo.io/ent v0.14.1
-	github.com/99designs/gqlgen v0.17.63
+	entgo.io/ent v0.14.4
+	github.com/99designs/gqlgen v0.17.70
 	github.com/TylerBrock/colorjson v0.0.0-20200706003622-8a50f05110d2
 	github.com/Yamashou/gqlgenc v0.31.0
 	github.com/brianvoe/gofakeit/v7 v7.2.1
@@ -20,7 +20,7 @@ require (
 	github.com/knadh/koanf/v2 v2.1.2
 	github.com/mcuadros/go-defaults v1.2.0
 	github.com/mitchellh/go-homedir v1.1.0
-	github.com/pressly/goose/v3 v3.24.1
+	github.com/pressly/goose/v3 v3.24.2
 	github.com/prometheus/client_golang v1.21.1
 	github.com/ravilushqa/otelgqlgen v0.17.0
 	github.com/redis/go-redis/v9 v9.7.3
@@ -28,17 +28,17 @@ require (
 	github.com/samber/lo v1.49.1
 	github.com/spf13/cobra v1.9.1
 	github.com/spf13/pflag v1.0.6
-	github.com/spf13/viper v1.20.0
+	github.com/spf13/viper v1.20.1
 	github.com/stretchr/testify v1.10.0
 	github.com/theopenlane/beacon v0.1.1
 	github.com/theopenlane/core v0.6.7
 	github.com/theopenlane/echo-prometheus v0.1.0
-	github.com/theopenlane/echox v0.2.1
+	github.com/theopenlane/echox v0.2.3
 	github.com/theopenlane/entx v0.3.3
 	github.com/theopenlane/go-turso v0.1.0
 	github.com/theopenlane/iam v0.7.0
 	github.com/tursodatabase/libsql-client-go v0.0.0-20240902231107-85af5b9d094d
-	github.com/vektah/gqlparser/v2 v2.5.21
+	github.com/vektah/gqlparser/v2 v2.5.23
 	github.com/wundergraph/graphql-go-tools v1.67.4
 	gocloud.dev v0.40.0
 	golang.org/x/crypto v0.36.0
@@ -167,7 +167,7 @@ require (
 	github.com/stoewer/go-strcase v1.3.0 // indirect
 	github.com/stretchr/objx v0.5.2 // indirect
 	github.com/subosito/gotenv v1.6.0 // indirect
-	github.com/theopenlane/utils v0.4.3
+	github.com/theopenlane/utils v0.4.5
 	github.com/urfave/cli/v2 v2.27.5 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasttemplate v1.2.2 // indirect
