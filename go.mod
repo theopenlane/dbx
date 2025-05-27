@@ -36,7 +36,7 @@ require (
 	github.com/theopenlane/echox v0.2.1
 	github.com/theopenlane/entx v0.3.3
 	github.com/theopenlane/go-turso v0.1.0
-	github.com/theopenlane/iam v0.7.0
+	github.com/theopenlane/iam v0.12.6
 	github.com/tursodatabase/libsql-client-go v0.0.0-20240902231107-85af5b9d094d
 	github.com/vektah/gqlparser/v2 v2.5.21
 	github.com/wundergraph/graphql-go-tools v1.67.4
