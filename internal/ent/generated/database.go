@@ -31,8 +31,6 @@ type Database struct {
 	DeletedAt time.Time `json:"deleted_at,omitempty"`
 	// DeletedBy holds the value of the "deleted_by" field.
 	DeletedBy string `json:"deleted_by,omitempty"`
-	// MappingID holds the value of the "mapping_id" field.
-	MappingID string `json:"mapping_id,omitempty"`
 	// the ID of the organization
 	OrganizationID string `json:"organization_id,omitempty"`
 	// the name to the database
@@ -82,7 +80,7 @@ func (*Database) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case database.FieldID, database.FieldCreatedBy, database.FieldUpdatedBy, database.FieldDeletedBy, database.FieldMappingID, database.FieldOrganizationID, database.FieldName, database.FieldGeo, database.FieldDsn, database.FieldGroupID, database.FieldToken, database.FieldStatus, database.FieldProvider:
+		case database.FieldID, database.FieldCreatedBy, database.FieldUpdatedBy, database.FieldDeletedBy, database.FieldOrganizationID, database.FieldName, database.FieldGeo, database.FieldDsn, database.FieldGroupID, database.FieldToken, database.FieldStatus, database.FieldProvider:
 			values[i] = new(sql.NullString)
 		case database.FieldCreatedAt, database.FieldUpdatedAt, database.FieldDeletedAt:
 			values[i] = new(sql.NullTime)
@@ -142,12 +140,6 @@ func (d *Database) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field deleted_by", values[i])
 			} else if value.Valid {
 				d.DeletedBy = value.String
-			}
-		case database.FieldMappingID:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field mapping_id", values[i])
-			} else if value.Valid {
-				d.MappingID = value.String
 			}
 		case database.FieldOrganizationID:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -255,9 +247,6 @@ func (d *Database) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("deleted_by=")
 	builder.WriteString(d.DeletedBy)
-	builder.WriteString(", ")
-	builder.WriteString("mapping_id=")
-	builder.WriteString(d.MappingID)
 	builder.WriteString(", ")
 	builder.WriteString("organization_id=")
 	builder.WriteString(d.OrganizationID)

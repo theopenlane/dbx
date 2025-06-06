@@ -24,12 +24,12 @@ func (r *queryResolver) Nodes(ctx context.Context, ids []string) ([]generated.No
 }
 
 // Databases is the resolver for the databases field.
-func (r *queryResolver) Databases(ctx context.Context, after *entgql.Cursor[string], first *int, before *entgql.Cursor[string], last *int, where *generated.DatabaseWhereInput) (*generated.DatabaseConnection, error) {
+func (r *queryResolver) Databases(ctx context.Context, after *entgql.Cursor[string], first *int, before *entgql.Cursor[string], last *int, orderBy *generated.DatabaseOrder, where *generated.DatabaseWhereInput) (*generated.DatabaseConnection, error) {
 	return withTransactionalMutation(ctx).Database.Query().Paginate(ctx, after, first, before, last, generated.WithDatabaseFilter(where.Filter))
 }
 
 // Groups is the resolver for the groups field.
-func (r *queryResolver) Groups(ctx context.Context, after *entgql.Cursor[string], first *int, before *entgql.Cursor[string], last *int, where *generated.GroupWhereInput) (*generated.GroupConnection, error) {
+func (r *queryResolver) Groups(ctx context.Context, after *entgql.Cursor[string], first *int, before *entgql.Cursor[string], last *int, orderBy *generated.GroupOrder, where *generated.GroupWhereInput) (*generated.GroupConnection, error) {
 	return withTransactionalMutation(ctx).Group.Query().Paginate(ctx, after, first, before, last, generated.WithGroupFilter(where.Filter))
 }
 

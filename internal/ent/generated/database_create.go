@@ -106,20 +106,6 @@ func (dc *DatabaseCreate) SetNillableDeletedBy(s *string) *DatabaseCreate {
 	return dc
 }
 
-// SetMappingID sets the "mapping_id" field.
-func (dc *DatabaseCreate) SetMappingID(s string) *DatabaseCreate {
-	dc.mutation.SetMappingID(s)
-	return dc
-}
-
-// SetNillableMappingID sets the "mapping_id" field if the given value is not nil.
-func (dc *DatabaseCreate) SetNillableMappingID(s *string) *DatabaseCreate {
-	if s != nil {
-		dc.SetMappingID(*s)
-	}
-	return dc
-}
-
 // SetOrganizationID sets the "organization_id" field.
 func (dc *DatabaseCreate) SetOrganizationID(s string) *DatabaseCreate {
 	dc.mutation.SetOrganizationID(s)
@@ -270,13 +256,6 @@ func (dc *DatabaseCreate) defaults() error {
 		v := database.DefaultUpdatedAt()
 		dc.mutation.SetUpdatedAt(v)
 	}
-	if _, ok := dc.mutation.MappingID(); !ok {
-		if database.DefaultMappingID == nil {
-			return fmt.Errorf("generated: uninitialized database.DefaultMappingID (forgotten import generated/runtime?)")
-		}
-		v := database.DefaultMappingID()
-		dc.mutation.SetMappingID(v)
-	}
 	if _, ok := dc.mutation.Status(); !ok {
 		v := database.DefaultStatus
 		dc.mutation.SetStatus(v)
@@ -297,9 +276,6 @@ func (dc *DatabaseCreate) defaults() error {
 
 // check runs all checks and user-defined validators on the builder.
 func (dc *DatabaseCreate) check() error {
-	if _, ok := dc.mutation.MappingID(); !ok {
-		return &ValidationError{Name: "mapping_id", err: errors.New(`generated: missing required field "Database.mapping_id"`)}
-	}
 	if _, ok := dc.mutation.OrganizationID(); !ok {
 		return &ValidationError{Name: "organization_id", err: errors.New(`generated: missing required field "Database.organization_id"`)}
 	}
@@ -405,10 +381,6 @@ func (dc *DatabaseCreate) createSpec() (*Database, *sqlgraph.CreateSpec) {
 	if value, ok := dc.mutation.DeletedBy(); ok {
 		_spec.SetField(database.FieldDeletedBy, field.TypeString, value)
 		_node.DeletedBy = value
-	}
-	if value, ok := dc.mutation.MappingID(); ok {
-		_spec.SetField(database.FieldMappingID, field.TypeString, value)
-		_node.MappingID = value
 	}
 	if value, ok := dc.mutation.OrganizationID(); ok {
 		_spec.SetField(database.FieldOrganizationID, field.TypeString, value)

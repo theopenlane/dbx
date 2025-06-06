@@ -33,7 +33,6 @@ var schemaGraph = func() *sqlgraph.Schema {
 			database.FieldUpdatedBy:      {Type: field.TypeString, Column: database.FieldUpdatedBy},
 			database.FieldDeletedAt:      {Type: field.TypeTime, Column: database.FieldDeletedAt},
 			database.FieldDeletedBy:      {Type: field.TypeString, Column: database.FieldDeletedBy},
-			database.FieldMappingID:      {Type: field.TypeString, Column: database.FieldMappingID},
 			database.FieldOrganizationID: {Type: field.TypeString, Column: database.FieldOrganizationID},
 			database.FieldName:           {Type: field.TypeString, Column: database.FieldName},
 			database.FieldGeo:            {Type: field.TypeString, Column: database.FieldGeo},
@@ -59,7 +58,6 @@ var schemaGraph = func() *sqlgraph.Schema {
 			group.FieldUpdatedAt:       {Type: field.TypeTime, Column: group.FieldUpdatedAt},
 			group.FieldCreatedBy:       {Type: field.TypeString, Column: group.FieldCreatedBy},
 			group.FieldUpdatedBy:       {Type: field.TypeString, Column: group.FieldUpdatedBy},
-			group.FieldMappingID:       {Type: field.TypeString, Column: group.FieldMappingID},
 			group.FieldDeletedAt:       {Type: field.TypeTime, Column: group.FieldDeletedAt},
 			group.FieldDeletedBy:       {Type: field.TypeString, Column: group.FieldDeletedBy},
 			group.FieldName:            {Type: field.TypeString, Column: group.FieldName},
@@ -171,11 +169,6 @@ func (f *DatabaseFilter) WhereDeletedAt(p entql.TimeP) {
 // WhereDeletedBy applies the entql string predicate on the deleted_by field.
 func (f *DatabaseFilter) WhereDeletedBy(p entql.StringP) {
 	f.Where(p.Field(database.FieldDeletedBy))
-}
-
-// WhereMappingID applies the entql string predicate on the mapping_id field.
-func (f *DatabaseFilter) WhereMappingID(p entql.StringP) {
-	f.Where(p.Field(database.FieldMappingID))
 }
 
 // WhereOrganizationID applies the entql string predicate on the organization_id field.
@@ -290,11 +283,6 @@ func (f *GroupFilter) WhereCreatedBy(p entql.StringP) {
 // WhereUpdatedBy applies the entql string predicate on the updated_by field.
 func (f *GroupFilter) WhereUpdatedBy(p entql.StringP) {
 	f.Where(p.Field(group.FieldUpdatedBy))
-}
-
-// WhereMappingID applies the entql string predicate on the mapping_id field.
-func (f *GroupFilter) WhereMappingID(p entql.StringP) {
-	f.Where(p.Field(group.FieldMappingID))
 }
 
 // WhereDeletedAt applies the entql time.Time predicate on the deleted_at field.
