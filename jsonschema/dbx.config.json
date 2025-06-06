@@ -398,6 +398,9 @@
         },
         "domain": {
           "type": "string"
+        },
+        "maxAge": {
+          "type": "integer"
         }
       },
       "additionalProperties": false,

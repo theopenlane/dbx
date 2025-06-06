@@ -15,7 +15,7 @@ import (
 var databaseCreateCmd = &cobra.Command{
 	Use:   "create",
 	Short: "Create a new dbx database",
-	RunE: func(cmd *cobra.Command, args []string) error {
+	RunE: func(cmd *cobra.Command, _ []string) error {
 		return createDatabase(cmd.Context())
 	},
 }

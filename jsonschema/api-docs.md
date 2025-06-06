@@ -80,7 +80,14 @@ TLS settings for the server for secure connections
 
 |Name|Type|Description|Required|
 |----|----|-----------|--------|
+|[**Additional Properties**](#servercorsprefixesadditionalproperties)|`string[]`|||
 
+<a name="servercorsprefixesadditionalproperties"></a>
+##### server\.cors\.prefixes\.additionalProperties: array
+
+**Items**
+
+**Item Type:** `string`  
 <a name="servercorsalloworigins"></a>
 #### server\.cors\.allowOrigins: array
 
@@ -124,6 +131,7 @@ TLS settings for the server for secure connections
 
 |Name|Type|Description|Required|
 |----|----|-----------|--------|
+|**Additional Properties**|`string`|||
 
 <a name="servercachecontrol"></a>
 ### server\.cacheControl: object
@@ -144,6 +152,7 @@ TLS settings for the server for secure connections
 
 |Name|Type|Description|Required|
 |----|----|-----------|--------|
+|**Additional Properties**|`string`|||
 
 <a name="servercachecontroletagheaders"></a>
 #### server\.cacheControl\.etagHeaders: array
@@ -283,6 +292,7 @@ TLS settings for the server for secure connections
 |**signingKey**|`string`|||
 |**encryptionKey**|`string`|||
 |**domain**|`string`|||
+|**maxAge**|`integer`|||
 
 **Additional Properties:** not allowed  
 <a name="ratelimit"></a>

@@ -16,7 +16,7 @@ includes:
     taskfile: ./jsonschema
 
 env:
-  ATLAS_SQLITE_DB_URI: "sqlite://file?mode=memory&_fk=1"
+  ATLAS_SQLITE_DB_URI: "sqlite://file?mode=memory&_fk=1&_pragma=foreign_keys(1)"
   ATLAS_POSTGRES_DB_URI: "postgres:17-alpine"
   TEST_DB_URL: "libsql://file::memory:?cache=shared"
   TEST_DB_CONTAINER_EXPIRY: "2" # in minutes

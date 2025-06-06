@@ -13,7 +13,7 @@ import (
 var databaseDeleteCmd = &cobra.Command{
 	Use:   "delete",
 	Short: "Delete an existing dbx database",
-	RunE: func(cmd *cobra.Command, args []string) error {
+	RunE: func(cmd *cobra.Command, _ []string) error {
 		return deleteDatabase(cmd.Context())
 	},
 }

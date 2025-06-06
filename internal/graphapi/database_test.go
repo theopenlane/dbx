@@ -72,9 +72,11 @@ func (suite *GraphTestSuite) TestListDatabases() {
 		require.NoError(t, err)
 		require.NotNil(t, resp)
 		require.NotNil(t, resp.Databases)
+
 		for i, edge := range resp.Databases.Edges {
 			t.Logf("Database[%d]: %+v", i, edge)
 		}
+
 		require.GreaterOrEqual(t, len(resp.Databases.Edges), 2)
 	})
 

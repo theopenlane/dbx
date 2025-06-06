@@ -87,6 +87,7 @@ data:
   DBX_SESSIONS_SIGNINGKEY: {{ .Values.dbx.sessions.signingKey | "my-signing-secret" }}
   DBX_SESSIONS_ENCRYPTIONKEY: {{ .Values.dbx.sessions.encryptionKey | "encryptionsecret" }}
   DBX_SESSIONS_DOMAIN: {{ .Values.dbx.sessions.domain }}
+  DBX_SESSIONS_MAXAGE: {{ .Values.dbx.sessions.maxAge | 3600 }}
   DBX_RATELIMIT_ENABLED: {{ .Values.dbx.ratelimit.enabled | false }}
   DBX_RATELIMIT_LIMIT: {{ .Values.dbx.ratelimit.limit | 10 }}
   DBX_RATELIMIT_BURST: {{ .Values.dbx.ratelimit.burst | 30 }}

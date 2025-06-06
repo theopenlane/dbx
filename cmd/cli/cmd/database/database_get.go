@@ -14,7 +14,7 @@ import (
 var databaseGetCmd = &cobra.Command{
 	Use:   "get",
 	Short: "get an existing new dbx database",
-	RunE: func(cmd *cobra.Command, args []string) error {
+	RunE: func(cmd *cobra.Command, _ []string) error {
 		return getDatabase(cmd.Context())
 	},
 }

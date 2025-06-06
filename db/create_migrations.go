@@ -4,16 +4,18 @@ package main
 
 import (
 	"context"
+	"database/sql"
 	"log"
 	"os"
 	"time"
 
 	// supported ent database drivers
-	_ "github.com/lib/pq" // postgres driver
-	"github.com/theopenlane/core/pkg/testutils"
-	_ "github.com/theopenlane/entx"                      // overlay for sqlite
+	_ "github.com/lib/pq"           // postgres driver
+	_ "github.com/theopenlane/entx" // overlay for sqlite
+	"github.com/theopenlane/utils/testutils"
 	_ "github.com/tursodatabase/libsql-client-go/libsql" // libsql driver
-	_ "modernc.org/sqlite"                               // sqlite driver (non-cgo)
+
+	"modernc.org/sqlite" // sqlite driver (non-cgo)
 
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql/schema"
@@ -22,6 +24,10 @@ import (
 	"ariga.io/atlas/sql/sqltool"
 	"github.com/theopenlane/dbx/internal/ent/generated/migrate"
 )
+
+func init() {
+	sql.Register("sqlite3", &sqlite.Driver{})
+}
 
 func main() {
 	ctx := context.Background()
@@ -66,7 +72,9 @@ func main() {
 		log.Fatalln("failed to load the ATLAS_POSTGRES_DB_URI env var")
 	}
 
-	tf, err := testutils.GetPostgresDockerTest(pgDBURI, 5*time.Minute)
+	maxConnections := 10
+
+	tf, err := testutils.GetPostgresDockerTest(pgDBURI, 5*time.Minute, maxConnections)
 	if err != nil {
 		log.Fatalf("failed creating postgres test container: %v", err)
 	}
