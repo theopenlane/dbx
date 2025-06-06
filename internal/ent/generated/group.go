@@ -27,8 +27,6 @@ type Group struct {
 	CreatedBy string `json:"created_by,omitempty"`
 	// UpdatedBy holds the value of the "updated_by" field.
 	UpdatedBy string `json:"updated_by,omitempty"`
-	// MappingID holds the value of the "mapping_id" field.
-	MappingID string `json:"mapping_id,omitempty"`
 	// DeletedAt holds the value of the "deleted_at" field.
 	DeletedAt time.Time `json:"deleted_at,omitempty"`
 	// DeletedBy holds the value of the "deleted_by" field.
@@ -80,7 +78,7 @@ func (*Group) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case group.FieldLocations:
 			values[i] = new([]byte)
-		case group.FieldID, group.FieldCreatedBy, group.FieldUpdatedBy, group.FieldMappingID, group.FieldDeletedBy, group.FieldName, group.FieldDescription, group.FieldPrimaryLocation, group.FieldToken, group.FieldRegion:
+		case group.FieldID, group.FieldCreatedBy, group.FieldUpdatedBy, group.FieldDeletedBy, group.FieldName, group.FieldDescription, group.FieldPrimaryLocation, group.FieldToken, group.FieldRegion:
 			values[i] = new(sql.NullString)
 		case group.FieldCreatedAt, group.FieldUpdatedAt, group.FieldDeletedAt:
 			values[i] = new(sql.NullTime)
@@ -128,12 +126,6 @@ func (gr *Group) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field updated_by", values[i])
 			} else if value.Valid {
 				gr.UpdatedBy = value.String
-			}
-		case group.FieldMappingID:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field mapping_id", values[i])
-			} else if value.Valid {
-				gr.MappingID = value.String
 			}
 		case group.FieldDeletedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
@@ -237,9 +229,6 @@ func (gr *Group) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("updated_by=")
 	builder.WriteString(gr.UpdatedBy)
-	builder.WriteString(", ")
-	builder.WriteString("mapping_id=")
-	builder.WriteString(gr.MappingID)
 	builder.WriteString(", ")
 	builder.WriteString("deleted_at=")
 	builder.WriteString(gr.DeletedAt.Format(time.ANSIC))

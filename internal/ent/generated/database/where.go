@@ -98,11 +98,6 @@ func DeletedBy(v string) predicate.Database {
 	return predicate.Database(sql.FieldEQ(FieldDeletedBy, v))
 }
 
-// MappingID applies equality check predicate on the "mapping_id" field. It's identical to MappingIDEQ.
-func MappingID(v string) predicate.Database {
-	return predicate.Database(sql.FieldEQ(FieldMappingID, v))
-}
-
 // OrganizationID applies equality check predicate on the "organization_id" field. It's identical to OrganizationIDEQ.
 func OrganizationID(v string) predicate.Database {
 	return predicate.Database(sql.FieldEQ(FieldOrganizationID, v))
@@ -506,71 +501,6 @@ func DeletedByEqualFold(v string) predicate.Database {
 // DeletedByContainsFold applies the ContainsFold predicate on the "deleted_by" field.
 func DeletedByContainsFold(v string) predicate.Database {
 	return predicate.Database(sql.FieldContainsFold(FieldDeletedBy, v))
-}
-
-// MappingIDEQ applies the EQ predicate on the "mapping_id" field.
-func MappingIDEQ(v string) predicate.Database {
-	return predicate.Database(sql.FieldEQ(FieldMappingID, v))
-}
-
-// MappingIDNEQ applies the NEQ predicate on the "mapping_id" field.
-func MappingIDNEQ(v string) predicate.Database {
-	return predicate.Database(sql.FieldNEQ(FieldMappingID, v))
-}
-
-// MappingIDIn applies the In predicate on the "mapping_id" field.
-func MappingIDIn(vs ...string) predicate.Database {
-	return predicate.Database(sql.FieldIn(FieldMappingID, vs...))
-}
-
-// MappingIDNotIn applies the NotIn predicate on the "mapping_id" field.
-func MappingIDNotIn(vs ...string) predicate.Database {
-	return predicate.Database(sql.FieldNotIn(FieldMappingID, vs...))
-}
-
-// MappingIDGT applies the GT predicate on the "mapping_id" field.
-func MappingIDGT(v string) predicate.Database {
-	return predicate.Database(sql.FieldGT(FieldMappingID, v))
-}
-
-// MappingIDGTE applies the GTE predicate on the "mapping_id" field.
-func MappingIDGTE(v string) predicate.Database {
-	return predicate.Database(sql.FieldGTE(FieldMappingID, v))
-}
-
-// MappingIDLT applies the LT predicate on the "mapping_id" field.
-func MappingIDLT(v string) predicate.Database {
-	return predicate.Database(sql.FieldLT(FieldMappingID, v))
-}
-
-// MappingIDLTE applies the LTE predicate on the "mapping_id" field.
-func MappingIDLTE(v string) predicate.Database {
-	return predicate.Database(sql.FieldLTE(FieldMappingID, v))
-}
-
-// MappingIDContains applies the Contains predicate on the "mapping_id" field.
-func MappingIDContains(v string) predicate.Database {
-	return predicate.Database(sql.FieldContains(FieldMappingID, v))
-}
-
-// MappingIDHasPrefix applies the HasPrefix predicate on the "mapping_id" field.
-func MappingIDHasPrefix(v string) predicate.Database {
-	return predicate.Database(sql.FieldHasPrefix(FieldMappingID, v))
-}
-
-// MappingIDHasSuffix applies the HasSuffix predicate on the "mapping_id" field.
-func MappingIDHasSuffix(v string) predicate.Database {
-	return predicate.Database(sql.FieldHasSuffix(FieldMappingID, v))
-}
-
-// MappingIDEqualFold applies the EqualFold predicate on the "mapping_id" field.
-func MappingIDEqualFold(v string) predicate.Database {
-	return predicate.Database(sql.FieldEqualFold(FieldMappingID, v))
-}
-
-// MappingIDContainsFold applies the ContainsFold predicate on the "mapping_id" field.
-func MappingIDContainsFold(v string) predicate.Database {
-	return predicate.Database(sql.FieldContainsFold(FieldMappingID, v))
 }
 
 // OrganizationIDEQ applies the EQ predicate on the "organization_id" field.

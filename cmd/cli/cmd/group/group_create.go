@@ -15,7 +15,7 @@ import (
 var groupCreateCmd = &cobra.Command{
 	Use:   "create",
 	Short: "Create a new dbx group",
-	RunE: func(cmd *cobra.Command, args []string) error {
+	RunE: func(cmd *cobra.Command, _ []string) error {
 		return createGroup(cmd.Context())
 	},
 }

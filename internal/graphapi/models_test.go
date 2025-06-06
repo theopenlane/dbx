@@ -47,7 +47,7 @@ type DatabaseCleanup struct {
 }
 
 // MustNew group builder is used to create groups in the database
-func (g *GroupBuilder) MustNew(ctx context.Context, t *testing.T) *ent.Group {
+func (g *GroupBuilder) MustNew(ctx context.Context, _ *testing.T) *ent.Group {
 	if g.Name == "" {
 		g.Name = gofakeit.AppName()
 	}
@@ -70,7 +70,7 @@ func (g *GroupBuilder) MustNew(ctx context.Context, t *testing.T) *ent.Group {
 }
 
 // MustDelete is used to cleanup groups in the database
-func (g *GroupCleanup) MustDelete(ctx context.Context, t *testing.T) {
+func (g *GroupCleanup) MustDelete(ctx context.Context, _ *testing.T) {
 	g.client.db.Group.DeleteOneID(g.GroupID).ExecX(ctx)
 }
 
@@ -104,6 +104,6 @@ func (d *DatabaseBuilder) MustNew(ctx context.Context, t *testing.T) *ent.Databa
 }
 
 // MustDelete is used to cleanup databases in the database
-func (d *DatabaseCleanup) MustDelete(ctx context.Context, t *testing.T) {
+func (d *DatabaseCleanup) MustDelete(ctx context.Context, _ *testing.T) {
 	d.client.db.Database.DeleteOneID(d.DatabaseID).ExecX(ctx)
 }

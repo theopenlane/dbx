@@ -14,7 +14,7 @@ import (
 var groupGetCmd = &cobra.Command{
 	Use:   "get",
 	Short: "get an existing dbx group",
-	RunE: func(cmd *cobra.Command, args []string) error {
+	RunE: func(cmd *cobra.Command, _ []string) error {
 		return getGroup(cmd.Context())
 	},
 }

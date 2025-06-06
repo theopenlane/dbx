@@ -13,7 +13,7 @@ import (
 var groupDeleteCmd = &cobra.Command{
 	Use:   "delete",
 	Short: "Delete an existing dbx group",
-	RunE: func(cmd *cobra.Command, args []string) error {
+	RunE: func(cmd *cobra.Command, _ []string) error {
 		return deleteGroup(cmd.Context())
 	},
 }

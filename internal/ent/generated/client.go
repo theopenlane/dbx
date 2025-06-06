@@ -9,7 +9,10 @@ import (
 	"log"
 	"reflect"
 
+	"ariga.io/entcache"
 	"github.com/theopenlane/dbx/internal/ent/generated/migrate"
+	"github.com/theopenlane/entx"
+	"github.com/theopenlane/riverboat/pkg/riverqueue"
 
 	"net/http"
 
@@ -22,6 +25,8 @@ import (
 	"github.com/theopenlane/go-turso"
 	"github.com/theopenlane/iam/fgax"
 	"gocloud.dev/secrets"
+
+	stdsql "database/sql"
 
 	"github.com/theopenlane/dbx/internal/ent/generated/internal"
 )
@@ -38,6 +43,12 @@ type Client struct {
 
 	// authzActivated determines if the authz hooks have already been activated
 	authzActivated bool
+
+	// Config is the db client configuration
+	Config *entx.EntClientConfig
+
+	// Job is the job client to insert jobs into the queue.
+	Job riverqueue.JobClient
 }
 
 // NewClient creates a new client configured with the given options.
@@ -70,6 +81,9 @@ type (
 		Authz         fgax.Client
 		Turso         *turso.Client
 		HTTPClient    *http.Client
+		// Job is the job client to insert jobs into the queue.
+		Job riverqueue.JobClient
+
 		// schemaConfig contains alternative names for all tables.
 		schemaConfig SchemaConfig
 	}
@@ -245,6 +259,58 @@ func (c *Client) WithAuthz() {
 
 		c.authzActivated = true
 	}
+}
+
+// CloseAll closes the all database client connections
+func (c *Client) CloseAll() error {
+	if err := c.Job.Close(); err != nil {
+		return err
+	}
+
+	return c.Close()
+}
+
+// Dialect returns the driver dialect.
+func (c *Client) Dialect() string {
+	return c.driver.Dialect()
+}
+
+// Driver returns the underlying driver.
+func (c *Client) Driver() dialect.Driver {
+	return c.driver
+}
+
+// DB returns the underlying *sql.DB.
+func (c *Client) DB() *stdsql.DB {
+	switch c.driver.(type) {
+	case *sql.Driver: // default
+		return c.driver.(*sql.Driver).DB()
+	case *entcache.Driver: // when using entcache we need to unwrap the driver
+		return c.driver.(*entcache.Driver).Driver.(*sql.Driver).DB()
+	case *dialect.DebugDriver: // when the ent debug driver is used
+		driver := c.driver.(*dialect.DebugDriver)
+
+		switch driver.Driver.(type) {
+		case *sql.Driver: // default
+			return driver.Driver.(*sql.Driver).DB()
+		case *entcache.Driver: // when using entcache we need to unwrap the driver
+			return driver.Driver.(*entcache.Driver).Driver.(*sql.Driver).DB()
+		default:
+			panic(fmt.Sprintf("ent: unknown driver type: %T", driver))
+		}
+	default:
+		panic(fmt.Sprintf("ent: unknown driver type: %T", c.driver))
+	}
+}
+
+// WithJobClient adds the job client to the database client based on the configuration.
+func (c *Client) WithJobClient() {
+	c.Job = NewJobClient(c.config)
+}
+
+// NewJobClient returns a new job client based on the configuration.
+func NewJobClient(c config) riverqueue.JobClient {
+	return c.Job
 }
 
 // Mutate implements the ent.Mutator interface.
@@ -574,6 +640,18 @@ type (
 		Database, Group []ent.Interceptor
 	}
 )
+
+// Job option added by the client template to add the job client.
+func Job(ctx context.Context, opts ...riverqueue.Option) Option {
+	return func(c *config) {
+		var err error
+
+		c.Job, err = riverqueue.New(ctx, opts...)
+		if err != nil {
+			panic(err)
+		}
+	}
+}
 
 // SchemaConfig represents alternative schema names for all tables
 // that can be passed at runtime.

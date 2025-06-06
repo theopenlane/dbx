@@ -17,8 +17,8 @@ type Config struct {
 	Skipper string
 }
 
-// varInfo maintains information about the configuration variable
-type varInfo struct {
+// VarInfo maintains information about the configuration variable
+type VarInfo struct {
 	FieldName string
 	FullPath  string
 	Key       string
@@ -27,7 +27,7 @@ type varInfo struct {
 }
 
 // GatherEnvInfo gathers information about the specified struct, including defaults and environment variable names.
-func (c Config) GatherEnvInfo(prefix string, spec interface{}) ([]varInfo, error) {
+func (c Config) GatherEnvInfo(prefix string, spec interface{}) ([]VarInfo, error) {
 	s := reflect.ValueOf(spec)
 
 	// Ensure the specification is a pointer to a struct
@@ -43,7 +43,7 @@ func (c Config) GatherEnvInfo(prefix string, spec interface{}) ([]varInfo, error
 	typeOfSpec := s.Type()
 
 	// Create a slice to hold the information about the configuration variables
-	var infos []varInfo
+	var infos []VarInfo
 
 	// Iterate over the struct fields
 	for i := range s.NumField() {
@@ -74,7 +74,7 @@ func (c Config) GatherEnvInfo(prefix string, spec interface{}) ([]varInfo, error
 			continue
 		}
 
-		info := varInfo{
+		info := VarInfo{
 			FieldName: fieldName,
 			FullPath:  ftype.Name,
 			Type:      ftype.Type,
@@ -86,7 +86,7 @@ func (c Config) GatherEnvInfo(prefix string, spec interface{}) ([]varInfo, error
 
 		if prefix != "" {
 			info.Key = fmt.Sprintf("%s_%s", prefix, info.Key)
-			info.FullPath = fmt.Sprintf("%s.%s", strings.ToLower(strings.Replace(prefix, "_", ".", -1)), info.FieldName) // nolint: gocritic
+			info.FullPath = fmt.Sprintf("%s.%s", strings.ToLower(strings.ReplaceAll(prefix, "_", ".")), info.FieldName) // nolint: gocritic
 		}
 
 		info.Key = strings.ToUpper(info.Key)

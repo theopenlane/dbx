@@ -3,6 +3,7 @@
 package dbxclient
 
 import (
+	"bytes"
 	"fmt"
 	"io"
 	"strconv"
@@ -104,6 +105,14 @@ type DatabaseEdge struct {
 	Node *Database `json:"node,omitempty"`
 	// A cursor for use in pagination.
 	Cursor string `json:"cursor"`
+}
+
+// Ordering options for Database connections
+type DatabaseOrder struct {
+	// The ordering direction.
+	Direction OrderDirection `json:"direction"`
+	// The field by which to order Databases.
+	Field DatabaseOrderField `json:"field"`
 }
 
 // Return response for updateDatabase mutation
@@ -350,6 +359,14 @@ type GroupEdge struct {
 	Cursor string `json:"cursor"`
 }
 
+// Ordering options for Group connections
+type GroupOrder struct {
+	// The ordering direction.
+	Direction OrderDirection `json:"direction"`
+	// The field by which to order Groups.
+	Field GroupOrderField `json:"field"`
+}
+
 // Return response for updateGroup mutation
 type GroupUpdatePayload struct {
 	// Updated group
@@ -573,6 +590,118 @@ type UpdateGroupInput struct {
 	ClearDatabases    *bool         `json:"clearDatabases,omitempty"`
 }
 
+// Properties by which Database connections can be ordered.
+type DatabaseOrderField string
+
+const (
+	DatabaseOrderFieldCreatedAt DatabaseOrderField = "created_at"
+	DatabaseOrderFieldUpdatedAt DatabaseOrderField = "updated_at"
+)
+
+var AllDatabaseOrderField = []DatabaseOrderField{
+	DatabaseOrderFieldCreatedAt,
+	DatabaseOrderFieldUpdatedAt,
+}
+
+func (e DatabaseOrderField) IsValid() bool {
+	switch e {
+	case DatabaseOrderFieldCreatedAt, DatabaseOrderFieldUpdatedAt:
+		return true
+	}
+	return false
+}
+
+func (e DatabaseOrderField) String() string {
+	return string(e)
+}
+
+func (e *DatabaseOrderField) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = DatabaseOrderField(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid DatabaseOrderField", str)
+	}
+	return nil
+}
+
+func (e DatabaseOrderField) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *DatabaseOrderField) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e DatabaseOrderField) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+// Properties by which Group connections can be ordered.
+type GroupOrderField string
+
+const (
+	GroupOrderFieldCreatedAt GroupOrderField = "created_at"
+	GroupOrderFieldUpdatedAt GroupOrderField = "updated_at"
+)
+
+var AllGroupOrderField = []GroupOrderField{
+	GroupOrderFieldCreatedAt,
+	GroupOrderFieldUpdatedAt,
+}
+
+func (e GroupOrderField) IsValid() bool {
+	switch e {
+	case GroupOrderFieldCreatedAt, GroupOrderFieldUpdatedAt:
+		return true
+	}
+	return false
+}
+
+func (e GroupOrderField) String() string {
+	return string(e)
+}
+
+func (e *GroupOrderField) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = GroupOrderField(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid GroupOrderField", str)
+	}
+	return nil
+}
+
+func (e GroupOrderField) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *GroupOrderField) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e GroupOrderField) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 // Possible directions in which to order a list of items when provided an `orderBy` argument.
 type OrderDirection string
 
@@ -615,4 +744,18 @@ func (e *OrderDirection) UnmarshalGQL(v any) error {
 
 func (e OrderDirection) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *OrderDirection) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e OrderDirection) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }

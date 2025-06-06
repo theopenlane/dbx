@@ -43,7 +43,7 @@ func newApplyFunc(apply func(option *ServerOptions)) *applyFunc {
 }
 
 // WithConfigProvider supplies the config for the server
-func WithConfigProvider(cfgProvider config.ConfigProvider) ServerOption {
+func WithConfigProvider(cfgProvider config.Provider) ServerOption {
 	return newApplyFunc(func(s *ServerOptions) {
 		s.ConfigProvider = cfgProvider
 	})
@@ -203,7 +203,7 @@ func WithCacheHeaders() ServerOption {
 func WithCORS() ServerOption {
 	return newApplyFunc(func(s *ServerOptions) {
 		if s.Config.Settings.Server.CORS.Enabled {
-			s.Config.DefaultMiddleware = append(s.Config.DefaultMiddleware, cors.New(s.Config.Settings.Server.CORS.AllowOrigins))
+			s.Config.DefaultMiddleware = append(s.Config.DefaultMiddleware, cors.MustNew(s.Config.Settings.Server.CORS.AllowOrigins))
 		}
 	})
 }

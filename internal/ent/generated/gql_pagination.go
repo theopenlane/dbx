@@ -5,6 +5,9 @@ package generated
 import (
 	"context"
 	"errors"
+	"fmt"
+	"io"
+	"strconv"
 
 	"entgo.io/contrib/entgql"
 	"entgo.io/ent"
@@ -304,6 +307,71 @@ func (d *DatabaseQuery) Paginate(
 	return conn, nil
 }
 
+var (
+	// DatabaseOrderFieldCreatedAt orders Database by created_at.
+	DatabaseOrderFieldCreatedAt = &DatabaseOrderField{
+		Value: func(d *Database) (ent.Value, error) {
+			return d.CreatedAt, nil
+		},
+		column: database.FieldCreatedAt,
+		toTerm: database.ByCreatedAt,
+		toCursor: func(d *Database) Cursor {
+			return Cursor{
+				ID:    d.ID,
+				Value: d.CreatedAt,
+			}
+		},
+	}
+	// DatabaseOrderFieldUpdatedAt orders Database by updated_at.
+	DatabaseOrderFieldUpdatedAt = &DatabaseOrderField{
+		Value: func(d *Database) (ent.Value, error) {
+			return d.UpdatedAt, nil
+		},
+		column: database.FieldUpdatedAt,
+		toTerm: database.ByUpdatedAt,
+		toCursor: func(d *Database) Cursor {
+			return Cursor{
+				ID:    d.ID,
+				Value: d.UpdatedAt,
+			}
+		},
+	}
+)
+
+// String implement fmt.Stringer interface.
+func (f DatabaseOrderField) String() string {
+	var str string
+	switch f.column {
+	case DatabaseOrderFieldCreatedAt.column:
+		str = "created_at"
+	case DatabaseOrderFieldUpdatedAt.column:
+		str = "updated_at"
+	}
+	return str
+}
+
+// MarshalGQL implements graphql.Marshaler interface.
+func (f DatabaseOrderField) MarshalGQL(w io.Writer) {
+	io.WriteString(w, strconv.Quote(f.String()))
+}
+
+// UnmarshalGQL implements graphql.Unmarshaler interface.
+func (f *DatabaseOrderField) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("DatabaseOrderField %T must be a string", v)
+	}
+	switch str {
+	case "created_at":
+		*f = *DatabaseOrderFieldCreatedAt
+	case "updated_at":
+		*f = *DatabaseOrderFieldUpdatedAt
+	default:
+		return fmt.Errorf("%s is not a valid DatabaseOrderField", str)
+	}
+	return nil
+}
+
 // DatabaseOrderField defines the ordering field of Database.
 type DatabaseOrderField struct {
 	// Value extracts the ordering value from the given Database.
@@ -551,6 +619,71 @@ func (gr *GroupQuery) Paginate(
 	}
 	conn.build(nodes, pager, after, first, before, last)
 	return conn, nil
+}
+
+var (
+	// GroupOrderFieldCreatedAt orders Group by created_at.
+	GroupOrderFieldCreatedAt = &GroupOrderField{
+		Value: func(gr *Group) (ent.Value, error) {
+			return gr.CreatedAt, nil
+		},
+		column: group.FieldCreatedAt,
+		toTerm: group.ByCreatedAt,
+		toCursor: func(gr *Group) Cursor {
+			return Cursor{
+				ID:    gr.ID,
+				Value: gr.CreatedAt,
+			}
+		},
+	}
+	// GroupOrderFieldUpdatedAt orders Group by updated_at.
+	GroupOrderFieldUpdatedAt = &GroupOrderField{
+		Value: func(gr *Group) (ent.Value, error) {
+			return gr.UpdatedAt, nil
+		},
+		column: group.FieldUpdatedAt,
+		toTerm: group.ByUpdatedAt,
+		toCursor: func(gr *Group) Cursor {
+			return Cursor{
+				ID:    gr.ID,
+				Value: gr.UpdatedAt,
+			}
+		},
+	}
+)
+
+// String implement fmt.Stringer interface.
+func (f GroupOrderField) String() string {
+	var str string
+	switch f.column {
+	case GroupOrderFieldCreatedAt.column:
+		str = "created_at"
+	case GroupOrderFieldUpdatedAt.column:
+		str = "updated_at"
+	}
+	return str
+}
+
+// MarshalGQL implements graphql.Marshaler interface.
+func (f GroupOrderField) MarshalGQL(w io.Writer) {
+	io.WriteString(w, strconv.Quote(f.String()))
+}
+
+// UnmarshalGQL implements graphql.Unmarshaler interface.
+func (f *GroupOrderField) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("GroupOrderField %T must be a string", v)
+	}
+	switch str {
+	case "created_at":
+		*f = *GroupOrderFieldCreatedAt
+	case "updated_at":
+		*f = *GroupOrderFieldUpdatedAt
+	default:
+		return fmt.Errorf("%s is not a valid GroupOrderField", str)
+	}
+	return nil
 }
 
 // GroupOrderField defines the ordering field of Group.

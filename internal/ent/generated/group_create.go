@@ -78,20 +78,6 @@ func (gc *GroupCreate) SetNillableUpdatedBy(s *string) *GroupCreate {
 	return gc
 }
 
-// SetMappingID sets the "mapping_id" field.
-func (gc *GroupCreate) SetMappingID(s string) *GroupCreate {
-	gc.mutation.SetMappingID(s)
-	return gc
-}
-
-// SetNillableMappingID sets the "mapping_id" field if the given value is not nil.
-func (gc *GroupCreate) SetNillableMappingID(s *string) *GroupCreate {
-	if s != nil {
-		gc.SetMappingID(*s)
-	}
-	return gc
-}
-
 // SetDeletedAt sets the "deleted_at" field.
 func (gc *GroupCreate) SetDeletedAt(t time.Time) *GroupCreate {
 	gc.mutation.SetDeletedAt(t)
@@ -260,13 +246,6 @@ func (gc *GroupCreate) defaults() error {
 		v := group.DefaultUpdatedAt()
 		gc.mutation.SetUpdatedAt(v)
 	}
-	if _, ok := gc.mutation.MappingID(); !ok {
-		if group.DefaultMappingID == nil {
-			return fmt.Errorf("generated: uninitialized group.DefaultMappingID (forgotten import generated/runtime?)")
-		}
-		v := group.DefaultMappingID()
-		gc.mutation.SetMappingID(v)
-	}
 	if _, ok := gc.mutation.Region(); !ok {
 		v := group.DefaultRegion
 		gc.mutation.SetRegion(v)
@@ -283,9 +262,6 @@ func (gc *GroupCreate) defaults() error {
 
 // check runs all checks and user-defined validators on the builder.
 func (gc *GroupCreate) check() error {
-	if _, ok := gc.mutation.MappingID(); !ok {
-		return &ValidationError{Name: "mapping_id", err: errors.New(`generated: missing required field "Group.mapping_id"`)}
-	}
 	if _, ok := gc.mutation.Name(); !ok {
 		return &ValidationError{Name: "name", err: errors.New(`generated: missing required field "Group.name"`)}
 	}
@@ -361,10 +337,6 @@ func (gc *GroupCreate) createSpec() (*Group, *sqlgraph.CreateSpec) {
 	if value, ok := gc.mutation.UpdatedBy(); ok {
 		_spec.SetField(group.FieldUpdatedBy, field.TypeString, value)
 		_node.UpdatedBy = value
-	}
-	if value, ok := gc.mutation.MappingID(); ok {
-		_spec.SetField(group.FieldMappingID, field.TypeString, value)
-		_node.MappingID = value
 	}
 	if value, ok := gc.mutation.DeletedAt(); ok {
 		_spec.SetField(group.FieldDeletedAt, field.TypeTime, value)

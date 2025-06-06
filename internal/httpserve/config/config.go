@@ -49,7 +49,7 @@ type (
 )
 
 // Ensure that *Config implements ConfigProvider interface.
-var _ ConfigProvider = &Config{}
+var _ Provider = &Config{}
 
 // GetConfig implements ConfigProvider.
 func (c *Config) GetConfig() (*Config, error) {

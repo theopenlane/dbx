@@ -52,11 +52,8 @@ func NewMultiDriverDBClient(ctx context.Context, c entx.Config, opts []ent.Optio
 		return nil, nil, err
 	}
 
-	// Decorates the sql.Driver with entcache.Driver on the primaryDB
-	drvPrimary := entcache.NewDriver(
-		entConfig.GetPrimaryDB(),
-		entcache.TTL(c.CacheTTL), // set the TTL on the cache
-	)
+	// setup driver
+	drvPrimary := entConfig.GetPrimaryDB()
 
 	client.pc = client.createEntDBClient(entConfig.GetPrimaryDB())
 

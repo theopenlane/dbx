@@ -94,7 +94,7 @@ func (suite *GraphTestSuite) TearDownSuite() {
 	testutils.TeardownFixture(suite.tf)
 }
 
-func graphTestClient(t *testing.T, c *ent.Client) dbxclient.Dbxclient {
+func graphTestClient(_ *testing.T, c *ent.Client) dbxclient.Dbxclient {
 	srv := handler.New(
 		graphapi.NewExecutableSchema(
 			graphapi.Config{Resolvers: graphapi.NewResolver(c)},

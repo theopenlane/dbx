@@ -5,6 +5,7 @@ package generated
 import (
 	"context"
 
+	"entgo.io/contrib/entgql"
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/theopenlane/dbx/internal/ent/generated/database"
 	"github.com/theopenlane/dbx/internal/ent/generated/group"
@@ -146,6 +147,28 @@ func newDatabasePaginateArgs(rv map[string]any) *databasePaginateArgs {
 	if v := rv[beforeField]; v != nil {
 		args.before = v.(*Cursor)
 	}
+	if v, ok := rv[orderByField]; ok {
+		switch v := v.(type) {
+		case map[string]any:
+			var (
+				err1, err2 error
+				order      = &DatabaseOrder{Field: &DatabaseOrderField{}, Direction: entgql.OrderDirectionAsc}
+			)
+			if d, ok := v[directionField]; ok {
+				err1 = order.Direction.UnmarshalGQL(d)
+			}
+			if f, ok := v[fieldField]; ok {
+				err2 = order.Field.UnmarshalGQL(f)
+			}
+			if err1 == nil && err2 == nil {
+				args.opts = append(args.opts, WithDatabaseOrder(order))
+			}
+		case *DatabaseOrder:
+			if v != nil {
+				args.opts = append(args.opts, WithDatabaseOrder(v))
+			}
+		}
+	}
 	if v, ok := rv[whereField].(*DatabaseWhereInput); ok {
 		args.opts = append(args.opts, WithDatabaseFilter(v.Filter))
 	}
@@ -275,6 +298,28 @@ func newGroupPaginateArgs(rv map[string]any) *groupPaginateArgs {
 	}
 	if v := rv[beforeField]; v != nil {
 		args.before = v.(*Cursor)
+	}
+	if v, ok := rv[orderByField]; ok {
+		switch v := v.(type) {
+		case map[string]any:
+			var (
+				err1, err2 error
+				order      = &GroupOrder{Field: &GroupOrderField{}, Direction: entgql.OrderDirectionAsc}
+			)
+			if d, ok := v[directionField]; ok {
+				err1 = order.Direction.UnmarshalGQL(d)
+			}
+			if f, ok := v[fieldField]; ok {
+				err2 = order.Field.UnmarshalGQL(f)
+			}
+			if err1 == nil && err2 == nil {
+				args.opts = append(args.opts, WithGroupOrder(order))
+			}
+		case *GroupOrder:
+			if v != nil {
+				args.opts = append(args.opts, WithGroupOrder(v))
+			}
+		}
 	}
 	if v, ok := rv[whereField].(*GroupWhereInput); ok {
 		args.opts = append(args.opts, WithGroupFilter(v.Filter))
