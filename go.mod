@@ -31,7 +31,7 @@ require (
 	github.com/spf13/viper v1.20.1
 	github.com/stretchr/testify v1.10.0
 	github.com/theopenlane/beacon v0.1.1
-	github.com/theopenlane/core v0.16.1
+	github.com/theopenlane/core v0.18.0
 	github.com/theopenlane/echo-prometheus v0.1.0
 	github.com/theopenlane/echox v0.2.4
 	github.com/theopenlane/entx v0.7.2
