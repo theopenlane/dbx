@@ -14,7 +14,7 @@ require (
 	github.com/hashicorp/go-multierror v1.1.1
 	github.com/invopop/jsonschema v0.13.0
 	github.com/invopop/yaml v0.3.1
-	github.com/knadh/koanf/parsers/yaml v1.0.0
+	github.com/knadh/koanf/parsers/yaml v1.1.0
 	github.com/knadh/koanf/providers/env v1.1.0
 	github.com/knadh/koanf/providers/file v1.2.0
 	github.com/knadh/koanf/v2 v2.2.0
@@ -94,6 +94,7 @@ require (
 	go.opentelemetry.io/auto/sdk v1.1.0 // indirect
 	go.uber.org/goleak v1.3.0 // indirect
 	go.uber.org/zap v1.27.0 // indirect
+	go.yaml.in/yaml/v3 v3.0.3 // indirect
 	gonum.org/v1/gonum v0.15.1 // indirect
 	gopkg.in/VividCortex/ewma.v1 v1.1.1 // indirect
 	gopkg.in/cheggaaa/pb.v2 v2.0.7 // indirect
