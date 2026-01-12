@@ -5,8 +5,8 @@ go 1.24.3
 require (
 	ariga.io/entcache v0.1.0
 	entgo.io/contrib v0.6.0
-	entgo.io/ent v0.14.4
-	github.com/99designs/gqlgen v0.17.74
+	entgo.io/ent v0.14.5
+	github.com/99designs/gqlgen v0.17.86
 	github.com/TylerBrock/colorjson v0.0.0-20200706003622-8a50f05110d2
 	github.com/Yamashou/gqlgenc v0.32.1
 	github.com/brianvoe/gofakeit/v7 v7.2.1
@@ -16,7 +16,7 @@ require (
 	github.com/invopop/yaml v0.3.1
 	github.com/knadh/koanf/parsers/yaml v1.0.0
 	github.com/knadh/koanf/providers/env v1.1.0
-	github.com/knadh/koanf/providers/file v1.2.0
+	github.com/knadh/koanf/providers/file v1.2.1
 	github.com/knadh/koanf/v2 v2.2.0
 	github.com/mcuadros/go-defaults v1.2.0
 	github.com/mitchellh/go-homedir v1.1.0
@@ -27,7 +27,7 @@ require (
 	github.com/rs/zerolog v1.34.0
 	github.com/samber/lo v1.50.0
 	github.com/spf13/cobra v1.9.1
-	github.com/spf13/pflag v1.0.6
+	github.com/spf13/pflag v1.0.10
 	github.com/spf13/viper v1.20.1
 	github.com/stretchr/testify v1.10.0
 	github.com/theopenlane/beacon v0.1.1
@@ -40,8 +40,8 @@ require (
 	github.com/theopenlane/iam v0.12.6
 	github.com/theopenlane/riverboat v0.1.3
 	github.com/tursodatabase/libsql-client-go v0.0.0-20240902231107-85af5b9d094d
-	github.com/vektah/gqlparser/v2 v2.5.27
-	github.com/wundergraph/graphql-go-tools v1.67.4
+	github.com/vektah/gqlparser/v2 v2.5.31
+	github.com/wundergraph/graphql-go-tools v1.67.5
 	gocloud.dev v0.41.0
 	golang.org/x/crypto v0.45.0
 	modernc.org/sqlite v1.37.1
