@@ -39,7 +39,7 @@ require (
 	github.com/theopenlane/gqlgen-plugins v0.6.1
 	github.com/theopenlane/iam v0.12.6
 	github.com/theopenlane/riverboat v0.1.3
-	github.com/tursodatabase/libsql-client-go v0.0.0-20240902231107-85af5b9d094d
+	github.com/tursodatabase/libsql-client-go v0.0.0-20260528064733-9d5d30a29a60
 	github.com/vektah/gqlparser/v2 v2.5.27
 	github.com/wundergraph/graphql-go-tools v1.67.4
 	gocloud.dev v0.41.0
