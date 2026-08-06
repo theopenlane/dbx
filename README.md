@@ -4,6 +4,9 @@
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache2.0-brightgreen.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Go Report Card](https://goreportcard.com/badge/github.com/theopenlane/dbx)](https://goreportcard.com/report/github.com/theopenlane/dbx)
 
+> [!WARNING]
+> This repo is no longer maintained and is kept as a public archive as of August 6, 2026.
+
 # dbx
 
 `dbx` is a library which provides helpers and interfaces for interacting with databases.
