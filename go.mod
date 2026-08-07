@@ -1,6 +1,6 @@
 module github.com/theopenlane/dbx
 
-go 1.24.3
+go 1.25.0
 
 require (
 	ariga.io/entcache v0.1.0
@@ -29,7 +29,7 @@ require (
 	github.com/spf13/cobra v1.9.1
 	github.com/spf13/pflag v1.0.6
 	github.com/spf13/viper v1.20.1
-	github.com/stretchr/testify v1.10.0
+	github.com/stretchr/testify v1.11.1
 	github.com/theopenlane/beacon v0.1.1
 	github.com/theopenlane/core v0.16.1
 	github.com/theopenlane/echo-prometheus v0.1.0
@@ -66,7 +66,7 @@ require (
 	github.com/hokaccha/go-prettyjson v0.0.0-20211117102719-0474bc63780f // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20240606120523-5a60cdf6a761 // indirect
-	github.com/jackc/pgx/v5 v5.7.5 // indirect
+	github.com/jackc/pgx/v5 v5.9.2 // indirect
 	github.com/jackc/puddle/v2 v2.2.2 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.10 // indirect
 	github.com/lestrrat-go/httprc/v3 v3.0.0-beta2 // indirect
